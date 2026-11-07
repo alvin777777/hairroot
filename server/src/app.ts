@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { csrfOriginCheck, allowedOrigin } from "./middleware/csrf.js";
 import { authRouter } from "./routes/auth.js";
+import { schedulesRouter } from "./routes/schedules.js";
 import { HttpError } from "./services/httpError.js";
 
 // Exported separately from listen() so Supertest can use the app without opening a port.
@@ -14,6 +15,7 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
+app.use("/api/schedules", schedulesRouter);
 
 app.use("/api", (_req, res) => {
   res.status(404).json({ error: "Not found.", code: "NOT_FOUND" });

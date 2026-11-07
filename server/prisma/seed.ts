@@ -14,6 +14,7 @@ const USERS: { email: string; name: string; role: UserRole }[] = [
 ];
 
 async function main() {
+  await prisma.schedule.deleteMany();
   await prisma.session.deleteMany();
   await prisma.user.deleteMany();
   const passwordHash = await hashPassword(DEMO_PASSWORD);
