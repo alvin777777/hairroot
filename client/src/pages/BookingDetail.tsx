@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { ApiError, Booking, formatRange, getBooking } from "../api.js";
 
 export default function BookingDetail() {
   const { id = "" } = useParams();
+  const justBooked = (useLocation().state as { justBooked?: boolean } | null)?.justBooked;
   const [booking, setBooking] = useState<Booking | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -18,12 +19,13 @@ export default function BookingDetail() {
 
   return (
     <section className="card" style={{ maxWidth: 560 }} data-testid="booking-detail">
+      {justBooked && <div className="alert alert-success m-3 mb-0" role="status">Your booking is confirmed.</div>}
       <div className="card-body">
         <h1 className="h5">Your appointment</h1>
         <dl className="row mb-3">
           <dt className="col-sm-3">When</dt><dd className="col-sm-9">{formatRange(booking.slot.startAt, booking.slot.endAt)}</dd>
           <dt className="col-sm-3">Specialist</dt><dd className="col-sm-9">{booking.slot.specialistName}</dd>
-          <dt className="col-sm-3">Schedule</dt><dd className="col-sm-9">{booking.slot.scheduleName}</dd>
+          <dt className="col-sm-3">Service</dt><dd className="col-sm-9">{booking.slot.scheduleName}</dd>
           <dt className="col-sm-3">Topic</dt><dd className="col-sm-9">{booking.topic}</dd>
           <dt className="col-sm-3">Status</dt><dd className="col-sm-9"><span className="badge text-bg-success">{booking.status === "ACTIVE" ? "Confirmed" : booking.status}</span></dd>
         </dl>

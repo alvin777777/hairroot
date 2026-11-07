@@ -70,13 +70,13 @@ These synthetic accounts come from the seed script. The password for all of them
 | Customer | `customer.mali@hairroot.test` |
 | Customer | `customer.krit@hairroot.test` |
 
-`npm run db:seed` resets the database to this known state, including five days of future slots.
+`npm run db:seed` resets the database to this known state, including seven days of future times.
 
 ## Demo sequence
 
 1. Log in as `specialist.somchai@hairroot.test` and add a time on **My schedule**.
 2. Log out, then log in as `customer.anan@hairroot.test`.
-3. On **Available times**, choose **Book**, enter a topic, and confirm.
+3. On **Book**, choose a service, a day, and a time, then enter a topic and confirm.
 4. Open **My bookings** to retrieve the saved booking.
 5. Log in as the specialist again. The booking shows on the schedule with the customer's name and topic.
 
