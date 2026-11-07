@@ -1,0 +1,43 @@
+import { Router } from "express";
+import { asCustomer, currentUser } from "../middleware/auth.js";
+import { createBooking, listAvailableSlots } from "../services/bookings.js";
+
+export const slotsRouter = Router();
+export const bookingsRouter = Router();
+
+type SlotRow = Awaited<ReturnType<typeof listAvailableSlots>>[number];
+
+export function serializeSlot(slot: SlotRow) {
+  return {
+    id: slot.id,
+    startAt: slot.startAt,
+    endAt: slot.endAt,
+    scheduleName: slot.schedule.name,
+    advisorName: slot.schedule.advisor.name,
+  };
+}
+
+slotsRouter.get("/available", asCustomer, async (_req, res, next) => {
+  try {
+    res.json({ slots: (await listAvailableSlots()).map(serializeSlot) });
+  } catch (err) {
+    next(err);
+  }
+});
+
+bookingsRouter.post("/", asCustomer, async (req, res, next) => {
+  try {
+    const booking = await createBooking(currentUser(req).id, Number(req.body?.slotId), String(req.body?.topic ?? ""));
+    res.status(201).json({
+      booking: {
+        id: booking.id,
+        status: booking.status,
+        topic: booking.topic,
+        createdAt: booking.createdAt,
+        slot: serializeSlot(booking.slot),
+      },
+    });
+  } catch (err) {
+    next(err);
+  }
+});
