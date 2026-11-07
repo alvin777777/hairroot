@@ -3,7 +3,7 @@ import { defineConfig } from "vitest/config";
 // Tests run against a real PostgreSQL database, so test files must not run in parallel.
 export const TEST_DATABASE_URL =
   process.env.TEST_DATABASE_URL ??
-  "postgresql://advisorbook:advisorbook@localhost:5435/advisorbook_test?schema=public";
+  "postgresql://hairroot:hairroot@localhost:5435/hairroot_test?schema=public";
 
 export default defineConfig({
   test: {

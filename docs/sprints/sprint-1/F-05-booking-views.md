@@ -1,18 +1,18 @@
 # Contract: F-05 Booking Views
 
-Version 0.1 — draft, 2026-11-07. Written before implementation.
+Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour.
 
 **Linked requirements:** FR-07, FR-08, BR-05, BR-06, NFR-02, NFR-08.
 **Depends on:** F-04.
 
 ## Behaviour
 
-- A student lists their own bookings, soonest first, and opens one booking.
-- An advisor lists all slots on an assigned schedule, each with booking status, and for booked slots
-  the student's name and topic.
-- A student opening another student's booking receives the same 404 as for a missing booking, so its
+- A customer lists their own bookings, soonest first, and opens one booking.
+- A specialist lists all slots on an assigned schedule, each with booking status, and for booked slots
+  the customer's name and topic.
+- A customer opening another customer's booking receives the same 404 as for a missing booking, so its
   existence is not revealed.
-- An advisor requesting a schedule not assigned to them receives 403.
+- A specialist requesting a schedule not assigned to them receives 403.
 
 ## API
 
@@ -20,16 +20,16 @@ Version 0.1 — draft, 2026-11-07. Written before implementation.
 |---|---|---|---|
 | `GET /api/bookings/mine` | Customer | 200 `{ "bookings": [Booking] }` | 401, 403 |
 | `GET /api/bookings/:id` | Owning Customer | 200 `{ "booking": Booking }` | 401, 403, 404 `NOT_FOUND` |
-| `GET /api/schedules/:id/slots` | Assigned Staff | 200 `{ "slots": [{ "id", "startAt", "endAt", "booking": null or { "id", "topic", "student": { "id", "name" } } }] }` | 401, 403 `FORBIDDEN`, 404 `NOT_FOUND` |
+| `GET /api/schedules/:id/slots` | Assigned Staff | 200 `{ "slots": [{ "id", "startAt", "endAt", "booking": null or { "id", "topic", "customer": { "id", "name" } } }] }` | 401, 403 `FORBIDDEN`, 404 `NOT_FOUND` |
 
 `Booking` is defined in the F-04 contract.
 
 ## UI
 
-- `/bookings` lists a student's bookings, with an empty state linking to `/slots`.
-- `/bookings/:id` shows date, time, advisor, topic, and status. A 404 shows "Booking not found".
+- `/bookings` lists a customer's bookings, with an empty state linking to `/slots`.
+- `/bookings/:id` shows date, time, specialist, topic, and status. A 404 shows "Booking not found".
 - `/schedule` lists the chosen schedule's slots below the create form, showing Available or the
-  student's name and topic.
+  customer's name and topic.
 
 ## Data
 
@@ -39,8 +39,8 @@ No schema change.
 
 | ID | Criterion |
 |---|---|
-| AC-20 | A student's list contains only their own bookings, and they can open each one. |
-| AC-21 | A student requesting another student's booking receives 404 with no booking data in the response. |
-| AC-22 | An assigned advisor sees the schedule's slots, including student name and topic on booked slots. |
-| AC-23 | An advisor requesting an unassigned schedule's slots receives 403 with no booking data in the response. |
+| AC-20 | A customer's list contains only their own bookings, and they can open each one. |
+| AC-21 | A customer requesting another customer's booking receives 404 with no booking data in the response. |
+| AC-22 | An assigned specialist sees the schedule's slots, including customer name and topic on booked slots. |
+| AC-23 | A specialist requesting an unassigned schedule's slots receives 403 with no booking data in the response. |
 | AC-26 | The slot list, booking list, and schedule screen each show loading, empty, and error states. |

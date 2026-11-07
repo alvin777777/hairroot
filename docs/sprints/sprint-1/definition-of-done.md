@@ -1,6 +1,6 @@
 # Product Definition of Done
 
-Version 0.1 — draft, 2026-11-07.
+Version 0.2 — draft, 2026-11-07.
 
 A feature is done only when all of these are true, and each is supported by evidence.
 

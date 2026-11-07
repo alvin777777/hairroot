@@ -42,12 +42,12 @@ model Session {
 model Schedule {
   id        Int      @id @default(autoincrement())
   name      String
-  advisorId Int
-  advisor   User     @relation(fields: [advisorId], references: [id], onDelete: Restrict)
+  specialistId Int
+  specialist   User     @relation(fields: [specialistId], references: [id], onDelete: Restrict)
   createdAt DateTime @default(now())
   slots     Slot[]
 
-  @@index([advisorId])
+  @@index([specialistId])
 }
 
 model Slot {

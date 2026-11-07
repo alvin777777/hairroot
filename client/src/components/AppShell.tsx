@@ -17,7 +17,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
     <>
       <nav className="navbar bg-body-tertiary border-bottom">
         <div className="container d-flex flex-wrap gap-2">
-          <span className="navbar-brand mb-0">AdvisorBook</span>
+          <span className="navbar-brand mb-0">HairRoot</span>
           <div className="nav me-auto">
             {user?.role === "CUSTOMER" && (
               <>

@@ -22,7 +22,7 @@ export default function BookingDetail() {
         <h1 className="h5">Your appointment</h1>
         <dl className="row mb-3">
           <dt className="col-sm-3">When</dt><dd className="col-sm-9">{formatRange(booking.slot.startAt, booking.slot.endAt)}</dd>
-          <dt className="col-sm-3">Advisor</dt><dd className="col-sm-9">{booking.slot.advisorName}</dd>
+          <dt className="col-sm-3">Specialist</dt><dd className="col-sm-9">{booking.slot.specialistName}</dd>
           <dt className="col-sm-3">Schedule</dt><dd className="col-sm-9">{booking.slot.scheduleName}</dd>
           <dt className="col-sm-3">Topic</dt><dd className="col-sm-9">{booking.topic}</dd>
           <dt className="col-sm-3">Status</dt><dd className="col-sm-9"><span className="badge text-bg-success">{booking.status === "ACTIVE" ? "Confirmed" : booking.status}</span></dd>

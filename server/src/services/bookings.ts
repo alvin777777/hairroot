@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import { getPrisma } from "../prisma.js";
 import { HttpError, notFound, validation } from "./httpError.js";
 
-const slotView = { include: { schedule: { include: { advisor: true } } } } as const;
+const slotView = { include: { schedule: { include: { specialist: true } } } } as const;
 
 export const MIN_TOPIC = 3;
 export const MAX_TOPIC = 200;
@@ -38,9 +38,9 @@ export async function createBooking(customerId: number, slotId: number, topic: s
   try {
     return await prisma.booking.create({ data: { customerId, slotId, topic }, include: { slot: slotView } });
   } catch (err) {
-    // booking_one_active_per_slot rejected the insert: another student holds this slot (BR-01).
+    // booking_one_active_per_slot rejected the insert: another customer holds this slot (BR-01).
     if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
-      throw new HttpError(409, "SLOT_TAKEN", "Another student has just taken this time.");
+      throw new HttpError(409, "SLOT_TAKEN", "Another customer has just taken this time.");
     }
     throw err;
   }
@@ -54,7 +54,7 @@ export async function listBookings(customerId: number) {
   });
 }
 
-// BR-06: scoped by owner, so another student's booking looks exactly like a missing one.
+// BR-06: scoped by owner, so another customer's booking looks exactly like a missing one.
 export async function getOwnedBooking(id: number, customerId: number) {
   return getPrisma().booking.findFirst({ where: { id, customerId }, include: { slot: slotView } });
 }

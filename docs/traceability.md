@@ -1,6 +1,6 @@
-# AdvisorBook — Requirements Traceability
+# HairRoot — Requirements Traceability
 
-Version 0.1 — draft, 2026-11-07, pending teammate review.
+Version 0.2 — draft, 2026-11-07, pending teammate review.
 
 Sprint 2 and 3 items have a feature and sprint allocation now. Their acceptance criteria and tests
 are written with their feature contracts before implementation.
@@ -59,4 +59,4 @@ are written with their feature contracts before implementation.
 |---|---|
 | Baseline requirements without a feature or responsibility | None |
 | Requirements without a sprint | None |
-| Approved changes since the baseline | None yet |
+| Approved changes since the baseline | C-01: the team changed the context from academic advising to a hair transplant clinic, and the product name from AdvisorBook to HairRoot. All FR, BR, NFR, AC, and test IDs and all behaviour are unchanged. Instructor or TA confirmation of the context is open (SRS Q-01). |

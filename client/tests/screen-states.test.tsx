@@ -51,7 +51,7 @@ describe("T-26 data screen states (AC-26)", () => {
     expect(screen.getByRole("status")).toHaveTextContent("Loading schedules");
     first.unmount();
 
-    schedules.mockResolvedValue({ schedules: [{ id: 1, name: "Office hours" }] });
+    schedules.mockResolvedValue({ schedules: [{ id: 1, name: "Consultation" }] });
     slots.mockResolvedValue({ slots: [] });
     const second = show(<SchedulePage />);
     expect(await screen.findByText(/No slots on this schedule yet/)).toBeInTheDocument();

@@ -34,7 +34,7 @@ export default function SlotsPage() {
       navigate(`/bookings/${booking.id}`);
     } catch (err) {
       if (err instanceof ApiError && err.code === "SLOT_TAKEN") {
-        setError("Another student has just taken this time. The list has been refreshed.");
+        setError("Another customer has just taken this time. The list has been refreshed.");
         setSelected(null);
         setTopic("");
         await load();
@@ -60,7 +60,7 @@ export default function SlotsPage() {
           <div key={slot.id} className="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2" data-testid="slot">
             <div>
               <div className="fw-semibold">{formatRange(slot.startAt, slot.endAt)}</div>
-              <div className="small text-body-secondary">{slot.advisorName} · {slot.scheduleName}</div>
+              <div className="small text-body-secondary">{slot.specialistName} · {slot.scheduleName}</div>
             </div>
             <button className="btn btn-outline-primary btn-sm" onClick={() => { setSelected(slot); setFieldError(null); }}>Book</button>
           </div>

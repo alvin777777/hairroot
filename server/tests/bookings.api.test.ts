@@ -15,21 +15,21 @@ describe("booking", () => {
     const startAt = new Date(Date.now() + hoursFromNow * HOUR);
     return getPrisma().slot.create({ data: { scheduleId, startAt, endAt: new Date(startAt.getTime() + HOUR / 2) } });
   };
-  const book = (cookie: string, slotId: number, topic = "Course planning") =>
+  const book = (cookie: string, slotId: number, topic = "Hairline consultation") =>
     api().post("/api/bookings").set("Cookie", cookie).send({ slotId, topic });
   const activeRows = (slotId: number) => getPrisma().booking.count({ where: { slotId, status: "ACTIVE" } });
 
   beforeEach(async () => {
     await resetDb();
-    const advisor = await createUser("STAFF", "advisor@example.test", "Dr. Advisor");
+    const specialist = await createUser("STAFF", "specialist@example.test", "Dr. Specialist");
     aliceId = (await createUser("CUSTOMER", "alice@example.test", "Alice")).id;
     bobId = (await createUser("CUSTOMER", "bob@example.test", "Bob")).id;
-    scheduleId = (await getPrisma().schedule.create({ data: { name: "Office hours", advisorId: advisor.id } })).id;
+    scheduleId = (await getPrisma().schedule.create({ data: { name: "Consultation", specialistId: specialist.id } })).id;
     alice = await loginAs("alice@example.test");
     bob = await loginAs("bob@example.test");
   });
 
-  it("T-14 lists only future unbooked slots with no student information (AC-14)", async () => {
+  it("T-14 lists only future unbooked slots with no customer information (AC-14)", async () => {
     const free = await slot(24);
     const booked = await slot(48);
     await slot(-24);
@@ -38,18 +38,18 @@ describe("booking", () => {
     const res = await api().get("/api/slots/available").set("Cookie", alice);
     expect(res.status).toBe(200);
     expect(res.body.slots.map((s: { id: number }) => s.id)).toEqual([free.id]);
-    expect(res.body.slots[0]).toMatchObject({ scheduleName: "Office hours", advisorName: "Dr. Advisor" });
+    expect(res.body.slots[0]).toMatchObject({ scheduleName: "Consultation", specialistName: "Dr. Specialist" });
     const body = JSON.stringify(res.body);
     expect(body).not.toContain("Bob");
     expect(body).not.toContain("Private topic");
     expect(body).not.toContain("customerId");
   });
 
-  it("T-15 books an available slot for the session's student (AC-15)", async () => {
+  it("T-15 books an available slot for the session's customer (AC-15)", async () => {
     const free = await slot(24);
     const res = await book(alice, free.id);
     expect(res.status).toBe(201);
-    expect(res.body.booking).toMatchObject({ status: "ACTIVE", topic: "Course planning" });
+    expect(res.body.booking).toMatchObject({ status: "ACTIVE", topic: "Hairline consultation" });
     expect(res.body.booking.slot.id).toBe(free.id);
     const stored = await getPrisma().booking.findUniqueOrThrow({ where: { id: res.body.booking.id } });
     expect(stored).toMatchObject({ customerId: aliceId, slotId: free.id, status: "ACTIVE" });
@@ -71,7 +71,7 @@ describe("booking", () => {
   });
 
   it("rejects a booking with a missing or unknown slot", async () => {
-    const missing = await api().post("/api/bookings").set("Cookie", alice).send({ topic: "Course planning" });
+    const missing = await api().post("/api/bookings").set("Cookie", alice).send({ topic: "Hairline consultation" });
     expect(missing.status).toBe(400);
     expect(missing.body.fields.slotId).toBeDefined();
     const unknown = await book(alice, 999999);
@@ -90,7 +90,7 @@ describe("booking", () => {
     expect(rows[0]).toMatchObject({ id: first.body.booking.id, customerId: aliceId, topic: "Alice's topic" });
   });
 
-  it("T-17 lets exactly one of 20 competing students book the slot (AC-17)", async () => {
+  it("T-17 lets exactly one of 20 competing customers book the slot (AC-17)", async () => {
     const free = await slot(24);
     const cookies = await Promise.all(
       Array.from({ length: 20 }, async (_, i) => {
@@ -117,7 +117,7 @@ describe("booking", () => {
   it("T-19 ignores a client-supplied customerId (AC-19)", async () => {
     const free = await slot(24);
     const res = await api().post("/api/bookings").set("Cookie", alice)
-      .send({ slotId: free.id, topic: "Course planning", customerId: bobId });
+      .send({ slotId: free.id, topic: "Hairline consultation", customerId: bobId });
     expect(res.status).toBe(201);
     const stored = await getPrisma().booking.findUniqueOrThrow({ where: { id: res.body.booking.id } });
     expect(stored.customerId).toBe(aliceId);

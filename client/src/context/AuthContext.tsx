@@ -49,4 +49,4 @@ export function useAuth(): AuthValue {
 }
 
 export const roleHome = (role: Role) => (role === "STAFF" ? "/schedule" : "/slots");
-export const ROLE_LABEL: Record<Role, string> = { CUSTOMER: "Student", STAFF: "Advisor" };
+export const ROLE_LABEL: Record<Role, string> = { CUSTOMER: "Customer", STAFF: "Specialist" };
