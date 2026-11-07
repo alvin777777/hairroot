@@ -1,7 +1,9 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import RequireAuth from "./components/RequireAuth.js";
 import { AuthProvider, roleHome, useAuth } from "./context/AuthContext.js";
+import BookingDetail from "./pages/BookingDetail.js";
 import Login from "./pages/Login.js";
+import MyBookings from "./pages/MyBookings.js";
 import SchedulePage from "./pages/SchedulePage.js";
 import SlotsPage from "./pages/SlotsPage.js";
 
@@ -18,6 +20,8 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/slots" element={<RequireAuth role="CUSTOMER"><SlotsPage /></RequireAuth>} />
+          <Route path="/bookings" element={<RequireAuth role="CUSTOMER"><MyBookings /></RequireAuth>} />
+          <Route path="/bookings/:id" element={<RequireAuth role="CUSTOMER"><BookingDetail /></RequireAuth>} />
           <Route path="/schedule" element={<RequireAuth role="STAFF"><SchedulePage /></RequireAuth>} />
           <Route path="*" element={<Home />} />
         </Routes>

@@ -1,0 +1,86 @@
+
+> advisorbook-server@0.1.0 test
+> vitest run
+
+
+ RUN  v2.1.9 /Users/alvin/Desktop/งาน/sof en/advisorbook/server
+
+ ✓ tests/bookings.api.test.ts (8 tests) 967ms
+ ❯ tests/booking-views.api.test.ts (6 tests | 3 failed) 980ms
+   × booking views and access control > T-20 lists only the student's own bookings and opens one (AC-20) 197ms
+     → expected [ 1, 2 ] to deeply equal [ 1 ]
+   × booking views and access control > T-21 hides another student's booking behind a 404 (AC-21) 149ms
+     → expected 200 to be 404 // Object.is equality
+   × booking views and access control > T-23 denies an unassigned advisor a schedule's bookings (AC-23) 147ms
+     → expected 200 to be 403 // Object.is equality
+ ✓ tests/auth.api.test.ts (8 tests) 396ms
+ ✓ tests/slots.api.test.ts (8 tests) 737ms
+ ✓ tests/slots.unit.test.ts (2 tests) 1ms
+ ✓ tests/password.unit.test.ts (1 test) 100ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/booking-views.api.test.ts > booking views and access control > T-20 lists only the student's own bookings and opens one (AC-20)
+AssertionError: expected [ 1, 2 ] to deeply equal [ 1 ]
+
+- Expected
++ Received
+
+  Array [
+    1,
++   2,
+  ]
+
+ ❯ tests/booking-views.api.test.ts:46:65
+     44|     const list = await api().get("/api/bookings/mine").set("Cookie", a…
+     45|     expect(list.status).toBe(200);
+     46|     expect(list.body.bookings.map((b: { id: number }) => b.id)).toEqua…
+       |                                                                 ^
+     47|     const detail = await api().get(`/api/bookings/${aliceBooking}`).se…
+     48|     expect(detail.status).toBe(200);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/booking-views.api.test.ts > booking views and access control > T-21 hides another student's booking behind a 404 (AC-21)
+AssertionError: expected 200 to be 404 // Object.is equality
+
+- Expected
++ Received
+
+- 404
++ 200
+
+ ❯ tests/booking-views.api.test.ts:54:24
+     52|   it("T-21 hides another student's booking behind a 404 (AC-21)", asyn…
+     53|     const res = await api().get(`/api/bookings/${bobBooking}`).set("Co…
+     54|     expect(res.status).toBe(404);
+       |                        ^
+     55|     expect(res.body.code).toBe("NOT_FOUND");
+     56|     expect(JSON.stringify(res.body)).not.toContain("Bob private topic"…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/booking-views.api.test.ts > booking views and access control > T-23 denies an unassigned advisor a schedule's bookings (AC-23)
+AssertionError: expected 200 to be 403 // Object.is equality
+
+- Expected
++ Received
+
+- 403
++ 200
+
+ ❯ tests/booking-views.api.test.ts:73:24
+     71|   it("T-23 denies an unassigned advisor a schedule's bookings (AC-23)"…
+     72|     const res = await api().get(`/api/schedules/${scheduleA}/slots`).s…
+     73|     expect(res.status).toBe(403);
+       |                        ^
+     74|     expect(res.body.code).toBe("FORBIDDEN");
+     75|     expect(JSON.stringify(res.body)).not.toContain("Alice");
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+ Test Files  1 failed | 5 passed (6)
+      Tests  3 failed | 30 passed (33)
+   Start at  23:12:20
+   Duration  4.87s (transform 63ms, setup 0ms, collect 306ms, tests 3.18s, environment 0ms, prepare 144ms)
+
