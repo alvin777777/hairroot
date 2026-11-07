@@ -38,3 +38,31 @@ schedulesRouter.post("/:id/slots", ...asStaff, async (req, res, next) => {
     next(err);
   }
 });
+
+schedulesRouter.get("/:id/slots", ...asStaff, async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const schedule = Number.isInteger(id) && id > 0 ? await getPrisma().schedule.findUnique({ where: { id } }) : null;
+    if (!schedule) throw notFound("Schedule");
+    const slots = await getPrisma().slot.findMany({
+      where: { scheduleId: schedule.id },
+      orderBy: { startAt: "asc" },
+      include: { bookings: { where: { status: "ACTIVE" }, include: { customer: true } } },
+    });
+    res.json({
+      slots: slots.map((slot) => {
+        const booking = slot.bookings[0];
+        return {
+          id: slot.id,
+          startAt: slot.startAt,
+          endAt: slot.endAt,
+          booking: booking
+            ? { id: booking.id, topic: booking.topic, student: { id: booking.customer.id, name: booking.customer.name } }
+            : null,
+        };
+      }),
+    });
+  } catch (err) {
+    next(err);
+  }
+});

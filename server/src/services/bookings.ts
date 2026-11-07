@@ -45,3 +45,11 @@ export async function createBooking(customerId: number, slotId: number, topic: s
     throw err;
   }
 }
+
+export async function listBookings() {
+  return getPrisma().booking.findMany({ include: { slot: slotView }, orderBy: { slot: { startAt: "asc" } } });
+}
+
+export async function getBooking(id: number) {
+  return getPrisma().booking.findUnique({ where: { id }, include: { slot: slotView } });
+}

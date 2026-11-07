@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { asCustomer, currentUser } from "../middleware/auth.js";
-import { createBooking, listAvailableSlots, parseBookingInput } from "../services/bookings.js";
+import { createBooking, getBooking, listAvailableSlots, listBookings, parseBookingInput } from "../services/bookings.js";
+import { notFound } from "../services/httpError.js";
 
 export const slotsRouter = Router();
 export const bookingsRouter = Router();
@@ -17,6 +18,18 @@ export function serializeSlot(slot: SlotRow) {
   };
 }
 
+type BookingRow = Awaited<ReturnType<typeof createBooking>>;
+
+function serializeBooking(booking: BookingRow) {
+  return {
+    id: booking.id,
+    status: booking.status,
+    topic: booking.topic,
+    createdAt: booking.createdAt,
+    slot: serializeSlot(booking.slot),
+  };
+}
+
 slotsRouter.get("/available", ...asCustomer, async (_req, res, next) => {
   try {
     res.json({ slots: (await listAvailableSlots()).map(serializeSlot) });
@@ -30,15 +43,26 @@ bookingsRouter.post("/", ...asCustomer, async (req, res, next) => {
     // BR-07: the owner always comes from the session, whatever the body contains.
     const { slotId, topic } = parseBookingInput(req.body);
     const booking = await createBooking(currentUser(req).id, slotId, topic);
-    res.status(201).json({
-      booking: {
-        id: booking.id,
-        status: booking.status,
-        topic: booking.topic,
-        createdAt: booking.createdAt,
-        slot: serializeSlot(booking.slot),
-      },
-    });
+    res.status(201).json({ booking: serializeBooking(booking) });
+  } catch (err) {
+    next(err);
+  }
+});
+
+bookingsRouter.get("/mine", ...asCustomer, async (_req, res, next) => {
+  try {
+    res.json({ bookings: (await listBookings()).map(serializeBooking) });
+  } catch (err) {
+    next(err);
+  }
+});
+
+bookingsRouter.get("/:id", ...asCustomer, async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    const booking = Number.isInteger(id) && id > 0 ? await getBooking(id) : null;
+    if (!booking) throw notFound("Booking");
+    res.json({ booking: serializeBooking(booking) });
   } catch (err) {
     next(err);
   }
