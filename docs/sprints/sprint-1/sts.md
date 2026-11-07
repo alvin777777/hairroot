@@ -18,9 +18,10 @@ replace persistence in these tests.
 | T-08 | AC-08 | API | Login; a session row with a past expiry | Inspect the cookie; call `/me` with the expired session | httpOnly, Max-Age at most 8 hours; 401 |
 | T-10 | AC-10 | API | Assigned advisor | Create a valid slot and retrieve it through the schedule list | 201; the slot appears with the same times |
 | T-11a | AC-11 | Unit | Times at the boundaries | Call the slot validation rule | 15 and 120 minutes pass; 14, 121, zero, and negative fail |
-| T-11b | AC-11 | API | Assigned advisor | Post a past start, 14, 15, 120, and 121 minutes | Invalid: 422 or 400 with no row stored; valid: 201 |
+| T-11b | AC-11 | API | Assigned advisor | Post a past start, 14, 15, 120, and 121 minutes | Past start: 422; 14 and 121: 400; no row stored for these. 15 and 120: 201 |
 | T-12a | AC-12 | API | A slot from 10:00 to 11:00 | Post 10:30 to 11:30 | 409 `SLOT_OVERLAP`; no new row |
 | T-12b | AC-12 | API | The same slot | Post 11:00 to 11:30, and 10:00 to 11:00 on another schedule | Both 201 |
+| T-12c | AC-12 | Integration | 8 identical requests | Send them concurrently | One 201, seven 409; one row stored |
 | T-13 | AC-13 | API | Advisor B; Advisor A's schedule | Post a slot on A's schedule | 403; no row stored |
 | T-14 | AC-14 | API | One future free, one booked, one past slot | Student lists available slots | Only the free slot; no student fields |
 | T-15 | AC-15 | API | Student; free slot | Book it, then read the database row | 201; `ACTIVE` row owned by the student |

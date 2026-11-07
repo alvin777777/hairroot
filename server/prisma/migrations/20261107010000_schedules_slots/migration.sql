@@ -1,0 +1,16 @@
+CREATE TABLE "Schedule" (
+    "id" SERIAL PRIMARY KEY,
+    "name" TEXT NOT NULL,
+    "advisorId" INTEGER NOT NULL REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX "Schedule_advisorId_idx" ON "Schedule"("advisorId");
+
+CREATE TABLE "Slot" (
+    "id" SERIAL PRIMARY KEY,
+    "scheduleId" INTEGER NOT NULL REFERENCES "Schedule"("id") ON DELETE CASCADE ON UPDATE CASCADE,
+    "startAt" TIMESTAMP(3) NOT NULL,
+    "endAt" TIMESTAMP(3) NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+CREATE INDEX "Slot_startAt_idx" ON "Slot"("startAt");

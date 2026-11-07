@@ -20,6 +20,7 @@ model User {
   role         UserRole
   createdAt    DateTime  @default(now())
   sessions     Session[]
+  schedules    Schedule[]
 }
 
 model Session {
@@ -31,4 +32,26 @@ model Session {
   createdAt DateTime @default(now())
 
   @@index([userId])
+}
+
+model Schedule {
+  id        Int      @id @default(autoincrement())
+  name      String
+  advisorId Int
+  advisor   User     @relation(fields: [advisorId], references: [id], onDelete: Restrict)
+  createdAt DateTime @default(now())
+  slots     Slot[]
+
+  @@index([advisorId])
+}
+
+model Slot {
+  id         Int      @id @default(autoincrement())
+  scheduleId Int
+  schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  startAt    DateTime
+  endAt      DateTime
+  createdAt  DateTime @default(now())
+
+  @@index([startAt])
 }

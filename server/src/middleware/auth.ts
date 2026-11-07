@@ -51,8 +51,8 @@ export function requireRole(role: UserRole): RequestHandler {
   };
 }
 
-export const asCustomer = [requireAuth, requireRole("CUSTOMER")];
-export const asStaff = [requireAuth, requireRole("STAFF")];
+export const asCustomer: RequestHandler[] = [requireAuth, requireRole("CUSTOMER")];
+export const asStaff: RequestHandler[] = [requireAuth, requireRole("STAFF")];
 
 // The session's user. Only call this on a route guarded by requireAuth.
 export function currentUser(req: Request): AuthUser {
