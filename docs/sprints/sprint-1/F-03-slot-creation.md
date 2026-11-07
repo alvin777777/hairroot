@@ -1,14 +1,14 @@
 # Contract: F-03 Slot Creation
 
-Version 0.1 — draft, 2026-11-07. Written before implementation.
+Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour.
 
 **Linked requirements:** FR-04, BR-03, BR-04, BR-05, NFR-02.
-**Depends on:** F-01, F-02. The seed provides schedules and their assigned advisors.
+**Depends on:** F-01, F-02. The seed provides schedules and their assigned specialists.
 
 ## Behaviour
 
-1. An advisor opens `/schedule` and picks one of their assigned schedules.
-2. The advisor enters a start and end time and submits.
+1. A specialist opens `/schedule` and picks one of their assigned schedules.
+2. The specialist enters a start and end time and submits.
 3. The server checks the role, assignment, field validity, duration, future start, and overlap, then
    stores the slot.
 
@@ -44,7 +44,7 @@ constraint on `scheduleId` and the time range, using the `btree_gist` extension.
 
 | ID | Criterion |
 |---|---|
-| AC-10 | An assigned advisor creates a valid slot, receives 201, and can retrieve it afterwards. |
+| AC-10 | An assigned specialist creates a valid slot, receives 201, and can retrieve it afterwards. |
 | AC-11 | A past start, an end not after the start, and durations of 14 and 121 minutes are rejected with nothing stored; 15 and 120 minutes are accepted. |
 | AC-12 | A slot overlapping another on the same schedule returns 409 with nothing stored; an adjacent slot and an equal time on another schedule are accepted. |
-| AC-13 | An advisor creating a slot on a schedule not assigned to them receives 403 with nothing stored. |
+| AC-13 | A specialist creating a slot on a schedule not assigned to them receives 403 with nothing stored. |

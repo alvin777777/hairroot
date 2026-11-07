@@ -4,7 +4,7 @@ import { getPrisma } from "../prisma.js";
 
 // An opaque 256-bit token lives in an httpOnly cookie. Only its hash is stored, so a database leak
 // does not expose usable sessions.
-export const SESSION_COOKIE = "advisorbook_session";
+export const SESSION_COOKIE = "hairroot_session";
 export const SESSION_TTL_MS = 8 * 60 * 60 * 1000;
 
 export function hashToken(token: string): string {

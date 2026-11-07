@@ -6,19 +6,19 @@ import { createSlot, parseSlotTimes } from "../services/slots.js";
 
 export const schedulesRouter = Router();
 
-// BR-05: an advisor can act only on a schedule assigned to them.
-async function assignedSchedule(rawId: string, advisorId: number) {
+// BR-05: a specialist can act only on a schedule assigned to them.
+async function assignedSchedule(rawId: string, specialistId: number) {
   const id = Number(rawId);
   const schedule = Number.isInteger(id) && id > 0 ? await getPrisma().schedule.findUnique({ where: { id } }) : null;
   if (!schedule) throw notFound("Schedule");
-  if (schedule.advisorId !== advisorId) throw forbidden();
+  if (schedule.specialistId !== specialistId) throw forbidden();
   return schedule;
 }
 
 schedulesRouter.get("/mine", ...asStaff, async (req, res, next) => {
   try {
     const schedules = await getPrisma().schedule.findMany({
-      where: { advisorId: currentUser(req).id },
+      where: { specialistId: currentUser(req).id },
       select: { id: true, name: true },
       orderBy: { id: "asc" },
     });
@@ -55,7 +55,7 @@ schedulesRouter.get("/:id/slots", ...asStaff, async (req, res, next) => {
           startAt: slot.startAt,
           endAt: slot.endAt,
           booking: booking
-            ? { id: booking.id, topic: booking.topic, student: { id: booking.customer.id, name: booking.customer.name } }
+            ? { id: booking.id, topic: booking.topic, customer: { id: booking.customer.id, name: booking.customer.name } }
             : null,
         };
       }),

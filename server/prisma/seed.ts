@@ -6,11 +6,11 @@ const prisma = new PrismaClient();
 export const DEMO_PASSWORD = "Password123!";
 
 const USERS: { email: string; name: string; role: UserRole }[] = [
-  { email: "advisor.somchai@advisorbook.test", name: "Dr. Somchai Prasert", role: "STAFF" },
-  { email: "advisor.nida@advisorbook.test", name: "Dr. Nida Wongsa", role: "STAFF" },
-  { email: "student.anan@advisorbook.test", name: "Anan Suksan", role: "CUSTOMER" },
-  { email: "student.mali@advisorbook.test", name: "Mali Rattana", role: "CUSTOMER" },
-  { email: "student.krit@advisorbook.test", name: "Krit Boonmee", role: "CUSTOMER" },
+  { email: "specialist.somchai@hairroot.test", name: "Dr. Somchai Prasert", role: "STAFF" },
+  { email: "specialist.nida@hairroot.test", name: "Dr. Nida Wongsa", role: "STAFF" },
+  { email: "customer.anan@hairroot.test", name: "Anan Suksan", role: "CUSTOMER" },
+  { email: "customer.mali@hairroot.test", name: "Mali Rattana", role: "CUSTOMER" },
+  { email: "customer.krit@hairroot.test", name: "Krit Boonmee", role: "CUSTOMER" },
 ];
 
 async function main() {
@@ -21,11 +21,11 @@ async function main() {
   const passwordHash = await hashPassword(DEMO_PASSWORD);
   for (const user of USERS) await prisma.user.create({ data: { ...user, passwordHash } });
 
-  const somchai = await prisma.user.findUniqueOrThrow({ where: { email: "advisor.somchai@advisorbook.test" } });
-  const nida = await prisma.user.findUniqueOrThrow({ where: { email: "advisor.nida@advisorbook.test" } });
-  const office = await prisma.schedule.create({ data: { name: "Dr. Somchai: Office hours", advisorId: somchai.id } });
-  await prisma.schedule.create({ data: { name: "Dr. Somchai: Thesis advising", advisorId: somchai.id } });
-  const nidaOffice = await prisma.schedule.create({ data: { name: "Dr. Nida: Office hours", advisorId: nida.id } });
+  const somchai = await prisma.user.findUniqueOrThrow({ where: { email: "specialist.somchai@hairroot.test" } });
+  const nida = await prisma.user.findUniqueOrThrow({ where: { email: "specialist.nida@hairroot.test" } });
+  const office = await prisma.schedule.create({ data: { name: "Dr. Somchai: Consultation", specialistId: somchai.id } });
+  await prisma.schedule.create({ data: { name: "Dr. Somchai: Post-procedure follow-up", specialistId: somchai.id } });
+  const nidaOffice = await prisma.schedule.create({ data: { name: "Dr. Nida: Consultation", specialistId: nida.id } });
 
   // Future weekday mornings, computed on each seed so the demo never goes stale.
   const day = new Date();

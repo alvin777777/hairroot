@@ -14,7 +14,7 @@ export function serializeSlot(slot: SlotRow) {
     startAt: slot.startAt,
     endAt: slot.endAt,
     scheduleName: slot.schedule.name,
-    advisorName: slot.schedule.advisor.name,
+    specialistName: slot.schedule.specialist.name,
   };
 }
 

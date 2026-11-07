@@ -1,6 +1,6 @@
 # Contract: F-01 Authentication and F-02 Access Control
 
-Version 0.1 — draft, 2026-11-07. Written before implementation.
+Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour.
 
 **Linked requirements:** FR-01, FR-02, FR-03, BR-07, NFR-01, NFR-02, NFR-03, NFR-05.
 **Depends on:** nothing. Every other Sprint 1 feature depends on this one.

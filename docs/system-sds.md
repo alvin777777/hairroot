@@ -1,10 +1,10 @@
-# AdvisorBook — System-Level Software Design
+# HairRoot — System-Level Software Design
 
-Version 0.1 — draft, 2026-11-07, pending teammate review.
+Version 0.2 — draft, 2026-11-07, pending teammate review.
 
 ## 1. Architecture and stack
 
-AdvisorBook is a modular monolith with three logical layers.
+HairRoot is a modular monolith with three logical layers.
 
 ```mermaid
 flowchart LR
@@ -30,7 +30,7 @@ must hold under concurrency are also enforced by database constraints.
 ```mermaid
 erDiagram
   User ||--o{ Session : has
-  User ||--o{ Schedule : "advises"
+  User ||--o{ Schedule : "manages"
   User ||--o{ Booking : "books"
   Schedule ||--o{ Slot : contains
   Slot ||--o{ Booking : "receives"
@@ -40,7 +40,7 @@ erDiagram
 |---|---|---|
 | User | `id`, `email`, `name`, `passwordHash`, `role` | `email` unique. `role` is `CUSTOMER` or `STAFF`. |
 | Session | `id`, `tokenHash`, `userId`, `expiresAt` | `tokenHash` unique. Deleted with its user. |
-| Schedule | `id`, `name`, `advisorId` | `advisorId` must reference a `STAFF` user, checked by the application. |
+| Schedule | `id`, `name`, `specialistId` | `specialistId` must reference a `STAFF` user, checked by the application. |
 | Slot | `id`, `scheduleId`, `startAt`, `endAt` | Check `endAt > startAt`. Overlap and duration rules are enforced in a transaction by the service layer. |
 | Booking | `id`, `slotId`, `customerId`, `topic`, `status`, `createdAt` | `status` is `ACTIVE` in Sprint 1. Partial unique index on `slotId` where `status = 'ACTIVE'`. |
 

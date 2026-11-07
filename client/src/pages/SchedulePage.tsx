@@ -106,7 +106,7 @@ export default function SchedulePage() {
           <div key={slot.id} className="list-group-item" data-testid="schedule-slot">
             <div className="fw-semibold">{formatRange(slot.startAt, slot.endAt)}</div>
             {slot.booking ? (
-              <div className="small">Booked by <strong>{slot.booking.student.name}</strong>: {slot.booking.topic}</div>
+              <div className="small">Booked by <strong>{slot.booking.customer.name}</strong>: {slot.booking.topic}</div>
             ) : (
               <div className="small text-body-secondary">Available</div>
             )}

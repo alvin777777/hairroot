@@ -21,7 +21,7 @@ export class ApiError extends Error {
   }
 }
 
-export const UNAUTHENTICATED_EVENT = "advisorbook:unauthenticated";
+export const UNAUTHENTICATED_EVENT = "hairroot:unauthenticated";
 const SILENT_401 = new Set(["/api/auth/login", "/api/auth/me"]);
 
 export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise<T> {
@@ -58,7 +58,7 @@ export interface SlotView {
   startAt: string;
   endAt: string;
   scheduleName: string;
-  advisorName: string;
+  specialistName: string;
 }
 
 export interface Booking {
@@ -80,7 +80,7 @@ export interface ScheduleSlot {
   id: number;
   startAt: string;
   endAt: string;
-  booking: { id: number; topic: string; student: { id: number; name: string } } | null;
+  booking: { id: number; topic: string; customer: { id: number; name: string } } | null;
 }
 
 export const getScheduleSlots = (scheduleId: number) =>

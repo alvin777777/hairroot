@@ -32,8 +32,8 @@ export default function Login() {
 
   return (
     <main className="container py-5" style={{ maxWidth: 420 }}>
-      <h1 className="h3 mb-1">AdvisorBook</h1>
-      <p className="text-body-secondary">Sign in to book or manage advising appointments.</p>
+      <h1 className="h3 mb-1">HairRoot</h1>
+      <p className="text-body-secondary">Sign in to book or manage hair clinic appointments.</p>
       {error && <div className="alert alert-danger" role="alert">{error}</div>}
       <form onSubmit={onSubmit} noValidate>
         <div className="mb-3">
