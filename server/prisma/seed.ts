@@ -14,6 +14,7 @@ const USERS: { email: string; name: string; role: UserRole }[] = [
 ];
 
 async function main() {
+  await prisma.booking.deleteMany();
   await prisma.schedule.deleteMany();
   await prisma.session.deleteMany();
   await prisma.user.deleteMany();

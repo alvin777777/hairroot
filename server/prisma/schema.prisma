@@ -7,6 +7,10 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum BookingStatus {
+  ACTIVE
+}
+
 enum UserRole {
   CUSTOMER
   STAFF
@@ -21,6 +25,7 @@ model User {
   createdAt    DateTime  @default(now())
   sessions     Session[]
   schedules    Schedule[]
+  bookings     Booking[]
 }
 
 model Session {
@@ -52,6 +57,23 @@ model Slot {
   startAt    DateTime
   endAt      DateTime
   createdAt  DateTime @default(now())
+  bookings   Booking[]
 
   @@index([startAt])
+}
+
+// A partial unique index in the migration allows one ACTIVE booking per slot (BR-01).
+// Prisma cannot express it here, so migrations are applied with `prisma migrate deploy`.
+model Booking {
+  id         Int           @id @default(autoincrement())
+  slotId     Int
+  slot       Slot          @relation(fields: [slotId], references: [id], onDelete: Restrict)
+  customerId Int
+  customer   User          @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  topic      String
+  status     BookingStatus @default(ACTIVE)
+  createdAt  DateTime      @default(now())
+
+  @@index([customerId])
+  @@index([slotId])
 }

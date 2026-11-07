@@ -15,7 +15,7 @@ async function assignedSchedule(rawId: string, advisorId: number) {
   return schedule;
 }
 
-schedulesRouter.get("/mine", asStaff, async (req, res, next) => {
+schedulesRouter.get("/mine", ...asStaff, async (req, res, next) => {
   try {
     const schedules = await getPrisma().schedule.findMany({
       where: { advisorId: currentUser(req).id },
@@ -28,7 +28,7 @@ schedulesRouter.get("/mine", asStaff, async (req, res, next) => {
   }
 });
 
-schedulesRouter.post("/:id/slots", asStaff, async (req, res, next) => {
+schedulesRouter.post("/:id/slots", ...asStaff, async (req, res, next) => {
   try {
     const schedule = await assignedSchedule(req.params.id, currentUser(req).id);
     const { startAt, endAt } = parseSlotTimes(req.body);
