@@ -6,6 +6,10 @@ and customers book them. A time can never be given to two customers. It is a CPE
 
 Sprint 1 covers login with two roles, slot creation, booking, and booking views. All data is synthetic.
 
+The public home page shows anonymous booking totals for the next seven days. Each upcoming booking
+adds a strand to the illustration, so visitors can see how busy the clinic is before choosing a time.
+It does not show customer names or appointment topics.
+
 ## Stack
 
 | Layer | Technology |

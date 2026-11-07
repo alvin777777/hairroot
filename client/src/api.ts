@@ -70,6 +70,12 @@ export interface Booking {
 }
 
 export const getAvailableSlots = () => apiFetch<{ slots: SlotView[] }>("/api/slots/available");
+export interface PopularityDay {
+  date: string;
+  bookings: number;
+}
+export const getBookingPopularity = () =>
+  apiFetch<{ days: PopularityDay[]; totalBookings: number }>("/api/public/popularity");
 export const createBooking = (slotId: number, topic: string) =>
   apiFetch<{ booking: Booking }>("/api/bookings", { method: "POST", body: JSON.stringify({ slotId, topic }) });
 
