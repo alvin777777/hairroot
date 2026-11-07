@@ -32,6 +32,9 @@ docker run -d --name hairroot-db \
   -e POSTGRES_USER=hairroot -e POSTGRES_PASSWORD=hairroot -e POSTGRES_DB=hairroot \
   -p 5435:5432 -v hairroot-db:/var/lib/postgresql/data postgres:16
 
+# Create the separate database used by API tests
+docker exec hairroot-db createdb -U hairroot -O hairroot hairroot_test
+
 # 2. Set up the API and demo data
 cd server
 cp .env.example .env
@@ -40,7 +43,12 @@ npx prisma generate
 npm run db:migrate
 npm run db:seed
 
-# 3. Set up the UI
+# 3. Install the end-to-end test browser
+cd ../e2e
+npm install
+npx playwright install chromium
+
+# 4. Set up the UI
 cd ../client
 cp .env.example .env
 npm install
@@ -89,6 +97,7 @@ These synthetic accounts come from the seed script. The password for all of them
 | API build | `cd server && npm run build` | |
 | UI tests | `cd client && npm test` | |
 | UI build | `cd client && npm run build` | |
+| End-to-end tests | `cd e2e && npm test` | Resets and uses `hairroot_test`, then starts the local API and UI; requires Docker and Playwright Chromium. |
 
 API tests use a real PostgreSQL database and clear the test database as they run. They never touch the
 development database.
