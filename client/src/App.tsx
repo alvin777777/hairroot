@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import RequireAuth from "./components/RequireAuth.js";
 import { AuthProvider, roleHome, useAuth } from "./context/AuthContext.js";
 import Login from "./pages/Login.js";
+import SchedulePage from "./pages/SchedulePage.js";
 
 function Home() {
   const { user, loading } = useAuth();
@@ -16,7 +17,7 @@ export default function App() {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/slots" element={<RequireAuth role="CUSTOMER"><p>Available times</p></RequireAuth>} />
-          <Route path="/schedule" element={<RequireAuth role="STAFF"><p>My schedule</p></RequireAuth>} />
+          <Route path="/schedule" element={<RequireAuth role="STAFF"><SchedulePage /></RequireAuth>} />
           <Route path="*" element={<Home />} />
         </Routes>
       </BrowserRouter>

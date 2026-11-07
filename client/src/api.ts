@@ -44,6 +44,18 @@ export const login = (email: string, password: string) =>
 export const logout = () => apiFetch<void>("/api/auth/logout", { method: "POST" });
 export const getMe = () => apiFetch<{ user: User }>("/api/auth/me");
 
+export interface Schedule {
+  id: number;
+  name: string;
+}
+
+export const getMySchedules = () => apiFetch<{ schedules: Schedule[] }>("/api/schedules/mine");
+export const createSlot = (scheduleId: number, startAt: string, endAt: string) =>
+  apiFetch(`/api/schedules/${scheduleId}/slots`, { method: "POST", body: JSON.stringify({ startAt, endAt }) });
+
+// A datetime-local value has no zone. All times in the product are Asia/Bangkok (SRS A-01).
+export const bangkokToIso = (value: string) => (value ? new Date(`${value}:00+07:00`).toISOString() : "");
+
 const FORMAT = new Intl.DateTimeFormat("en-GB", {
   timeZone: "Asia/Bangkok",
   weekday: "short",
