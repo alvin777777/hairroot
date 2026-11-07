@@ -1,0 +1,29 @@
+
+> advisorbook-server@0.1.0 test
+> vitest run
+
+
+ RUN  v2.1.9 /Users/alvin/Desktop/งาน/sof en/advisorbook/server
+
+ ❯ tests/auth.api.test.ts (0 test)
+ ❯ tests/password.unit.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/auth.api.test.ts [ tests/auth.api.test.ts ]
+Error: Failed to load url ../src/services/session.js (resolved id: ../src/services/session.js) in /Users/alvin/Desktop/งาน/sof en/advisorbook/server/tests/auth.api.test.ts. Does the file exist?
+ ❯ loadAndTransform ../../../../%E0%B8%87%E0%B8%B2%E0%B8%99/sof%20en/advisorbook/server/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51969:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/password.unit.test.ts [ tests/password.unit.test.ts ]
+Error: Failed to load url ../src/services/password.js (resolved id: ../src/services/password.js) in /Users/alvin/Desktop/งาน/sof en/advisorbook/server/tests/password.unit.test.ts. Does the file exist?
+ ❯ loadAndTransform ../../../../%E0%B8%87%E0%B8%B2%E0%B8%99/sof%20en/advisorbook/server/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51969:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+ Test Files  2 failed (2)
+      Tests  no tests
+   Start at  23:06:55
+   Duration  1.43s (transform 32ms, setup 62ms, collect 0ms, tests 0ms, environment 0ms, prepare 56ms)
+
