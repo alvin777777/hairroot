@@ -35,6 +35,7 @@ replace persistence in these tests.
 | T-22 | AC-22 | API | A booked slot and a free slot | Assigned specialist lists the schedule | Both slots; customer name and topic on the booked one |
 | T-23 | AC-23 | API | A booked slot on A's schedule | Specialist B requests that schedule | 403; the body has no booking data |
 | T-26 | AC-26 | Component | Mocked API states | Render the three screens while loading, empty, and failing | The correct state message each time |
+| T-27 | AC-27 | Component | Mocked slots for two services across two days | Choose a service, day, and time, enter a topic, and confirm | Only matching options appear; the booking is submitted for the chosen slot |
 | T-30 | AC-01, AC-03 | End-to-end | Seeded database | Log in through the browser, log out, then open a protected page | Home page; login page; redirect to login |
 | T-31 | AC-10, AC-14, AC-15, AC-20, AC-22 | End-to-end | Seeded database | Specialist creates a slot; customer books and reopens it; specialist sees the booking | Each step shows the expected data |
 | T-32 | AC-16 | End-to-end | A slot booked after the customer opened the list | The customer submits a booking for it | A "slot was taken" message; the list refreshes |

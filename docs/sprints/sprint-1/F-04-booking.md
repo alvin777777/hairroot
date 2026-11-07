@@ -1,6 +1,6 @@
 # Contract: F-04 Booking
 
-Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour.
+Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour. Version 0.3 revises the UI section and adds AC-27 (C-02).
 
 **Linked requirements:** FR-05, FR-06, BR-01, BR-02, BR-06, BR-07, BR-08, NFR-04, NFR-06.
 **Depends on:** F-01, F-02, F-03.
@@ -33,10 +33,11 @@ Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation
 
 ## UI
 
-- `/slots` lists slots with date, time, and specialist, with loading, empty, and error states.
-- Choosing Book opens a form for the topic. Submit is disabled while the request runs.
-- Success leads to the new booking's detail page.
-- On 409 the page says that another customer has just taken the slot and refreshes the list.
+- `/slots` is a guided flow built from the available-slot API, with loading, empty, and error states.
+- Step 1 lists services with their specialist. Step 2 lists days that have times, with the soonest selected. Step 3 lists that day's times. Step 4 summarises the choice and asks for the topic.
+- Submit is disabled while the request runs.
+- Success leads to the booking's detail page with a confirmation message.
+- On 409 the page says that another customer has just taken the slot, refreshes the times, and keeps the chosen service.
 
 ## Data
 
@@ -59,3 +60,4 @@ CREATE UNIQUE INDEX booking_one_active_per_slot ON "Booking" ("slotId") WHERE st
 | AC-18 | Booking a slot whose start has passed returns 422 with nothing stored. |
 | AC-19 | A request naming another customer's `customerId` creates a booking owned by the session's customer. |
 | AC-24 | A booking is still retrievable after the API process restarts. |
+| AC-27 | A customer books by choosing a service, a day, and a time in order. Each step offers only available options for the earlier choices. |
