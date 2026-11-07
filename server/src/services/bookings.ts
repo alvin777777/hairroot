@@ -46,10 +46,15 @@ export async function createBooking(customerId: number, slotId: number, topic: s
   }
 }
 
-export async function listBookings() {
-  return getPrisma().booking.findMany({ include: { slot: slotView }, orderBy: { slot: { startAt: "asc" } } });
+export async function listBookings(customerId: number) {
+  return getPrisma().booking.findMany({
+    where: { customerId },
+    include: { slot: slotView },
+    orderBy: { slot: { startAt: "asc" } },
+  });
 }
 
-export async function getBooking(id: number) {
-  return getPrisma().booking.findUnique({ where: { id }, include: { slot: slotView } });
+// BR-06: scoped by owner, so another student's booking looks exactly like a missing one.
+export async function getOwnedBooking(id: number, customerId: number) {
+  return getPrisma().booking.findFirst({ where: { id, customerId }, include: { slot: slotView } });
 }

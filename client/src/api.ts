@@ -73,6 +73,19 @@ export const getAvailableSlots = () => apiFetch<{ slots: SlotView[] }>("/api/slo
 export const createBooking = (slotId: number, topic: string) =>
   apiFetch<{ booking: Booking }>("/api/bookings", { method: "POST", body: JSON.stringify({ slotId, topic }) });
 
+export const getMyBookings = () => apiFetch<{ bookings: Booking[] }>("/api/bookings/mine");
+export const getBooking = (id: string) => apiFetch<{ booking: Booking }>(`/api/bookings/${encodeURIComponent(id)}`);
+
+export interface ScheduleSlot {
+  id: number;
+  startAt: string;
+  endAt: string;
+  booking: { id: number; topic: string; student: { id: number; name: string } } | null;
+}
+
+export const getScheduleSlots = (scheduleId: number) =>
+  apiFetch<{ slots: ScheduleSlot[] }>(`/api/schedules/${scheduleId}/slots`);
+
 // A datetime-local value has no zone. All times in the product are Asia/Bangkok (SRS A-01).
 export const bangkokToIso = (value: string) => (value ? new Date(`${value}:00+07:00`).toISOString() : "");
 

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { asCustomer, currentUser } from "../middleware/auth.js";
-import { createBooking, getBooking, listAvailableSlots, listBookings, parseBookingInput } from "../services/bookings.js";
+import { createBooking, getOwnedBooking, listAvailableSlots, listBookings, parseBookingInput } from "../services/bookings.js";
 import { notFound } from "../services/httpError.js";
 
 export const slotsRouter = Router();
@@ -49,9 +49,9 @@ bookingsRouter.post("/", ...asCustomer, async (req, res, next) => {
   }
 });
 
-bookingsRouter.get("/mine", ...asCustomer, async (_req, res, next) => {
+bookingsRouter.get("/mine", ...asCustomer, async (req, res, next) => {
   try {
-    res.json({ bookings: (await listBookings()).map(serializeBooking) });
+    res.json({ bookings: (await listBookings(currentUser(req).id)).map(serializeBooking) });
   } catch (err) {
     next(err);
   }
@@ -60,7 +60,7 @@ bookingsRouter.get("/mine", ...asCustomer, async (_req, res, next) => {
 bookingsRouter.get("/:id", ...asCustomer, async (req, res, next) => {
   try {
     const id = Number(req.params.id);
-    const booking = Number.isInteger(id) && id > 0 ? await getBooking(id) : null;
+    const booking = Number.isInteger(id) && id > 0 ? await getOwnedBooking(id, currentUser(req).id) : null;
     if (!booking) throw notFound("Booking");
     res.json({ booking: serializeBooking(booking) });
   } catch (err) {

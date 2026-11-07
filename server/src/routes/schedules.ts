@@ -41,9 +41,7 @@ schedulesRouter.post("/:id/slots", ...asStaff, async (req, res, next) => {
 
 schedulesRouter.get("/:id/slots", ...asStaff, async (req, res, next) => {
   try {
-    const id = Number(req.params.id);
-    const schedule = Number.isInteger(id) && id > 0 ? await getPrisma().schedule.findUnique({ where: { id } }) : null;
-    if (!schedule) throw notFound("Schedule");
+    const schedule = await assignedSchedule(req.params.id, currentUser(req).id);
     const slots = await getPrisma().slot.findMany({
       where: { scheduleId: schedule.id },
       orderBy: { startAt: "asc" },
