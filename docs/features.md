@@ -1,6 +1,6 @@
 # HairRoot — Feature Inventory
 
-Version 0.2 — draft, 2026-11-07, pending teammate review.
+Version 0.3 — draft, 2026-11-08, pending teammate review.
 
 | ID | Feature or responsibility | Description | Requirements | Depends on | Sprint |
 |---|---|---|---|---|---|
@@ -19,5 +19,6 @@ Version 0.2 — draft, 2026-11-07, pending teammate review.
 | F-13 | Appointment outcomes | A specialist records Completed or No-show. | FR-16, BR-14 | F-05 | 3 |
 | F-14 | Booking history | Customers and specialists read a booking's status history. | FR-18 | F-06, F-11, F-13 | 3 |
 | F-15 | Appointment summary | A specialist reads schedule-level appointment figures. | FR-17, BR-15 | F-13 | 3 |
+| F-16 | Public booking pulse | Any visitor views a seven-day aggregate of upcoming bookings on Home, represented by a hair-growth illustration and daily activity bars. | FR-19, BR-16, NFR-08, NFR-13 | F-04 | 2 |
 | R-01 | UI quality responsibility | Loading, empty, and error states, and a usable narrow layout. | NFR-08, NFR-09 | all UI features | 1 to 3 |
 | R-02 | Delivery responsibility | Configuration, Docker, CI/CD, and GCP deployment. | NFR-07, NFR-11, NFR-12 | F-01 | 1 and Lab 5 |
