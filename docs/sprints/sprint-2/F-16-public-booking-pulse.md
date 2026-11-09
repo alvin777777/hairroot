@@ -60,14 +60,14 @@ No schema change. Counts are computed from active bookings joined to their slot 
 
 ## Test plan
 
-| Test | Type | Acceptance criteria | Check |
-|---|---|---|---|
-| T-33 | API | AC-29 | Seed active bookings in and outside the time window; assert all seven dates, daily counts, and total. |
-| T-34 | API | AC-30 | Call without a session and assert the response contains counts only, with no identifying fields. |
-| T-35 | Component | AC-31 | Render zero, under-cap, and over-cap counts; assert the number of strands and exact total. |
-| T-36 | Component | AC-32, AC-33 | Assert busiest-day and all-zero labels, then API failure copy and usable actions. |
-| T-37 | End-to-end | AC-28, AC-34 | Open Home anonymously and as each role; verify destinations and return-home navigation. |
-| T-38 | End-to-end | AC-34 | At 375 px, verify the Home page does not scroll horizontally. |
+| Test | Type | Preconditions | Input / action | Expected result |
+|---|---|---|---|---|
+| T-33 | API | Seed future active bookings on two Bangkok dates, a slot earlier today, a cancelled booking, and one beyond the seven-date window. | Call `GET /api/public/popularity` without a session. | Seven date buckets are returned; only future active bookings inside the window are counted; zero dates are present; total equals the bucket sum. |
+| T-34 | API | At least one future active booking exists. | Call the public endpoint and inspect every response field. | The response contains counts and dates only; it contains no booking, slot, schedule, specialist, or customer identifiers or details. |
+| T-35 | Component | Home receives mocked totals of 0, 5, and 35 in separate renders. | Render the portrait and total for each response. | Strand counts are 0, 5, and 28 respectively; each displayed total remains exact. |
+| T-36 | Component | Home can receive normal, all-zero, or failed API responses. | Render a tie for busiest day, all-zero counts, then a rejected request. | The earliest tied date is busiest; zero shows “No bookings yet”; failure shows unavailable copy rather than zero; navigation actions remain usable. |
+| T-37 | End-to-end | Anonymous, customer, and staff sessions are available. | Open `/`, follow each role's primary action, then return Home with the HairRoot brand link. | Anonymous sees Home and goes to sign-in; customer and staff go to their dashboards; the brand link returns each role to Home. |
+| T-38 | End-to-end | Browser viewport can be set to 375 px. | Open Home and inspect document width. | Home has no horizontal page scrolling. |
 
 ## Open questions
 

@@ -1,6 +1,6 @@
 # HairRoot — System-Level Software Design
 
-Version 0.2 — draft, 2026-11-07, pending teammate review.
+Version 0.3 — draft, 2026-11-09, pending teammate review.
 
 ## 1. Architecture and stack
 
@@ -58,6 +58,7 @@ state with synthetic accounts, schedules, and slots.
 
 | Route | Role | Purpose |
 |---|---|---|
+| `/` | Anonymous, Customer, Staff | Public Home and aggregate booking activity; actions lead to sign-in or the role's dashboard. |
 | `/login` | Anonymous | Sign in. |
 | `/slots` | Customer | Browse available slots and book one. |
 | `/bookings` | Customer | List own bookings. |
@@ -82,6 +83,14 @@ Shared behaviour:
   and `fields` appears only for validation errors.
 - Internal details and stack traces are never returned.
 
+| Method and path | Access | Purpose |
+|---|---|---|
+| `GET /healthz` | Public | Readiness probe; returns only `{ "status": "ok" }`. |
+| `GET /api/public/popularity` | Public | Seven-day aggregate booking counts by Bangkok date; no appointment or customer details. |
+
+Both public routes require no session. The popularity endpoint returns exactly seven calendar-date
+buckets and a total; all other API resources keep their role and ownership checks.
+
 | Status | Meaning |
 |---|---|
 | 400 | Invalid input (`VALIDATION_ERROR`) |
@@ -95,6 +104,7 @@ Shared behaviour:
 
 | Operation | Anonymous | Customer | Staff |
 |---|---|---|---|
+| View public booking activity | Yes | Yes | Yes |
 | Log in | Yes | Yes | Yes |
 | Log out; read own identity | No | Yes | Yes |
 | List available slots | No | Yes | No |
