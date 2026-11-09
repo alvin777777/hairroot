@@ -11,7 +11,7 @@ are written with their feature contracts before implementation.
 | FR-02 | F-01 | 1 | AC-03 | T-03, T-30 |
 | FR-03 | F-01 | 1 | AC-04 | T-04 |
 | FR-04 | F-03 | 1 | AC-10 | T-10, T-31 |
-| FR-05 | F-04 | 1 | AC-14 | T-14, T-31 |
+| FR-05 | F-04 | 1 | AC-14, AC-27 | T-14, T-27, T-31 |
 | FR-06 | F-04 | 1 | AC-15 | T-15, T-31 |
 | FR-07 | F-05 | 1 | AC-20 | T-20, T-31 |
 | FR-08 | F-05 | 1 | AC-22 | T-22, T-31 |
@@ -59,4 +59,4 @@ are written with their feature contracts before implementation.
 |---|---|
 | Baseline requirements without a feature or responsibility | None |
 | Requirements without a sprint | None |
-| Approved changes since the baseline | C-01: the team changed the context from academic advising to a hair transplant clinic, and the product name from AdvisorBook to HairRoot. All FR, BR, NFR, AC, and test IDs and all behaviour are unchanged. Instructor or TA confirmation of the context is open (SRS Q-01). |
+| Approved changes since the baseline | C-01: the team changed the context from academic advising to a hair transplant clinic, and the product name from AdvisorBook to HairRoot. All FR, BR, NFR, AC, and test IDs and all behaviour are unchanged. Instructor or TA confirmation of the context is open (SRS Q-01). C-02: after trying the app, the teammate asked for a workflow like a real booking app. The customer and specialist screens changed, and AC-27 and T-27 were added. The API and rules are unchanged. |

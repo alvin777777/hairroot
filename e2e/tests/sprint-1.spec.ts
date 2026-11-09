@@ -12,6 +12,7 @@ async function signIn(page: Page, email: string) {
   await page.getByRole("button", { name: "Sign in" }).click();
 }
 
+// The guided UI shows times as HH:MM within a chosen day, so slots are matched by day and time.
 async function createFutureSlot(page: Page, daysAhead: number, hourOffset: number) {
   await signIn(page, SPECIALIST);
   await expect(page).toHaveURL(/\/schedule$/);
@@ -19,13 +20,13 @@ async function createFutureSlot(page: Page, daysAhead: number, hourOffset: numbe
   let startAt = "";
   for (let attempt = 0; attempt < 30; attempt += 1) {
     startAt = futureBangkokDateTime(daysAhead + attempt, hourOffset);
-    const start = new Date(`${startAt}:00+07:00`);
-    const endAt = formatBangkokDateTime(new Date(start.getTime() + 30 * 60_000));
+    const [date, time] = startAt.split("T");
 
-    await page.locator("#startAt").fill(startAt);
-    await page.locator("#endAt").fill(endAt);
-    await page.getByRole("button", { name: "Add slot" }).click();
-    const success = page.getByText("Slot created.", { exact: true });
+    await page.getByLabel("Date").fill(date);
+    await page.getByLabel(/Start time/).fill(time);
+    await page.getByLabel("Duration").selectOption("30");
+    await page.getByRole("button", { name: "Add time" }).click();
+    const success = page.getByText("Time added.", { exact: true });
     const overlap = page.getByRole("alert").filter({ hasText: "overlaps another slot" });
     await expect(success.or(overlap)).toBeVisible();
     if (await success.isVisible().catch(() => false)) break;
@@ -34,11 +35,26 @@ async function createFutureSlot(page: Page, daysAhead: number, hourOffset: numbe
     }
   }
 
-  await expect(page.getByTestId("schedule-slot").filter({ hasText: startAt.slice(-5) })).toBeVisible();
+  const day = page.locator("section").filter({ has: page.getByRole("heading", { name: dayLabel(startAt), exact: true }) });
+  await expect(day.getByTestId("schedule-slot").filter({ hasText: `${startAt.slice(-5)} to` })).toBeVisible();
   await page.getByRole("button", { name: "Log out" }).click();
   await expect(page).toHaveURL(/\/login$/);
 
   return startAt;
+}
+
+function dayLabel(startAt: string) {
+  return new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Bangkok", weekday: "short", day: "numeric", month: "short" })
+    .format(new Date(`${startAt}:00+07:00`));
+}
+
+// Walks the guided flow up to the confirmation step for the specialist's consultation service.
+async function chooseSlot(page: Page, startAt: string, topic: string) {
+  await expect(page).toHaveURL(/\/slots$/);
+  await page.getByRole("button", { name: /Hair transplant consultation.*Somchai/ }).click();
+  await page.getByRole("group", { name: "Choose a day" }).getByRole("button", { name: dayLabel(startAt), exact: true }).click();
+  await page.getByRole("group", { name: "Choose a time" }).getByRole("button", { name: startAt.slice(-5), exact: true }).click();
+  await page.getByLabel("What would you like to discuss?").fill(topic);
 }
 
 function futureBangkokDateTime(daysAhead: number, hourOffset: number) {
@@ -89,14 +105,11 @@ test("T-31 specialist creates a slot, customer books and reopens it, specialist 
   const topic = `E2E consultation ${Date.now()}`;
 
   await signIn(page, CUSTOMER);
-  await expect(page).toHaveURL(/\/slots$/);
-  const slot = page.getByTestId("slot").filter({ hasText: startAt.slice(-5) });
-  await expect(slot).toBeVisible();
-  await slot.getByRole("button", { name: "Book" }).click();
-  await page.getByLabel("What would you like to discuss?").fill(topic);
+  await chooseSlot(page, startAt, topic);
   await page.getByRole("button", { name: "Confirm booking" }).click();
   await expect(page).toHaveURL(/\/bookings\/\d+$/);
   await expect(page.getByTestId("booking-detail")).toContainText(topic);
+  await expect(page.getByText("Your booking is confirmed.")).toBeVisible();
 
   await page.getByRole("link", { name: "My bookings", exact: true }).click();
   const booking = page.getByTestId("booking").filter({ hasText: topic });
@@ -109,30 +122,29 @@ test("T-31 specialist creates a slot, customer books and reopens it, specialist 
   await expect(page.getByTestId("schedule-slot").filter({ hasText: topic })).toContainText("Anan Suksan");
 });
 
-test("T-32 shows a conflict and refreshes the list when another customer books first", async ({ page, browser }) => {
+test("T-32 shows a conflict and refreshes the times when another customer books first", async ({ page, browser }) => {
   const startAt = await createFutureSlot(page, 39, 1);
   const topic = `E2E race ${Date.now()}`;
 
   await signIn(page, CUSTOMER);
-  const staleSlot = page.getByTestId("slot").filter({ hasText: startAt.slice(-5) });
-  await expect(staleSlot).toBeVisible();
-  await staleSlot.getByRole("button", { name: "Book" }).click();
-  await page.getByLabel("What would you like to discuss?").fill(topic);
+  await chooseSlot(page, startAt, topic);
 
   const otherContext = await browser.newContext({ timezoneId: "Asia/Bangkok" });
   try {
     const otherPage = await otherContext.newPage();
     await signIn(otherPage, OTHER_CUSTOMER);
-    const sameSlot = otherPage.getByTestId("slot").filter({ hasText: startAt.slice(-5) });
-    await expect(sameSlot).toBeVisible();
-    await sameSlot.getByRole("button", { name: "Book" }).click();
-    await otherPage.getByLabel("What would you like to discuss?").fill(`${topic} other`);
+    await chooseSlot(otherPage, startAt, `${topic} other`);
     await otherPage.getByRole("button", { name: "Confirm booking" }).click();
     await expect(otherPage).toHaveURL(/\/bookings\/\d+$/);
 
     await page.getByRole("button", { name: "Confirm booking" }).click();
     await expect(page.getByRole("alert")).toContainText("Another customer has just taken this time");
-    await expect(page.getByTestId("slot").filter({ hasText: startAt.slice(-5) })).toHaveCount(0);
+    // The refreshed flow no longer offers the taken time on that day.
+    const takenDay = page.getByRole("group", { name: "Choose a day" }).getByRole("button", { name: dayLabel(startAt), exact: true });
+    if (await takenDay.count()) {
+      await takenDay.click();
+      await expect(page.getByRole("group", { name: "Choose a time" }).getByRole("button", { name: startAt.slice(-5), exact: true })).toHaveCount(0);
+    }
   } finally {
     await otherContext.close();
   }
