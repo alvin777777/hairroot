@@ -87,7 +87,7 @@ Results below come from the pre-release run at `da905b0` and are replaced at rel
 | AC-15 | T-15 | Automated | `server/tests/bookings.api.test.ts` | Passed |
 | AC-15b | T-15b | Automated | `server/tests/bookings.api.test.ts` | Passed |
 | AC-16 | T-16 | Automated | `server/tests/bookings.api.test.ts` | Passed |
-| AC-16 | T-32 | End-to-end | [PENDING: Issue #8] | Not run |
+| AC-16 | T-32 | End-to-end | `e2e/tests/sprint-1.spec.ts` | [PENDING: release run] |
 | AC-17 | T-17 | Automated | `server/tests/bookings.api.test.ts` | Passed |
 | AC-18 | T-18 | Automated | `server/tests/bookings.api.test.ts` | Passed |
 | AC-19 | T-19 | Automated | `server/tests/bookings.api.test.ts` | Passed |
@@ -98,8 +98,9 @@ Results below come from the pre-release run at `da905b0` and are replaced at rel
 | AC-24 | M-01 | Manual | Restart check | [PENDING: Issue #10] |
 | AC-25 | M-02 | Manual | Repository search | [PENDING: Issue #10] |
 | AC-26 | T-26 | Automated | `client/tests/screen-states.test.tsx` | Passed |
-| AC-01, AC-03 | T-30 | End-to-end | [PENDING: Issue #8] | Not run |
-| AC-10, AC-14, AC-15, AC-20, AC-22 | T-31 | End-to-end | [PENDING: Issue #8] | Not run |
+| AC-27 | T-27 | Automated | `client/tests/booking-flow.test.tsx` | [PENDING: release run] |
+| AC-01, AC-03 | T-30 | End-to-end | `e2e/tests/sprint-1.spec.ts` | [PENDING: release run] |
+| AC-10, AC-14, AC-15, AC-20, AC-22 | T-31 | End-to-end | `e2e/tests/sprint-1.spec.ts` | [PENDING: release run] |
 
 ## F.4 Test excerpts and TDD evidence
 
@@ -181,8 +182,8 @@ Full red and green outputs are in `docs/sprints/sprint-1/evidence/`.
 | **Branch** | `feature/4-booking` | `feature/5-booking-views` |
 | **PR** | #15 | #16 |
 | **Author and reviewer** | `alvin777777`, `Ohmmykung09` | `alvin777777`, `Ohmmykung09` |
-| **Substantive review** | [PENDING: review on PR #15] | [PENDING: review on PR #16] |
-| **Staging merge** | [PENDING: merge commit] | [PENDING: merge commit] |
+| **Substantive review** | Approved. Reviewed `createBooking`, the partial unique active-booking index, and T-14 to T-19, especially the 20-request race and session-derived ownership. Ran the server tests (27 passed) against PostgreSQL, plus typecheck and builds. Confirmed the F-03 typing fix. | Approved. Reviewed `getOwnedBooking`, `assignedSchedule`, response serialisation, T-05, T-06, T-20 to T-23, and T-26. Ran the server tests (33) and client tests (3). Confirmed that another customer's booking returns the same 404 body as a missing ID. |
+| **Staging merge** | `c026e16`, 2026-11-07 23:52, merged by `Ohmmykung09` | `92cb886`, 2026-11-07 23:54, merged by `Ohmmykung09` |
 | **Release on main** | [PENDING: release PR and tag] | [PENDING: release PR and tag] |
 
 [PENDING: screenshots of the Issues, PRs, and final board status]
@@ -201,6 +202,11 @@ Full red and green outputs are in `docs/sprints/sprint-1/evidence/`.
 | 2026-11-07 23:13 | `95a09e8` | F-05 failing tests |
 | 2026-11-07 23:13 | `47664bf` | F-05 implementation |
 | 2026-11-07 23:20 | `1f408ee` | Context change C-01 |
+| 2026-11-07 23:45 to 23:56 | `899dbb0` to `d9139cf` | Teammate reviews and merges PRs #12 to #18 into `sprint-1-staging` |
+| 2026-11-08 00:44 | `241f76e` | C-02 contract revision and failing T-27, after the teammate asked for a real booking-app workflow |
+| 2026-11-08 00:46 | `7eb4001` | C-02 implementation |
+| 2026-11-08 00:14 | `f5931b3` | Teammate's E2E tests T-30 to T-32 (#19) |
+| 2026-11-09 17:53 | `736584c` | Teammate's E2E tests (#19) adapted to C-02 |
 
 These commits were made with an AI agent, which explains the short intervals.
 
@@ -210,14 +216,14 @@ These commits were made with an AI agent, which explains the short intervals.
 
 | Student | Contribution |
 |---|---|
-| ไอโว ปีเตอร์ อัลวิน รันเน่ | Supervised and authored PRs for the baseline, contracts, F-01 to F-05, the context change, and the README. [PENDING: confirm final contributions] |
-| ทิฐินันท์ สอบกิ่ง | [PENDING: reviews, end-to-end tests, browser fixes, and screenshots actually completed] |
+| ไอโว ปีเตอร์ อัลวิน รันเน่ | Supervised and authored PRs for the baseline, contracts, F-01 to F-05, the context change C-01, the README, and the guided workflow C-02 (#22). Reviewed the teammate's PRs #19, #20, and #24. Owns this PDF. [PENDING: confirm final contributions] |
+| ทิฐินันท์ สอบกิ่ง | Reviewed and merged PRs #12 to #18 after running their tests, finding the missing test-database setup step (#18) and confirming the F-03 typecheck fix (#14). Wrote the E2E tests T-30 to T-32 (#19). After trying the app, requested the guided booking workflow (C-02). Proposed F-16 for Sprint 2 with its contract (#24, #20). [PENDING: review of #22, screenshots, and any later work] |
 
 ### AI-use declaration
 
 | Tool | Tasks assisted |
 |---|---|
-| Claude Code (Claude Opus 5.5) | Drafted the SRS, SDS, plan, and contracts; wrote server and client code and tests; ran commands; created Issues and PRs; built this PDF. |
+| Claude Code (Claude Opus 5.5), used by ไอโว | Drafted the SRS, SDS, plan, and contracts; wrote server and client code and tests; ran commands; created Issues and PRs; drafted reviews of #19, #20, and #24 after running their tests; built this PDF. |
 
 [PENDING: add any AI tools used by the teammate]
 
@@ -229,4 +235,6 @@ These commits were made with an AI agent, which explains the short intervals.
 - Commit `aadeff4` had a TypeScript typecheck error, corrected in `f445527`. Its tests passed.
 - T-12c was added to the STS during F-03 to cover competing overlap requests.
 - Docker, CI/CD, and GCP deployment are not included, and are due in Lab 5.
+- C-02 changed the customer and specialist screens after the first Sprint 1 implementation, at the teammate's request. The contract revision and failing test came before the change.
+- PRs #20 and #24 (F-16, public booking pulse) are a Sprint 2 proposal and are not part of this release.
 - Cancellation, rescheduling, and the other later features are planned for Sprints 2 and 3.

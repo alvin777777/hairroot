@@ -4,7 +4,7 @@ Version 0.2 — draft, 2026-11-07, pending teammate review.
 
 | Sprint | Goal | Features | Depends on | Completion outcome | Checkpoint |
 |---|---|---|---|---|---|
-| 1 | Prove the core journey with real identity and safe booking. | F-01, F-02, F-03, F-04, F-05; first part of R-01 and R-02 | none | A specialist publishes a slot, a customer books and retrieves it, and the rules and access limits are tested. | Deliverable 1, 8 Nov |
+| 1 | Prove the core journey with real identity and safe booking. | F-01, F-02, F-03, F-04, F-05; first part of R-01 and R-02 | none | A specialist publishes a slot, a customer books and retrieves it, and the rules and access limits are tested. | Deliverable 1, 15 Nov (moved from 8 Nov by the course) |
 | 2 | Complete the core booking life cycle and slot management. | F-06, F-07, F-08, F-09, F-10, F-11; R-02 through Lab 5 | Sprint 1 release | Bookings can be cancelled and moved, specialists can maintain their schedules, and the release is deployed. | Deliverable 2, 29 Nov |
 | 3 | Finish reporting and harden the product. | F-12, F-13, F-14, F-15; completion of R-01 | Sprint 2 features | The complete baseline is verified and released. | Progress 29 Nov; complete 13 Dec |
 
