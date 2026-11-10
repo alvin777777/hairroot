@@ -1,0 +1,29 @@
+Issue #4 [CLOSED] F-04: Booking
+PR #15 [MERGED] feat: exclusive booking (F-04)
+  branch: feature/4-booking  author: alvin777777  merged by: Ohmmykung09 at 2026-11-07T16:52:31Z (c026e16)
+  review: Ohmmykung09 APPROVED at 2026-11-07T16:54:03Z
+
+Issue #5 [CLOSED] F-05: Booking views
+PR #16 [MERGED] feat: booking views and ownership (F-05)
+  branch: feature/5-booking-views  author: alvin777777  merged by: Ohmmykung09 at 2026-11-07T16:54:19Z (92cb886)
+  review: Ohmmykung09 APPROVED at 2026-11-07T16:54:14Z
+
+Release PR #25 [MERGED] release: Sprint 1: sprint-1-staging -> main
+  author: alvin777777  merged by: Ohmmykung09 at 2026-11-10T14:08:21Z (d1e8d81)
+  review: Ohmmykung09 APPROVED at 2026-11-10T14:08:17Z
+
+Project board: HairRoot Sprint 1
+  #1 Done: Product baseline and Sprint 1 contracts (Parts A-E)
+  #2 Done: F-01, F-02: Authentication and access control
+  #3 Done: F-03: Slot creation
+  #4 Done: F-04: Booking
+  #5 Done: F-05: Booking views
+  #6 Done: C-01: Change the context to the HairRoot hair clinic
+  #7 Done: README and setup instructions
+  #8 Done: E2E tests T-30, T-31, T-32
+  #9 Todo: Try the app in a browser and fix what breaks
+  #10 Done: Sprint 1 integration, manual checks, and release
+  #11 In Progress: Deliverable 1 PDF
+  #21 Done: Make the booking workflow work like a real booking app
+
+Tag: v0.1.0-sprint1 d1e8d81 2026-11-10 21:36:49 +0700

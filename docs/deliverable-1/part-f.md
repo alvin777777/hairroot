@@ -27,7 +27,25 @@ All scenarios use release `d1e8d81` (tag `v0.1.0-sprint1`), with a freshly seede
 | **Expected result** | The saved booking is retrieved by the customer and shown on the specialist's schedule. |
 | **Actual result** | As expected. T-31 passed at the release, covering this journey through the UI, API, and database. |
 
-[PENDING: screenshots for scenario 1]
+![Step 1. The specialist adds a time.](screenshots/s1-1-specialist-adds-time.png)
+
+*Step 1. The specialist adds a time.*
+
+![Step 2. The customer chooses a service, day, and time, then enters a topic.](screenshots/s1-2-customer-confirm.png)
+
+*Step 2. The customer chooses a service, day, and time, then enters a topic.*
+
+![Step 3. The booking is confirmed.](screenshots/s1-3-booking-confirmed.png)
+
+*Step 3. The booking is confirmed.*
+
+![Step 4. The customer reopens the saved booking from My bookings.](screenshots/s1-4-customer-retrieves-booking.png)
+
+*Step 4. The customer reopens the saved booking from My bookings.*
+
+![Step 5. The specialist sees the booking, with the customer name and topic, after reloading the schedule.](screenshots/s1-5-specialist-sees-booking.png)
+
+*Step 5. The specialist sees the booking, with the customer name and topic, after reloading the schedule.*
 
 ### Scenario 2: Business-rule rejection
 
@@ -40,7 +58,9 @@ All scenarios use release `d1e8d81` (tag `v0.1.0-sprint1`), with a freshly seede
 | **Expected result** | 409 `SLOT_TAKEN`, a clear message, a refreshed list, and the original booking unchanged. |
 | **Actual result** | As expected. T-32 passed at the release, and the API returned 409 `SLOT_TAKEN` (scenario 3 output). |
 
-[PENDING: screenshot for scenario 2]
+![Another customer booked the same time first. This customer sees the rejection, and that time is no longer offered.](screenshots/s2-1-slot-taken.png)
+
+*Another customer booked the same time first. This customer sees the rejection, and that time is no longer offered.*
 
 ### Scenario 3: Login, logout, and forbidden operations
 
@@ -102,7 +122,21 @@ $ GET /api/auth/me with the logged-out session
 -> HTTP 401
 ```
 
-[PENDING: screenshots for scenario 3]
+![A wrong password is rejected.](screenshots/s3-1-wrong-password.png)
+
+*A wrong password is rejected.*
+
+![A correct password signs the customer in.](screenshots/s3-2-logged-in-as-customer.png)
+
+*A correct password signs the customer in.*
+
+![Another customer's booking address shows Booking not found.](screenshots/s3-3-another-customers-booking.png)
+
+*Another customer's booking address shows Booking not found.*
+
+![After logout, opening a protected page returns to the login page.](screenshots/s3-4-protected-page-after-logout.png)
+
+*After logout, opening a protected page returns to the login page.*
 
 ## F.3 Build and automated test results
 
@@ -263,7 +297,39 @@ Full red and green outputs are in `docs/sprints/sprint-1/evidence/`.
 | **Staging merge** | `c026e16`, 2026-11-07 23:52, merged by `Ohmmykung09` | `92cb886`, 2026-11-07 23:54, merged by `Ohmmykung09` |
 | **Release on main** | PR #25, `d1e8d81`, tag `v0.1.0-sprint1` | PR #25, `d1e8d81`, tag `v0.1.0-sprint1` |
 
-[PENDING: screenshots of the Issues, PRs, and final board status]
+**Issue, PR, review, release, and board data**, taken from the GitHub API with the `gh` CLI on 10 November 2026:
+
+```text
+Issue #4 [CLOSED] F-04: Booking
+PR #15 [MERGED] feat: exclusive booking (F-04)
+  branch: feature/4-booking  author: alvin777777  merged by: Ohmmykung09 at 2026-11-07T16:52:31Z (c026e16)
+  review: Ohmmykung09 APPROVED at 2026-11-07T16:54:03Z
+
+Issue #5 [CLOSED] F-05: Booking views
+PR #16 [MERGED] feat: booking views and ownership (F-05)
+  branch: feature/5-booking-views  author: alvin777777  merged by: Ohmmykung09 at 2026-11-07T16:54:19Z (92cb886)
+  review: Ohmmykung09 APPROVED at 2026-11-07T16:54:14Z
+
+Release PR #25 [MERGED] release: Sprint 1: sprint-1-staging -> main
+  author: alvin777777  merged by: Ohmmykung09 at 2026-11-10T14:08:21Z (d1e8d81)
+  review: Ohmmykung09 APPROVED at 2026-11-10T14:08:17Z
+
+Project board: HairRoot Sprint 1
+  #1 Done: Product baseline and Sprint 1 contracts (Parts A-E)
+  #2 Done: F-01, F-02: Authentication and access control
+  #3 Done: F-03: Slot creation
+  #4 Done: F-04: Booking
+  #5 Done: F-05: Booking views
+  #6 Done: C-01: Change the context to the HairRoot hair clinic
+  #7 Done: README and setup instructions
+  #8 Done: E2E tests T-30, T-31, T-32
+  #9 Todo: Try the app in a browser and fix what breaks
+  #10 Done: Sprint 1 integration, manual checks, and release
+  #11 In Progress: Deliverable 1 PDF
+  #21 Done: Make the booking workflow work like a real booking app
+
+Tag: v0.1.0-sprint1 d1e8d81 2026-11-10 21:36:49 +0700
+```
 
 ### Contract and implementation sequence
 
@@ -295,14 +361,14 @@ These commits were made with an AI agent, which explains the short intervals.
 
 | Student | Contribution |
 |---|---|
-| ไอโว ปีเตอร์ อัลวิน รันเน่ | Supervised and authored PRs for the baseline, contracts, F-01 to F-05, the context change C-01, the README, and the guided workflow C-02 (#22). Reviewed the teammate's PRs #19, #20, and #24. Owns this PDF. [PENDING: confirm final contributions] |
-| ทิฐินันท์ สอบกิ่ง | Reviewed and merged PRs #12 to #18 after running their tests, finding the missing test-database setup step (#18) and confirming the F-03 typecheck fix (#14). Wrote the E2E tests T-30 to T-32 (#19). After trying the app, requested the guided booking workflow (C-02). Proposed F-16 for Sprint 2 with its contract (#24, #20). Reviewed and merged #22 and release PR #25. [PENDING: screenshots and any later work] |
+| ไอโว ปีเตอร์ อัลวิน รันเน่ | Ran the release checks and tagged the release, and captured the demonstrations. Supervised and authored PRs for the baseline, contracts, F-01 to F-05, the context change C-01, the README, and the guided workflow C-02 (#22). Reviewed the teammate's PRs #19, #20, and #24. Owns this PDF. [PENDING: confirm final contributions] |
+| ทิฐินันท์ สอบกิ่ง | Reviewed and merged PRs #12 to #18 after running their tests, finding the missing test-database setup step (#18) and confirming the F-03 typecheck fix (#14). Wrote the E2E tests T-30 to T-32 (#19). After trying the app, requested the guided booking workflow (C-02). Proposed F-16 for Sprint 2 with its contract (#24, #20). Reviewed and merged #22 and release PR #25. [PENDING: any later work] |
 
 ### AI-use declaration
 
 | Tool | Tasks assisted |
 |---|---|
-| Claude Code (Claude Opus 5.5), used by ไอโว | Drafted the SRS, SDS, plan, and contracts; wrote server and client code and tests; ran commands; created Issues and PRs; drafted reviews of #19, #20, and #24 after running their tests; built this PDF. |
+| Claude Code (Claude Opus 5.5), used by ไอโว | Drafted the SRS, SDS, plan, and contracts; wrote server and client code and tests; ran commands; created Issues and PRs; drafted reviews of #19, #20, and #24 after running their tests; captured the screenshots with a browser script; built this PDF. |
 
 [PENDING: add any AI tools used by the teammate]
 

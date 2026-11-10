@@ -83,7 +83,8 @@ const CSS = `
   pre { background: #f4f1ee; padding: 8px; font-size: 8pt; white-space: pre-wrap; overflow-wrap: anywhere; }
   pre code { background: none; padding: 0; }
   pre.mermaid { background: none; text-align: center; break-inside: avoid; }
-  img { max-width: 100%; border: 1px solid #bbb; display: block; margin: 6px 0; }
+  img { max-width: 62%; max-height: 92mm; border: 1px solid #bbb; display: block; margin: 8px 0 3px; break-inside: avoid; }
+  p:has(> img) { break-after: avoid; margin-bottom: 2px; }
   .pending { background: #fde047; font-weight: 600; }
 `;
 
