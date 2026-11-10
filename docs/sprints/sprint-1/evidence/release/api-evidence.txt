@@ -1,0 +1,45 @@
+API evidence at commit d1e8d81 (local, synthetic data)
+
+$ POST /api/auth/login, wrong password
+{"error":"Invalid email or password.","code":"INVALID_CREDENTIALS"}
+-> HTTP 401
+
+$ POST /api/auth/login, correct password
+{"user":{"id":53,"name":"Anan Suksan","email":"customer.anan@hairroot.test","role":"CUSTOMER"}}
+-> HTTP 200
+
+$ POST /api/bookings as customer.anan (slot 375)
+{"booking":{"id":7,"status":"ACTIVE","topic":"Hairline consultation","createdAt":"2026-11-10T14:35:51.372Z","slot":{"id":375,"startAt":"2026-11-11T02:00:00.000Z","endAt":"2026-11-11T02:30:00.000Z","scheduleName":"Hair transplant consultation","specialistName":"Dr. Somchai Prasert"}}}
+-> HTTP 201
+
+$ POST /api/bookings, same slot, as customer.mali
+{"error":"Another customer has just taken this time.","code":"SLOT_TAKEN"}
+-> HTTP 409
+
+$ GET /api/bookings/7 as customer.anan (owner)
+{"booking":{"id":7,"status":"ACTIVE","topic":"Hairline consultation","createdAt":"2026-11-10T14:35:51.372Z","slot":{"id":375,"startAt":"2026-11-11T02:00:00.000Z","endAt":"2026-11-11T02:30:00.000Z","scheduleName":"Hair transplant consultation","specialistName":"Dr. Somchai Prasert"}}}
+-> HTTP 200
+
+$ GET /api/bookings/7 as customer.mali (not owner)
+{"error":"Booking not found.","code":"NOT_FOUND"}
+-> HTTP 404
+
+$ GET /api/schedules/31/slots as specialist.nida (not assigned)
+{"error":"You do not have permission to do that.","code":"FORBIDDEN"}
+-> HTTP 403
+
+$ GET /api/schedules/mine as customer.anan (wrong role)
+{"error":"You do not have permission to do that.","code":"FORBIDDEN"}
+-> HTTP 403
+
+$ GET /api/bookings/mine with no session
+{"error":"Authentication required.","code":"UNAUTHENTICATED"}
+-> HTTP 401
+
+$ POST /api/auth/logout as customer.mali
+-> HTTP 204
+
+$ GET /api/auth/me with the logged-out session
+{"error":"Authentication required.","code":"UNAUTHENTICATED"}
+-> HTTP 401
+

@@ -41,7 +41,7 @@ const PARTS = [
       `${SPRINT}/definition-of-done.md`,
     ],
   },
-  { id: "F", status: "[PENDING: final verification status]", title: "Part F: Working Sprint 1 and verification", points: 20, ids: "Demonstrations, test results, Issues #4, #5, PRs #15, #16", files: ["docs/deliverable-1/part-f.md"] },
+  { id: "F", status: "All automated and manual checks passed at d1e8d81 (tag v0.1.0-sprint1)", title: "Part F: Working Sprint 1 and verification", points: 20, ids: "Demonstrations, test results, Issues #4, #5, PRs #15, #16", files: ["docs/deliverable-1/part-f.md"] },
 ];
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");

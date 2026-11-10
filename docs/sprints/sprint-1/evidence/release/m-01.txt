@@ -1,0 +1,5 @@
+M-01 at commit d1e8d81
+before restart: {"booking":{"id":7,"status":"ACTIVE","topic":"Hairline consultation","createdAt":"2026-11-10T14:35:51.372Z","slot":{"id":375,"startAt":"2026-11-11T02:00:00.000Z","endAt":"2026-11-11T02:30:00.000Z","scheduleName":"Hair transplant consultation","specialistName":"Dr. Somchai Prasert"}}}
+API stopped, /healthz status: 000
+after restart:  {"booking":{"id":7,"status":"ACTIVE","topic":"Hairline consultation","createdAt":"2026-11-10T14:35:51.372Z","slot":{"id":375,"startAt":"2026-11-11T02:00:00.000Z","endAt":"2026-11-11T02:30:00.000Z","scheduleName":"Hair transplant consultation","specialistName":"Dr. Somchai Prasert"}}}
+RESULT: PASS, identical response

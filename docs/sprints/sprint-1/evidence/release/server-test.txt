@@ -1,0 +1,21 @@
+
+> hairroot-server@0.1.0 test
+> vitest run
+
+
+ RUN  v2.1.9 /private/tmp/claude-501/-Users-alvin-Desktop-----sof-en/79fb58ac-cb47-4b29-8d2e-3dd69b30ea8e/scratchpad/main/server
+
+ ✓ tests/bookings.api.test.ts (8 tests) 1554ms
+   ✓ booking > T-17 lets exactly one of 20 competing customers book the slot (AC-17) 444ms
+ ✓ tests/booking-views.api.test.ts (6 tests) 1592ms
+   ✓ booking views and access control > T-20 lists only the customer's own bookings and opens one (AC-20) 312ms
+ ✓ tests/auth.api.test.ts (8 tests) 687ms
+ ✓ tests/slots.api.test.ts (8 tests) 1307ms
+ ✓ tests/slots.unit.test.ts (2 tests) 2ms
+ ✓ tests/password.unit.test.ts (1 test) 182ms
+
+ Test Files  6 passed (6)
+      Tests  33 passed (33)
+   Start at  21:35:21
+   Duration  7.95s (transform 90ms, setup 0ms, collect 476ms, tests 5.32s, environment 1ms, prepare 237ms)
+

@@ -1,0 +1,9 @@
+M-02 at commit d1e8d81
+Tracked env files:
+client/.env.example
+server/.env.example
+server/.env is ignored
+client/.env is ignored
+History matches for common credential patterns:
+       0
+RESULT: PASS for pattern search

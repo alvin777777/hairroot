@@ -1,0 +1,23 @@
+
+> hairroot-client@0.1.0 test
+> vitest run
+
+
+ RUN  v2.1.9 /private/tmp/claude-501/-Users-alvin-Desktop-----sof-en/79fb58ac-cb47-4b29-8d2e-3dd69b30ea8e/scratchpad/main/client
+
+stderr | tests/booking-flow.test.tsx > T-27 guided booking flow (AC-27) > offers only matching days and times, then books the chosen slot
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | tests/screen-states.test.tsx > T-26 data screen states (AC-26) > slot list shows loading, empty, and error states
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ tests/screen-states.test.tsx (3 tests) 111ms
+ ✓ tests/booking-flow.test.tsx (1 test) 194ms
+
+ Test Files  2 passed (2)
+      Tests  4 passed (4)
+   Start at  21:35:35
+   Duration  1.12s (transform 104ms, setup 104ms, collect 292ms, tests 305ms, environment 553ms, prepare 261ms)
+
