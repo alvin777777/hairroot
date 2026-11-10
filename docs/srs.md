@@ -132,4 +132,4 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 
 | ID | Question | Status |
 |---|---|---|
-| Q-01 | Does the instructor or TA accept a hair transplant clinic as the context? | Open. The brief gives "consultation" as an example, so work proceeds on that basis. To be confirmed with the TA. |
+| Q-01 | Does the instructor or TA accept a hair transplant clinic as the context? | Open. The brief gives "consultation" as an example, so work proceeds on that basis. The team chose not to seek confirmation before submitting Deliverable 1. |

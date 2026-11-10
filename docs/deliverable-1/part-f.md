@@ -380,7 +380,7 @@ These commits were made with an AI agent, which explains the short intervals.
 - The teammate could not rerun the database-backed API and end-to-end tests while reviewing #22 and #25, because Docker was unavailable on that machine, and said so in those reviews. Those tests were run on a fresh clone of each commit by ไอโว.
 - GitHub reports no automated checks on these branches, because CI is established in Lab 5. Test results come from local runs tied to the commits shown.
 - The context changed from academic advising to a hair clinic after Sprint 1 was implemented (C-01). Contracts version 0.2 and the code were renamed, and behaviour did not change. Earlier commits and evidence keep the old names.
-- Instructor or TA confirmation of the context is open (SRS Q-01). [PENDING: outcome]
+- The context was not confirmed with the instructor or TA (SRS Q-01). The team proceeded because the brief gives consultation as an example.
 - Commit `aadeff4` had a TypeScript typecheck error, corrected in `f445527`. Its tests passed.
 - T-12c was added to the STS during F-03 to cover competing overlap requests.
 - Docker, CI/CD, and GCP deployment are not included, and are due in Lab 5.
