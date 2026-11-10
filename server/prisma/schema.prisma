@@ -1,0 +1,79 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum BookingStatus {
+  ACTIVE
+}
+
+enum UserRole {
+  CUSTOMER
+  STAFF
+}
+
+model User {
+  id           Int       @id @default(autoincrement())
+  email        String    @unique
+  name         String
+  passwordHash String
+  role         UserRole
+  createdAt    DateTime  @default(now())
+  sessions     Session[]
+  schedules    Schedule[]
+  bookings     Booking[]
+}
+
+model Session {
+  id        Int      @id @default(autoincrement())
+  tokenHash String   @unique
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+}
+
+model Schedule {
+  id        Int      @id @default(autoincrement())
+  name      String
+  specialistId Int
+  specialist   User     @relation(fields: [specialistId], references: [id], onDelete: Restrict)
+  createdAt DateTime @default(now())
+  slots     Slot[]
+
+  @@index([specialistId])
+}
+
+model Slot {
+  id         Int      @id @default(autoincrement())
+  scheduleId Int
+  schedule   Schedule @relation(fields: [scheduleId], references: [id], onDelete: Cascade)
+  startAt    DateTime
+  endAt      DateTime
+  createdAt  DateTime @default(now())
+  bookings   Booking[]
+
+  @@index([startAt])
+}
+
+// A partial unique index in the migration allows one ACTIVE booking per slot (BR-01).
+// Prisma cannot express it here, so migrations are applied with `prisma migrate deploy`.
+model Booking {
+  id         Int           @id @default(autoincrement())
+  slotId     Int
+  slot       Slot          @relation(fields: [slotId], references: [id], onDelete: Restrict)
+  customerId Int
+  customer   User          @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  topic      String
+  status     BookingStatus @default(ACTIVE)
+  createdAt  DateTime      @default(now())
+
+  @@index([customerId])
+  @@index([slotId])
+}
