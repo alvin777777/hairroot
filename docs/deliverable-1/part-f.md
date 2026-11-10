@@ -361,7 +361,7 @@ These commits were made with an AI agent, which explains the short intervals.
 
 | Student | Contribution |
 |---|---|
-| ไอโว ปีเตอร์ อัลวิน รันเน่ | Ran the release checks and tagged the release, and captured the demonstrations. Supervised and authored PRs for the baseline, contracts, F-01 to F-05, the context change C-01, the README, and the guided workflow C-02 (#22). Reviewed the teammate's PRs #19, #20, and #24. Owns this PDF. [PENDING: confirm final contributions] |
+| ไอโว ปีเตอร์ อัลวิน รันเน่ | Ran the release checks and tagged the release, and captured the demonstrations. Supervised and authored PRs for the baseline, contracts, F-01 to F-05, the context change C-01, the README, and the guided workflow C-02 (#22). Reviewed the teammate's PRs #19, #20, and #24. Owns this PDF. |
 | ทิฐินันท์ สอบกิ่ง | Reviewed and merged PRs #12 to #18 after running their tests, finding the missing test-database setup step (#18) and confirming the F-03 typecheck fix (#14). Wrote the E2E tests T-30 to T-32 (#19). After trying the app, requested the guided booking workflow (C-02). Proposed F-16 for Sprint 2 with its contract (#24, #20). Reviewed and merged #22 and release PR #25. Outside this release, opened Issue #23 and authored the F-16 Sprint 2 contract (#24) and draft implementation (#20). |
 
 ### AI-use declaration
