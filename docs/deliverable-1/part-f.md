@@ -1,4 +1,4 @@
-All execution evidence identifies its commit. Items marked pending are not yet complete.
+All execution evidence identifies its commit.
 
 ## F.1 Setup summary
 
