@@ -1,6 +1,6 @@
 # Contract: F-05 Booking Views
 
-Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour.
+Version 0.2, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour.
 
 **Linked requirements:** FR-07, FR-08, BR-05, BR-06, NFR-02, NFR-08.
 **Depends on:** F-04.

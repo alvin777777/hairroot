@@ -1,6 +1,6 @@
 # Sprint 1 — Software Test Specification
 
-Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour.
+Version 0.2, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour.
 
 API tests use Supertest against the real Express app and a real PostgreSQL test database. Mocks do not
 replace persistence in these tests.

@@ -1,6 +1,6 @@
 # Contract: F-04 Booking
 
-Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour. Version 0.3 revises the UI section and adds AC-27 (C-02).
+Version 0.2, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour. Version 0.3 revises the UI section and adds AC-27 (C-02).
 
 **Linked requirements:** FR-05, FR-06, BR-01, BR-02, BR-06, BR-07, BR-08, NFR-04, NFR-06.
 **Depends on:** F-01, F-02, F-03.

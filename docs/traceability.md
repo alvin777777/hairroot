@@ -1,6 +1,6 @@
 # HairRoot — Requirements Traceability
 
-Version 0.2 — draft, 2026-11-07, pending teammate review.
+Version 0.2, 2026-11-07. Reviewed by the teammate in PRs #12 and #17.
 
 Sprint 2 and 3 items have a feature and sprint allocation now. Their acceptance criteria and tests
 are written with their feature contracts before implementation.

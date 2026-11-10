@@ -22,7 +22,7 @@ const demote = (md, by = 1) =>
 
 const SPRINT = "docs/sprints/sprint-1";
 const PARTS = [
-  { id: "A", status: "Documented; pending teammate review", title: "Part A: SRS and product scope", points: 10, ids: "FR-01 to FR-18, BR-01 to BR-15, NFR-01 to NFR-12", files: ["docs/srs.md"] },
+  { id: "A", status: "Documented; reviewed in PRs #12 and #17", title: "Part A: SRS and product scope", points: 10, ids: "FR-01 to FR-18, BR-01 to BR-15, NFR-01 to NFR-12", files: ["docs/srs.md"] },
   { id: "B", status: "Documented; no uncovered requirements", title: "Part B: Feature inventory and traceability", points: 10, ids: "F-01 to F-15, R-01, R-02, C-01, C-02", files: ["docs/features.md", "docs/traceability.md"] },
   { id: "C", status: "Documented", title: "Part C: System-Level SDS", points: 15, ids: "Architecture, data model, role matrix", files: ["docs/system-sds.md"] },
   { id: "D", status: "Documented", title: "Part D: Three-sprint plan", points: 5, ids: "Sprints 1 to 3", files: ["docs/sprints/plan.md"] },

@@ -1,6 +1,6 @@
 # HairRoot — Feature Inventory
 
-Version 0.2 — draft, 2026-11-07, pending teammate review.
+Version 0.2, 2026-11-07. Reviewed by the teammate in PRs #12 and #17.
 
 | ID | Feature or responsibility | Description | Requirements | Depends on | Sprint |
 |---|---|---|---|---|---|
