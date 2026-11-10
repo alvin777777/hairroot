@@ -362,7 +362,7 @@ These commits were made with an AI agent, which explains the short intervals.
 | Student | Contribution |
 |---|---|
 | ไอโว ปีเตอร์ อัลวิน รันเน่ | Ran the release checks and tagged the release, and captured the demonstrations. Supervised and authored PRs for the baseline, contracts, F-01 to F-05, the context change C-01, the README, and the guided workflow C-02 (#22). Reviewed the teammate's PRs #19, #20, and #24. Owns this PDF. [PENDING: confirm final contributions] |
-| ทิฐินันท์ สอบกิ่ง | Reviewed and merged PRs #12 to #18 after running their tests, finding the missing test-database setup step (#18) and confirming the F-03 typecheck fix (#14). Wrote the E2E tests T-30 to T-32 (#19). After trying the app, requested the guided booking workflow (C-02). Proposed F-16 for Sprint 2 with its contract (#24, #20). Reviewed and merged #22 and release PR #25. [PENDING: any later work] |
+| ทิฐินันท์ สอบกิ่ง | Reviewed and merged PRs #12 to #18 after running their tests, finding the missing test-database setup step (#18) and confirming the F-03 typecheck fix (#14). Wrote the E2E tests T-30 to T-32 (#19). After trying the app, requested the guided booking workflow (C-02). Proposed F-16 for Sprint 2 with its contract (#24, #20). Reviewed and merged #22 and release PR #25. Outside this release, opened Issue #23 and authored the F-16 Sprint 2 contract (#24) and draft implementation (#20). |
 
 ### AI-use declaration
 
@@ -370,12 +370,15 @@ These commits were made with an AI agent, which explains the short intervals.
 |---|---|
 | Claude Code (Claude Opus 5.5), used by ไอโว | Drafted the SRS, SDS, plan, and contracts; wrote server and client code and tests; ran commands; created Issues and PRs; drafted reviews of #19, #20, and #24 after running their tests; captured the screenshots with a browser script; built this PDF. |
 
-[PENDING: add any AI tools used by the teammate]
+| Tool | Tasks assisted |
+|---|---|
+| OpenAI Codex (GPT-6), used by ทิฐินันท์ | Assisted with authoring T-30 to T-32 in PR #19 and reviewing PRs #12 to #18, #22, and #25, including code and document inspection and test-result assessment. |
 
 ### Known limitations and incomplete work
 
 - At the release, no required test failed or was skipped.
 - The teammate could not rerun the database-backed API and end-to-end tests while reviewing #22 and #25, because Docker was unavailable on that machine, and said so in those reviews. Those tests were run on a fresh clone of each commit by ไอโว.
+- GitHub reports no automated checks on these branches, because CI is established in Lab 5. Test results come from local runs tied to the commits shown.
 - The context changed from academic advising to a hair clinic after Sprint 1 was implemented (C-01). Contracts version 0.2 and the code were renamed, and behaviour did not change. Earlier commits and evidence keep the old names.
 - Instructor or TA confirmation of the context is open (SRS Q-01). [PENDING: outcome]
 - Commit `aadeff4` had a TypeScript typecheck error, corrected in `f445527`. Its tests passed.
