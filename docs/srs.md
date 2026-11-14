@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 — draft, 2026-11-07, pending teammate review |
+| **Version** | 0.3 — draft, 2026-11-08, pending teammate review |
 | **Course theme** | Theme 1: Appointment and Scheduling System |
 | **Chosen context** | Consultation appointments at a hair transplant clinic |
 
@@ -22,7 +22,7 @@ the system guaranteeing that a time is never given to two customers.
 |---|---|---|
 | Customer | `CUSTOMER` | Finds available times, books them, and tracks their own appointments. |
 | Specialist | `STAFF` | Publishes available times on schedules assigned to them and inspects those bookings. |
-| Anonymous visitor | none | Can only reach the login page. |
+| Anonymous visitor | none | Can view the public Home page with anonymous booking totals and reach the login page. Cannot book or view appointment details. |
 | Seed operator (developer) | none | Creates demo accounts and schedule assignments through the seed script. |
 
 The course brief names the roles Customer and Staff. The code uses those names, and the UI shows
@@ -36,6 +36,7 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 - Specialist schedules and appointment slots, including recurring creation and slot maintenance.
 - Booking, cancellation, and rescheduling with conflict prevention.
 - Filtering, appointment outcomes, and an appointment summary for specialists.
+- A public, anonymous seven-day view of upcoming booking activity.
 
 ### Explicit exclusions
 
@@ -70,6 +71,7 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 | FR-16 | A specialist can record an appointment outcome of Completed or No-show. | 3 |
 | FR-17 | A specialist can view a summary of appointments per schedule: booked, cancelled, completed, no-show, and utilisation. | 3 |
 | FR-18 | A customer and specialist can read the status history of a booking. | 3 |
+| FR-19 | A visitor can view anonymous counts of upcoming bookings by day for the current and next six dates in Asia/Bangkok. | 2 |
 
 ## 5. Business rules
 
@@ -90,6 +92,7 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 | BR-13 | A specialist cancellation requires a reason of 3 to 200 characters. | 2 |
 | BR-14 | An outcome can be recorded only on an active booking whose slot has started. | 3 |
 | BR-15 | Summary figures include only schedules assigned to the requesting specialist. | 3 |
+| BR-16 | Public booking activity includes only active bookings with future slot start times in the seven-day window, and exposes aggregate counts only. | 2 |
 
 ## 6. Non-functional requirements
 
@@ -107,6 +110,7 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 | NFR-10 | With 1,000 slots seeded, the available-slot API responds within 500 ms at the 95th percentile, measured locally. | Scripted measurement | 3 |
 | NFR-11 | The application runs in a Docker container on GCP with durable PostgreSQL storage, deployed from `main`. | Lab 5 pipeline and smoke test | 2 |
 | NFR-12 | A release to `main` requires all required automated tests to pass. | Local evidence in Sprint 1; CI from Lab 5 | 1 to 3 |
+| NFR-13 | The public Home page works at 375 px without horizontal page scrolling. | Playwright browser check | 2 |
 
 ## 7. Assumptions
 
@@ -127,6 +131,7 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 | D-04 | What is the cancellation limit? | 24 hours before the start | Gives another customer time to take the slot. |
 | D-05 | How is double booking prevented? | A partial unique index on active bookings per slot | Holds under concurrency, unlike a check made only in application code. |
 | D-06 | Which stack? | The stack from Labs 1 to 4 | The course encourages it and both students know it. |
+| D-07 | What booking activity is public? | Aggregate active future-booking counts by day only; never return appointment or customer details. | Visitors can see busy days without exposing private booking data. |
 
 ## 9. Open questions
 
