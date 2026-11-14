@@ -103,6 +103,7 @@ development database.
 | System design | [docs/system-sds.md](docs/system-sds.md) |
 | Sprint plan | [docs/sprints/plan.md](docs/sprints/plan.md) |
 | Sprint 1 contracts and tests | [docs/sprints/sprint-1/](docs/sprints/sprint-1/) |
+| Sprint 2 contracts | [docs/sprints/sprint-2/](docs/sprints/sprint-2/) |
 
 ## Workflow
 

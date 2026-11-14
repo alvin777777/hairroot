@@ -1,6 +1,6 @@
 # HairRoot — Requirements Traceability
 
-Version 0.2 — draft, 2026-11-07, pending teammate review.
+Version 0.3 — draft, 2026-11-08, pending teammate review.
 
 Sprint 2 and 3 items have a feature and sprint allocation now. Their acceptance criteria and tests
 are written with their feature contracts before implementation.
@@ -25,6 +25,7 @@ are written with their feature contracts before implementation.
 | FR-16 | F-13 | 3 | Sprint 3 contract | Sprint 3 contract |
 | FR-17 | F-15 | 3 | Sprint 3 contract | Sprint 3 contract |
 | FR-18 | F-14 | 3 | Sprint 3 contract | Sprint 3 contract |
+| FR-19 | F-16 | 2 | AC-28, AC-29, AC-31, AC-32 | T-33, T-35, T-37 |
 | BR-01 | F-04 | 1 | AC-16, AC-17 | T-16, T-17, T-32 |
 | BR-02 | F-04 | 1 | AC-18 | T-18 |
 | BR-03 | F-03 | 1 | AC-11 | T-11a, T-11b |
@@ -40,6 +41,7 @@ are written with their feature contracts before implementation.
 | BR-13 | F-11 | 2 | Sprint 2 contract | Sprint 2 contract |
 | BR-14 | F-13 | 3 | Sprint 3 contract | Sprint 3 contract |
 | BR-15 | F-15 | 3 | Sprint 3 contract | Sprint 3 contract |
+| BR-16 | F-16 | 2 | AC-29, AC-30 | T-33, T-34 |
 | NFR-01 | F-01, F-02 | 1 | AC-05 | T-05 |
 | NFR-02 | F-02 | 1 | AC-06, AC-13, AC-21, AC-23 | T-06, T-13, T-21, T-23 |
 | NFR-03 | F-01 | 1 | AC-07 | T-07a, T-07b |
@@ -47,11 +49,12 @@ are written with their feature contracts before implementation.
 | NFR-05 | F-01 | 1 | AC-03, AC-08 | T-03, T-08 |
 | NFR-06 | F-04 | 1 | AC-24 | M-01 (manual) |
 | NFR-07 | R-02 | 1 | AC-25 | M-02 (manual) |
-| NFR-08 | R-01 | 1 to 3 | AC-26 for Sprint 1 screens | T-26 |
+| NFR-08 | R-01, F-16 | 1 to 3 | AC-26 for Sprint 1 screens; AC-33 for F-16 | T-26, T-36 |
 | NFR-09 | R-01 | 3 | Sprint 3 contract | Sprint 3 contract |
 | NFR-10 | F-12 | 3 | Sprint 3 contract | Sprint 3 contract |
 | NFR-11 | R-02 | 2 and Lab 5 | Lab 5 | Lab 5 pipeline |
 | NFR-12 | R-02 | 1 to 3 | Definition of Done | Local run in Sprint 1; CI from Lab 5 |
+| NFR-13 | F-16 | 2 | AC-34 | T-37, T-38 |
 
 ## Coverage status
 
@@ -60,3 +63,4 @@ are written with their feature contracts before implementation.
 | Baseline requirements without a feature or responsibility | None |
 | Requirements without a sprint | None |
 | Approved changes since the baseline | C-01: the team changed the context from academic advising to a hair transplant clinic, and the product name from AdvisorBook to HairRoot. All FR, BR, NFR, AC, and test IDs and all behaviour are unchanged. Instructor or TA confirmation of the context is open (SRS Q-01). |
+| Proposed changes pending review | C-03: add the public booking pulse as F-16 in Sprint 2. This change adds FR-19, BR-16, NFR-13, and the F-16 contract; it is not approved until teammate review. |
