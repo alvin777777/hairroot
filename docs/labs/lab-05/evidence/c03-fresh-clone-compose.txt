@@ -1,0 +1,39 @@
+C-03 at commit 4a434e8, docker compose, fresh clone
+$ docker compose ps
+app: running Up 16 seconds
+db: running Up 22 seconds (healthy)
+
+$ curl http://localhost:3000/api/health
+{"status":"ok"}
+$ curl http://localhost:3000/api/ready
+{"status":"ready"}
+$ curl -I http://localhost:3000/  (UI served by the same container)
+HTTP 200, text/html; charset=UTF-8
+<title>HairRoot</title>
+$ curl http://localhost:3000/bookings  (SPA route falls back to index.html)
+HTTP 200
+$ POST /api/auth/login as customer.anan (password from .env, not shown)
+{"user":{"id":3,"name":"Anan Suksan","email":"customer.anan@hairroot.test","role":"CUSTOMER"}} -> HTTP 200
+$ POST /api/bookings
+{"booking":{"id":1,"status":"ACTIVE","topic":"Docker check","createdAt":"2026-11-14T17:37:05.323Z","slot":{"id
+$ docker compose restart app
+$ GET /api/bookings/1 after restart
+{"booking":{"id":1,"status":"ACTIVE","topic":"Docker check","createdAt":"2026-11-14T17:37:05.323Z","slot":{"id":1,"startAt":"2026-11-15T02:0
+$ docker compose run --rm migrate  (rerun migrations and seed)
+No pending migrations to apply.
+Seeded demo data. Demo password not shown.
+$ GET /api/bookings/1 after rerunning the seed
+{"booking":{"id":1,"status":"ACTIVE","topic":"Docker check","createdAt":"2026-11-14T17:37:05.323Z","slot":{"id":1,"startAt":"2026-11-15T02:0
+$ docker compose exec app whoami
+node
+$ image size
+c03-app 451MB
+$ docker image inspect c03-app:latest (environment baked into the image)
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+NODE_VERSION=24.22.3
+YARN_VERSION=1.22.22
+NODE_ENV=production
+TZ=Asia/Bangkok
+PORT=3000
+
+No password or DATABASE_URL in the image environment
