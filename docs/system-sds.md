@@ -51,7 +51,7 @@ can return a clear message, and maps a constraint violation to the same error.
 All timestamps are stored in UTC and displayed in Asia/Bangkok.
 
 **Setup.** Prisma migrations create the schema. Partial indexes and exclusion constraints are added
-in reviewed raw SQL within those migrations. `npm run prisma:seed` resets the demo data to a known
+in reviewed raw SQL within those migrations. `npm run db:seed` resets the demo data to a known
 state with synthetic accounts, schedules, and slots.
 
 ## 3. User interface

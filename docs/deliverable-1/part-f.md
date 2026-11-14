@@ -346,9 +346,9 @@ Tag: v0.1.0-sprint1 d1e8d81 2026-11-10 21:36:49 +0700
 | 2026-11-07 23:13 | `47664bf` | F-05 implementation |
 | 2026-11-07 23:20 | `1f408ee` | Context change C-01 |
 | 2026-11-07 23:45 to 23:56 | `899dbb0` to `d9139cf` | Teammate reviews and merges PRs #12 to #18 into `sprint-1-staging` |
+| 2026-11-08 00:14 | `f5931b3` | Teammate's E2E tests T-30 to T-32 (#19) |
 | 2026-11-08 00:44 | `241f76e` | C-02 contract revision and failing T-27, after the teammate asked for a real booking-app workflow |
 | 2026-11-08 00:46 | `7eb4001` | C-02 implementation |
-| 2026-11-08 00:14 | `f5931b3` | Teammate's E2E tests T-30 to T-32 (#19) |
 | 2026-11-09 17:53 | `736584c` | Teammate's E2E tests (#19) adapted to C-02 |
 | 2026-11-09 19:00 to 19:06 | `90a73db`, `2ac6bf6` | Teammate merges #19 and, after review, #22 into `sprint-1-staging` |
 | 2026-11-10 21:08 | `d1e8d81` | Teammate reviews and merges release PR #25 into `main`; tagged `v0.1.0-sprint1` |
@@ -383,6 +383,7 @@ These commits were made with an AI agent, which explains the short intervals.
 - The context was not confirmed with the instructor or TA (SRS Q-01). The team proceeded because the brief gives consultation as an example.
 - Commit `aadeff4` had a TypeScript typecheck error, corrected in `f445527`. Its tests passed.
 - T-12c was added to the STS during F-03 to cover competing overlap requests.
+- At the release tag, `docs/system-sds.md` §2 names the seed command as `npm run prisma:seed`. The actual command is `npm run db:seed`, which this PDF and the README use. The teammate found this during PDF review.
 - Docker, CI/CD, and GCP deployment are not included, and are due in Lab 5.
 - C-02 changed the customer and specialist screens after the first Sprint 1 implementation, at the teammate's request. The contract revision and failing test came before the change.
 - PRs #20 and #24 (F-16, public booking pulse) are a Sprint 2 proposal and are not part of this release.
