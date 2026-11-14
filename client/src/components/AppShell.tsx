@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ROLE_LABEL, useAuth } from "../context/AuthContext.js";
 
 export default function AppShell({ children }: { children: ReactNode }) {
@@ -17,11 +17,11 @@ export default function AppShell({ children }: { children: ReactNode }) {
     <>
       <nav className="navbar bg-body-tertiary border-bottom">
         <div className="container d-flex flex-wrap gap-2">
-          <span className="navbar-brand mb-0">HairRoot</span>
+          <Link to="/" className="navbar-brand mb-0 text-decoration-none">HairRoot</Link>
           <div className="nav me-auto">
             {user?.role === "CUSTOMER" && (
               <>
-                <NavLink to="/slots" className={link}>Available times</NavLink>
+                <NavLink to="/slots" className={link}>Book</NavLink>
                 <NavLink to="/bookings" className={link}>My bookings</NavLink>
               </>
             )}

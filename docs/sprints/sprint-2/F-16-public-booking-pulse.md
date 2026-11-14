@@ -1,6 +1,6 @@
 # Contract: F-16 Public Booking Pulse
 
-Version 0.1 — draft, 2026-11-08. Proposed change C-03; pending teammate review before implementation is integrated.
+Version 0.2 — contract reviewed and approved in PR #24 on 2026-11-14. Implementation is tracked in PR #20.
 
 **Linked requirements:** FR-19, BR-16, NFR-08, NFR-13.
 **Depends on:** F-04. Uses booking records and slot start times; no schema change.
@@ -71,5 +71,4 @@ No schema change. Counts are computed from active bookings joined to their slot 
 
 ## Open questions
 
-- Teammate review of proposed SRS change C-03 and this contract.
 - Confirm whether a later release should add live updates; this contract uses a fresh snapshot on page load.

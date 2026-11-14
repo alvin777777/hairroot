@@ -6,6 +6,10 @@ and customers book them. A time can never be given to two customers. It is a CPE
 
 Sprint 1 covers login with two roles, slot creation, booking, and booking views. All data is synthetic.
 
+The public home page shows anonymous booking totals for the next seven days. Each upcoming booking
+adds a strand to the illustration, so visitors can see how busy the clinic is before choosing a time.
+It does not show customer names or appointment topics.
+
 ## Stack
 
 | Layer | Technology |
@@ -32,6 +36,9 @@ docker run -d --name hairroot-db \
   -e POSTGRES_USER=hairroot -e POSTGRES_PASSWORD=hairroot -e POSTGRES_DB=hairroot \
   -p 5435:5432 -v hairroot-db:/var/lib/postgresql/data postgres:16
 
+# Create the separate database used by API tests
+docker exec hairroot-db createdb -U hairroot -O hairroot hairroot_test
+
 # 2. Set up the API and demo data
 cd server
 cp .env.example .env
@@ -40,7 +47,12 @@ npx prisma generate
 npm run db:migrate
 npm run db:seed
 
-# 3. Set up the UI
+# 3. Install the end-to-end test browser
+cd ../e2e
+npm install
+npx playwright install chromium
+
+# 4. Set up the UI
 cd ../client
 cp .env.example .env
 npm install
@@ -70,13 +82,13 @@ These synthetic accounts come from the seed script. The password for all of them
 | Customer | `customer.mali@hairroot.test` |
 | Customer | `customer.krit@hairroot.test` |
 
-`npm run db:seed` resets the database to this known state, including five days of future slots.
+`npm run db:seed` resets the database to this known state, including seven days of future times.
 
 ## Demo sequence
 
 1. Log in as `specialist.somchai@hairroot.test` and add a time on **My schedule**.
 2. Log out, then log in as `customer.anan@hairroot.test`.
-3. On **Available times**, choose **Book**, enter a topic, and confirm.
+3. On **Book**, choose a service, a day, and a time, then enter a topic and confirm.
 4. Open **My bookings** to retrieve the saved booking.
 5. Log in as the specialist again. The booking shows on the schedule with the customer's name and topic.
 
@@ -89,6 +101,7 @@ These synthetic accounts come from the seed script. The password for all of them
 | API build | `cd server && npm run build` | |
 | UI tests | `cd client && npm test` | |
 | UI build | `cd client && npm run build` | |
+| End-to-end tests | `cd e2e && npm test` | Resets and uses `hairroot_test`, then starts the local API and UI; requires Docker and Playwright Chromium. |
 
 API tests use a real PostgreSQL database and clear the test database as they run. They never touch the
 development database.

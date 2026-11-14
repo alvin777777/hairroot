@@ -1,6 +1,6 @@
 # HairRoot — Three-Sprint Plan
 
-Version 0.3 — draft, 2026-11-08, pending teammate review.
+Version 0.3 — reviewed and approved in PR #24, 2026-11-14.
 
 | Sprint | Goal | Features | Depends on | Completion outcome | Checkpoint |
 |---|---|---|---|---|---|

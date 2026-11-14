@@ -5,10 +5,15 @@ import { csrfOriginCheck, allowedOrigin } from "./middleware/csrf.js";
 import { authRouter } from "./routes/auth.js";
 import { schedulesRouter } from "./routes/schedules.js";
 import { bookingsRouter, slotsRouter } from "./routes/bookings.js";
+import { popularityRouter } from "./routes/popularity.js";
 import { HttpError } from "./services/httpError.js";
 
 // Exported separately from listen() so Supertest can use the app without opening a port.
 export const app = express();
+
+app.get("/healthz", (_req, res) => {
+  res.status(200).json({ status: "ok" });
+});
 
 app.use(cors({ origin: allowedOrigin(), credentials: true }));
 app.use(csrfOriginCheck);
@@ -19,6 +24,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/schedules", schedulesRouter);
 app.use("/api/slots", slotsRouter);
 app.use("/api/bookings", bookingsRouter);
+app.use("/api/public", popularityRouter);
 
 app.use("/api", (_req, res) => {
   res.status(404).json({ error: "Not found.", code: "NOT_FOUND" });

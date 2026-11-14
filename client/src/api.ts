@@ -70,6 +70,12 @@ export interface Booking {
 }
 
 export const getAvailableSlots = () => apiFetch<{ slots: SlotView[] }>("/api/slots/available");
+export interface PopularityDay {
+  date: string;
+  bookings: number;
+}
+export const getBookingPopularity = () =>
+  apiFetch<{ days: PopularityDay[]; totalBookings: number }>("/api/public/popularity");
 export const createBooking = (slotId: number, topic: string) =>
   apiFetch<{ booking: Booking }>("/api/bookings", { method: "POST", body: JSON.stringify({ slotId, topic }) });
 
@@ -86,20 +92,32 @@ export interface ScheduleSlot {
 export const getScheduleSlots = (scheduleId: number) =>
   apiFetch<{ slots: ScheduleSlot[] }>(`/api/schedules/${scheduleId}/slots`);
 
-// A datetime-local value has no zone. All times in the product are Asia/Bangkok (SRS A-01).
-export const bangkokToIso = (value: string) => (value ? new Date(`${value}:00+07:00`).toISOString() : "");
+// A date and time from form inputs have no zone. All times in the product are Asia/Bangkok (SRS A-01).
+export function bangkokToIso(date: string, time: string): string {
+  return date && time ? new Date(`${date}T${time}:00+07:00`).toISOString() : "";
+}
 
-const FORMAT = new Intl.DateTimeFormat("en-GB", {
-  timeZone: "Asia/Bangkok",
-  weekday: "short",
-  day: "numeric",
-  month: "short",
-  year: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-});
-const TIME = new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Bangkok", hour: "2-digit", minute: "2-digit" });
+export function addMinutes(iso: string, minutes: number): string {
+  return iso ? new Date(new Date(iso).getTime() + minutes * 60_000).toISOString() : "";
+}
 
-export function formatRange(startAt: string, endAt: string): string {
-  return `${FORMAT.format(new Date(startAt))} to ${TIME.format(new Date(endAt))}`;
+const ZONE = { timeZone: "Asia/Bangkok" } as const;
+const DAY_KEY = new Intl.DateTimeFormat("en-CA", { ...ZONE, year: "numeric", month: "2-digit", day: "2-digit" });
+const DAY = new Intl.DateTimeFormat("en-GB", { ...ZONE, weekday: "short", day: "numeric", month: "short" });
+const TIME = new Intl.DateTimeFormat("en-GB", { ...ZONE, hour: "2-digit", minute: "2-digit" });
+
+export const dayKey = (iso: string) => DAY_KEY.format(new Date(iso));
+export const formatDay = (iso: string) => DAY.format(new Date(iso));
+export const formatTime = (iso: string) => TIME.format(new Date(iso));
+export const formatRange = (startAt: string, endAt: string) =>
+  `${formatDay(startAt)}, ${formatTime(startAt)} to ${formatTime(endAt)}`;
+
+export function groupByDay<T extends { startAt: string }>(items: T[]): { key: string; label: string; items: T[] }[] {
+  const days = new Map<string, { key: string; label: string; items: T[] }>();
+  for (const item of items) {
+    const key = dayKey(item.startAt);
+    if (!days.has(key)) days.set(key, { key, label: formatDay(item.startAt), items: [] });
+    days.get(key)!.items.push(item);
+  }
+  return [...days.values()];
 }

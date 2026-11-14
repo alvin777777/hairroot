@@ -1,0 +1,31 @@
+F-16 contract tests after implementation
+
+API
+- `cd server && npm test`: 7 files passed, 35 tests passed.
+- T-33 / AC-29 passed: only ACTIVE bookings with slot starts strictly after the
+  current instant and before the end of the seven-day Bangkok window are counted.
+- T-34 / AC-30 passed: the public response contains only dates and aggregate
+  booking counts.
+- `cd server && npm run build`: passed.
+
+UI
+- `cd client && npm test`: 3 files passed, 9 tests passed, including T-35 and
+  T-36 / AC-31 through AC-33.
+- `cd client && npm run build`: passed.
+- T-35 / AC-31 passed for zero bookings, five bookings, and 35 bookings capped
+  at 28 visible strands while retaining the exact total.
+- T-36 passed for earliest busiest-day tie breaking, the empty state, the API
+  error state, and the sign-in and booking links.
+
+Browser flows
+- `cd e2e && npm test`: 5 tests passed: T-30 through T-32, T-37, and T-38.
+- T-37 / AC-28 and AC-34 passed in the desktop browser: anonymous Home, sign-in,
+  customer and specialist dashboards, and returning Home through the brand link.
+- T-38 / AC-34 passed at a 375 px phone viewport with no horizontal overflow.
+- The README's T-30 through T-32 demo sequence also passed at a 375 px phone
+  viewport using a temporary Playwright viewport override: sign-in, create a
+  slot, book and reopen it, verify the specialist schedule, and handle a booking
+  conflict. The same sequence passed at the default desktop viewport above.
+
+All browser and API checks used the local seeded demo data and isolated
+`hairroot_test` database; no production service or customer data was used.

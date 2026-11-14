@@ -3,6 +3,7 @@ import RequireAuth from "./components/RequireAuth.js";
 import { AuthProvider, roleHome, useAuth } from "./context/AuthContext.js";
 import BookingDetail from "./pages/BookingDetail.js";
 import Login from "./pages/Login.js";
+import HomePage from "./pages/HomePage.js";
 import MyBookings from "./pages/MyBookings.js";
 import SchedulePage from "./pages/SchedulePage.js";
 import SlotsPage from "./pages/SlotsPage.js";
@@ -18,6 +19,7 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/slots" element={<RequireAuth role="CUSTOMER"><SlotsPage /></RequireAuth>} />
           <Route path="/bookings" element={<RequireAuth role="CUSTOMER"><MyBookings /></RequireAuth>} />
