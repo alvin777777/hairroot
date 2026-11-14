@@ -1,0 +1,19 @@
+F-16 contract tests before the implementation fix
+
+API — T-33 / AC-29
+- Failed on the release implementation.
+- Expected the 14 Nov bucket to contain 1 future booking; received 3 because the
+  endpoint also counted the 09:00 booking and the booking starting exactly at 10:00.
+- T-34 / AC-30 passed: the response contained only dates and aggregate counts.
+
+Component — T-35 / AC-31
+- The 0-, 5-, and 35-booking cases failed because the portrait strands were not
+  individually addressable for count assertions.
+
+Component — T-36 / AC-32, AC-33
+- Passed after correcting the assertions to match the displayed date and action
+  labels: earliest tied day, zero state, unavailable state, and working links.
+
+End-to-end — T-37, T-38 / AC-28, AC-34
+- Passed on the Sprint 1 release baseline: public Home, role dashboard links,
+  return-to-Home brand link, and 375 px overflow check.
