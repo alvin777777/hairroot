@@ -1,0 +1,485 @@
+
+> hairroot-client@0.1.0 test
+> vitest run
+
+
+ RUN  v2.1.9 /Users/alvin/Desktop/งาน/sof en/hairroot/client
+
+stderr | tests/booking-flow.test.tsx > T-27 guided booking flow (AC-27) > offers only matching days and times, then books the chosen slot
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | tests/screen-states.test.tsx > T-26 data screen states (AC-26) > slot list shows loading, empty, and error states
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ tests/screen-states.test.tsx (3 tests) 66ms
+ ❯ tests/booking-flow.test.tsx (1 test | 1 failed) 1022ms
+   × T-27 guided booking flow (AC-27) > offers only matching days and times, then books the chosen slot 1021ms
+     → Unable to find role="button" and name `/Consultation.*Dr\. One/`
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <h1
+      class="h4 mb-3"
+    >
+      Available times
+    </h1>
+    <div
+      class="list-group mb-4"
+    >
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 09:00 to 09:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 10:00 to 10:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Mon 2 Dec, 09:00 to 09:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 14:00 to 14:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. Two
+             · 
+            Follow-up
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <h1
+      class="h4 mb-3"
+    >
+      Available times
+    </h1>
+    <div
+      class="list-group mb-4"
+    >
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 09:00 to 09:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 10:00 to 10:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Mon 2 Dec, 09:00 to 09:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 14:00 to 14:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. Two
+             · 
+            Follow-up
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/booking-flow.test.tsx > T-27 guided booking flow (AC-27) > offers only matching days and times, then books the chosen slot
+TestingLibraryElementError: Unable to find role="button" and name `/Consultation.*Dr\. One/`
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <h1
+      class="h4 mb-3"
+    >
+      Available times
+    </h1>
+    <div
+      class="list-group mb-4"
+    >
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 09:00 to 09:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 10:00 to 10:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Mon 2 Dec, 09:00 to 09:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 14:00 to 14:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. Two
+             · 
+            Follow-up
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <h1
+      class="h4 mb-3"
+    >
+      Available times
+    </h1>
+    <div
+      class="list-group mb-4"
+    >
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 09:00 to 09:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 10:00 to 10:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Mon 2 Dec, 09:00 to 09:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. One
+             · 
+            Consultation
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+      <div
+        class="list-group-item d-flex flex-wrap justify-content-between align-items-center gap-2"
+        data-testid="slot"
+      >
+        <div>
+          <div
+            class="fw-semibold"
+          >
+            Sun 1 Dec, 14:00 to 14:30
+          </div>
+          <div
+            class="small text-body-secondary"
+          >
+            Dr. Two
+             · 
+            Follow-up
+          </div>
+        </div>
+        <button
+          class="btn btn-outline-primary btn-sm"
+        >
+          Book
+        </button>
+      </div>
+    </div>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/booking-flow.test.tsx:35:35
+     33|     render(<MemoryRouter><SlotsPage /></MemoryRouter>);
+     34| 
+     35|     await user.click(await screen.findByRole("button", { name: /Consul…
+       |                                   ^
+     36| 
+     37|     const days = screen.getByRole("group", { name: "Choose a day" });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 3 passed (4)
+   Start at  00:44:05
+   Duration  1.81s (transform 62ms, setup 109ms, collect 271ms, tests 1.09s, environment 683ms, prepare 117ms)
+
