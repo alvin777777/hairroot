@@ -20,12 +20,13 @@ function startOfBangkokDay(date: Date) {
 
 popularityRouter.get("/popularity", async (_req, res, next) => {
   try {
-    const startAt = startOfBangkokDay(new Date());
+    const now = new Date();
+    const startAt = startOfBangkokDay(now);
     const endAt = new Date(startAt.getTime() + 7 * 24 * 60 * 60 * 1000);
     const bookings = await getPrisma().booking.findMany({
       where: {
         status: "ACTIVE",
-        slot: { startAt: { gte: startAt, lt: endAt } },
+        slot: { startAt: { gt: now, lt: endAt } },
       },
       select: { slot: { select: { startAt: true } } },
     });

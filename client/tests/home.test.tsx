@@ -37,7 +37,7 @@ describe("F-16 public Home", () => {
     renderHome();
 
     await screen.findByRole("heading", { name: `${total} upcoming ${total === 1 ? "booking" : "bookings"}` });
-    expect(screen.getAllByTestId("hair-strand")).toHaveLength(visible);
+    expect(screen.queryAllByTestId("hair-strand")).toHaveLength(visible);
   });
 
   it("T-36 shows the earliest busiest date and the empty-state message for zero counts (AC-32)", async () => {

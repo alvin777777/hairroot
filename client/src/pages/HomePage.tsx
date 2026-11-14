@@ -19,7 +19,7 @@ function HairPortrait({ strands }: { strands: number }) {
       <path d="M38 89c-11-2-13 16-5 24l8 4M122 89c11-2 13 16 5 24l-8 4" fill="#f4c9a8" stroke="#d79d7e" strokeWidth="2" />
       <path d="M58 103h8M94 103h8M72 127q8 6 16 0" fill="none" stroke="#594a45" strokeLinecap="round" strokeWidth="3" />
       <path d="M46 76c3-27 15-39 34-39s31 12 34 39" fill="none" stroke="#6b4a37" strokeLinecap="round" strokeWidth="3" />
-      {paths.map((path, index) => <path key={index} d={path} fill="none" stroke="#4b3428" strokeLinecap="round" strokeWidth="2.7" />)}
+      {paths.map((path, index) => <path key={index} data-testid="hair-strand" d={path} fill="none" stroke="#4b3428" strokeLinecap="round" strokeWidth="2.7" />)}
       <path d="M55 167q25 14 50 0l16 18H39l16-18Z" fill="#397b72" />
     </svg>
   );

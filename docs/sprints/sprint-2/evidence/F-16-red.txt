@@ -7,8 +7,9 @@ API — T-33 / AC-29
 - T-34 / AC-30 passed: the response contained only dates and aggregate counts.
 
 Component — T-35 / AC-31
-- The 0-, 5-, and 35-booking cases failed because the portrait strands were not
-  individually addressable for count assertions.
+- Before the implementation added a test identifier to each strand, the 5- and
+  35-booking cases could not count the rendered strands. The 0-booking case also
+  exposed that the test must use a zero-safe query when asserting no strands.
 
 Component — T-36 / AC-32, AC-33
 - Passed after correcting the assertions to match the displayed date and action
