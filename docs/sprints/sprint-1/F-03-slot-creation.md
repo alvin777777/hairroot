@@ -1,6 +1,6 @@
 # Contract: F-03 Slot Creation
 
-Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour.
+Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour. Version 0.3 revises the UI section only (C-02).
 
 **Linked requirements:** FR-04, BR-03, BR-04, BR-05, NFR-02.
 **Depends on:** F-01, F-02. The seed provides schedules and their assigned specialists.
@@ -31,7 +31,7 @@ Invalid durations and an end before the start return 400 with `fields.endAt`.
 
 ## UI
 
-`/schedule` shows a schedule picker and a create form with two date-time inputs in Asia/Bangkok.
+`/schedule` shows a schedule picker and a create form with a date, a start time, and a duration from 15 to 120 minutes, in Asia/Bangkok. The client computes the end time, and the API contract does not change. Slots are listed grouped by day.
 Errors appear beside the field or in a form message. On success the slot list updates and the form
 clears.
 

@@ -23,18 +23,23 @@ async function main() {
 
   const somchai = await prisma.user.findUniqueOrThrow({ where: { email: "specialist.somchai@hairroot.test" } });
   const nida = await prisma.user.findUniqueOrThrow({ where: { email: "specialist.nida@hairroot.test" } });
-  const office = await prisma.schedule.create({ data: { name: "Dr. Somchai: Consultation", specialistId: somchai.id } });
-  await prisma.schedule.create({ data: { name: "Dr. Somchai: Post-procedure follow-up", specialistId: somchai.id } });
-  const nidaOffice = await prisma.schedule.create({ data: { name: "Dr. Nida: Consultation", specialistId: nida.id } });
+  const consult = await prisma.schedule.create({ data: { name: "Hair transplant consultation", specialistId: somchai.id } });
+  const followUp = await prisma.schedule.create({ data: { name: "Post-procedure follow-up", specialistId: somchai.id } });
+  const nidaConsult = await prisma.schedule.create({ data: { name: "Hair transplant consultation", specialistId: nida.id } });
 
-  // Future weekday mornings, computed on each seed so the demo never goes stale.
+  // Seven days of future times, computed on each seed so the demo never goes stale.
   const day = new Date();
   day.setUTCHours(2, 0, 0, 0); // 09:00 in Asia/Bangkok
   const hour = 60 * 60 * 1000;
-  for (let i = 1; i <= 5; i++) {
-    const start = day.getTime() + i * 24 * hour;
-    await prisma.slot.create({ data: { scheduleId: office.id, startAt: new Date(start), endAt: new Date(start + hour / 2) } });
-    await prisma.slot.create({ data: { scheduleId: nidaOffice.id, startAt: new Date(start + hour), endAt: new Date(start + 1.5 * hour) } });
+  const addSlot = (scheduleId: number, start: number) =>
+    prisma.slot.create({ data: { scheduleId, startAt: new Date(start), endAt: new Date(start + hour / 2) } });
+  for (let i = 1; i <= 7; i++) {
+    const morning = day.getTime() + i * 24 * hour;
+    for (const offset of [0, 1, 2]) {
+      await addSlot(consult.id, morning + offset * hour);
+      await addSlot(nidaConsult.id, morning + (offset + 4) * hour);
+    }
+    await addSlot(followUp.id, morning + 5 * hour);
   }
   console.log(`Seeded ${USERS.length} users. Demo password: ${DEMO_PASSWORD}`);
 }
