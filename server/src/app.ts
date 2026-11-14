@@ -11,6 +11,10 @@ import { HttpError } from "./services/httpError.js";
 // Exported separately from listen() so Supertest can use the app without opening a port.
 export const app = express();
 
+app.get("/healthz", (_req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 app.use(cors({ origin: allowedOrigin(), credentials: true }));
 app.use(csrfOriginCheck);
 app.use(cookieParser());

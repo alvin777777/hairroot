@@ -1,6 +1,6 @@
 # HairRoot — System-Level Software Design
 
-Version 0.3 — draft, 2026-11-09, pending teammate review.
+Version 0.3 — reviewed and approved in PR #24, 2026-11-14.
 
 ## 1. Architecture and stack
 
@@ -60,10 +60,10 @@ state with synthetic accounts, schedules, and slots.
 |---|---|---|
 | `/` | Anonymous, Customer, Staff | Public Home and aggregate booking activity; actions lead to sign-in or the role's dashboard. |
 | `/login` | Anonymous | Sign in. |
-| `/slots` | Customer | Browse available slots and book one. |
+| `/slots` | Customer | Book in steps: service, day, time, and confirmation. |
 | `/bookings` | Customer | List own bookings. |
 | `/bookings/:id` | Customer | Read one booking. |
-| `/schedule` | Staff | Pick an assigned schedule, create slots, and see its slots and bookings. |
+| `/schedule` | Staff | Pick an assigned schedule, add times, and see slots and bookings grouped by day. |
 
 A navigation bar shows the user's name, their role's links, and Log out. After login each role goes
 to its home page, and opening a route for another role redirects there.

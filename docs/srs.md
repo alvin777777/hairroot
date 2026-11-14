@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 — draft, 2026-11-08, pending teammate review |
+| **Version** | 0.3 — reviewed and approved in PR #24, 2026-11-14 |
 | **Course theme** | Theme 1: Appointment and Scheduling System |
 | **Chosen context** | Consultation appointments at a hair transplant clinic |
 
