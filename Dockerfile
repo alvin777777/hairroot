@@ -33,7 +33,8 @@ COPY --from=server-builder /app/server/prisma ./prisma
 COPY --from=server-builder /app/server/tsconfig.json ./tsconfig.json
 COPY --from=server-builder /app/server/docker-entrypoint.sh ./docker-entrypoint.sh
 COPY --from=client-builder /app/client/dist /app/client/dist
-RUN chmod +x ./docker-entrypoint.sh
+# Strip CR in case the script was checked out with CRLF on Windows; a CR breaks the shebang.
+RUN sed -i 's/\r$//' ./docker-entrypoint.sh && chmod +x ./docker-entrypoint.sh
 
 ENV NODE_ENV=production
 ENV TZ=Asia/Bangkok
