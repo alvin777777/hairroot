@@ -63,5 +63,18 @@ jobs:
           npm test
           npm run build
 
+      - name: Install E2E dependencies and Chromium
+        working-directory: ./e2e
+        run: |
+          npm ci
+          npx playwright install --with-deps chromium
+
+      - name: Run E2E tests
+        working-directory: ./e2e
+        env:
+          E2E_DATABASE_URL: postgresql://hairroot:hairroot@localhost:5432/hairroot?schema=public
+          E2E_DEMO_PASSWORD: CI-only-demo-password
+        run: npm test
+
       - name: Build Docker image
         run: docker build .
