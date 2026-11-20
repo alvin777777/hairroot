@@ -57,6 +57,18 @@ npm install
 The values in the `.env.example` files are for local development only. Never commit a `.env` file or a
 real secret.
 
+## Run with Docker
+
+This runs the production image (UI and API in one container) with its own PostgreSQL:
+
+```bash
+cp .env.example .env      # then choose your own local values
+docker compose up --build
+```
+
+The app is at http://localhost:3000. The `migrate` service applies migrations and the rerunnable
+seed, then exits. `docker compose down -v` removes the containers and the database volume.
+
 ## Run
 
 Use two terminals:

@@ -38,3 +38,19 @@ appear in the repository, images, logs, or PDFs.
 | Server tests | `cd server && npm test` |
 | Client tests and build | `cd client && npm test && npm run build` |
 | E2E tests | `cd e2e && npm test` |
+
+## Docker
+
+| Task | Command |
+|---|---|
+| Build the image | `docker build -t hairroot .` |
+| Run with a database | `cp .env.example .env`, choose values, then `docker compose up --build` |
+| Rerun migrations and seed | `docker compose run --rm migrate` |
+| Stop and delete local data | `docker compose down -v` |
+
+The `Dockerfile` has three stages: UI build, API build, and a runtime image that runs as the
+non-root `node` user on port 3000. The runtime keeps `prisma/`, `src/`, and `tsx`, because the
+migration job runs `prisma migrate deploy` and the TypeScript seed from the same image. No secret is
+in the image. `DATABASE_URL` and `SEED_DEMO_PASSWORD` are injected at run time.
+
+C-03 evidence from a fresh clone: [evidence/c03-fresh-clone-compose.txt](evidence/c03-fresh-clone-compose.txt).
