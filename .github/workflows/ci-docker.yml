@@ -69,9 +69,6 @@ jobs:
           npm ci
           npx playwright install --with-deps chromium
 
-      - name: Prepare the server env file for E2E
-        run: touch server/.env
-
       - name: Run E2E tests
         working-directory: ./e2e
         env:
