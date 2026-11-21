@@ -60,7 +60,7 @@ ensure "gcloud iam workload-identity-pools describe $POOL --location global ${P[
   gcloud iam workload-identity-pools create "$POOL" --location global --display-name="GitHub Actions" "${P[@]}"
 
 # Accept only the deploy workflow on main of this repository, through the demo environment.
-CONDITION="assertion.sub == '${SUBJECT}' && assertion.repository_id == '${REPO_ID}' && assertion.repository_owner_id == '${OWNER_ID}' && assertion.ref == 'refs/heads/main' && assertion.job_workflow_ref.startsWith('${GITHUB_REPO}/.github/workflows/deploy.yml@')"
+CONDITION="assertion.sub == '${SUBJECT}' && assertion.repository_id == '${REPO_ID}' && assertion.repository_owner_id == '${OWNER_ID}' && assertion.ref == 'refs/heads/main' && assertion.workflow_ref == '${GITHUB_REPO}/.github/workflows/deploy.yml@refs/heads/main'"
 ensure "gcloud iam workload-identity-pools providers describe $PROVIDER --workload-identity-pool $POOL --location global ${P[*]}" \
   gcloud iam workload-identity-pools providers create-oidc "$PROVIDER" --workload-identity-pool "$POOL" \
   --location global --issuer-uri="https://token.actions.githubusercontent.com" \
