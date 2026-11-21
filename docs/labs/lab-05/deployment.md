@@ -1,7 +1,6 @@
 # HairRoot — Deployment (Lab 5)
 
-Status: first draft from Lab 5 #2 (Issue #28). GCP names and the release procedure are completed in
-Issues #31 to #35.
+Status: the service is deployed at https://hairroot-368003298307.asia-southeast1.run.app. The release procedure is completed in Issues #33 to #35.
 
 ## Stack and changes from the reference
 
@@ -97,3 +96,19 @@ uses immutable OIDC subject claims, so the subject includes the owner and reposi
 | Ruleset `main: PR and test-and-docker required` | Active on `main`, with no bypass. Requires a PR with one approval and the `test-and-docker` check, with the branch up to date. Blocks deletion and force pushes. |
 | Environment `demo` | Deployable from `main` only. Holds the four variables above. |
 | Secret scanning and push protection | Enabled |
+
+## Live service
+
+| Item | Value |
+|---|---|
+| App | https://hairroot-368003298307.asia-southeast1.run.app/ |
+| Health | https://hairroot-368003298307.asia-southeast1.run.app/api/health |
+| Readiness | https://hairroot-368003298307.asia-southeast1.run.app/api/ready (returns `db: connected` when the database is reachable) |
+| First deploy | `deploy/deploy.sh`, run by ทิฐินันท์ (project Owner) in Cloud Shell |
+
+Quick check after any deploy: `curl https://hairroot-368003298307.asia-southeast1.run.app/api/ready`.
+
+Demo account passwords are in Secret Manager (`hairroot-demo-password`). The project Owner shares them
+privately, and they never appear in Git, chats, or screenshots. For C-04 evidence, run
+`HAIRROOT_URL=https://hairroot-368003298307.asia-southeast1.run.app HAIRROOT_DEMO_PASSWORD=... node tools/pdf/capture-live.mjs docs/labs/lab-05/screenshots`
+in your own terminal.

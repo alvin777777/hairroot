@@ -10,7 +10,8 @@
 | **Repository (public)** | https://github.com/alvin777777/hairroot |
 | **Starting point** | Sprint 1 release `v0.1.0-sprint1`, commit `d1e8d81` |
 | **Submitted release** | [PENDING: Lab 5 release tag and commit on main] |
-| **Public URL and serving commit** | [PENDING: Cloud Run URL, revision, and the commit it serves] |
+| **Public URL** | https://hairroot-368003298307.asia-southeast1.run.app |
+| **Running revision and commit** | [PENDING: Cloud Run revision name and the commit or image it serves] |
 | **GCP project** | `cpe334-hairroot`, region `asia-southeast1` |
 | **Deployment guide** | [docs/labs/lab-05/deployment.md](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/deployment.md) |
 
@@ -22,7 +23,7 @@
 | Cloud-ready app | [#28](https://github.com/alvin777777/hairroot/issues/28) | [#36](https://github.com/alvin777777/hairroot/pull/36) | ไอโว | ทิฐินันท์ |
 | Docker | [#29](https://github.com/alvin777777/hairroot/issues/29) | [#37](https://github.com/alvin777777/hairroot/pull/37) | ไอโว | ทิฐินันท์ (found the Windows CRLF defect; re-reviewed) |
 | CI on Pull Requests | [#30](https://github.com/alvin777777/hairroot/issues/30) | [#38](https://github.com/alvin777777/hairroot/pull/38) | ทิฐินันท์ | ไอโว |
-| Deploy and WIF scripts; ruleset; `demo` environment | [#31](https://github.com/alvin777777/hairroot/issues/31), [#32](https://github.com/alvin777777/hairroot/issues/32) | [#39](https://github.com/alvin777777/hairroot/pull/39) | ไอโว | [PENDING: review of #39] |
+| Deploy and WIF scripts; ruleset; `demo` environment | [#31](https://github.com/alvin777777/hairroot/issues/31), [#32](https://github.com/alvin777777/hairroot/issues/32) | [#39](https://github.com/alvin777777/hairroot/pull/39) | ไอโว; WIF fix by ทิฐินันท์ | ทิฐินันท์ (found that `job_workflow_ref` is absent for normal jobs; fixed in `a22b631`) |
 | Deploy workflow and visible release | [#33](https://github.com/alvin777777/hairroot/issues/33) | [PENDING: PR] | ทิฐินันท์ | [PENDING] |
 | Persistence check | [#34](https://github.com/alvin777777/hairroot/issues/34) | [PENDING] | ทิฐินันท์ | [PENDING] |
 | deployment.md and this PDF | [#35](https://github.com/alvin777777/hairroot/issues/35) | [PENDING: PR] | ไอโว | [PENDING] |
@@ -35,7 +36,7 @@
 | 1. CI and quality gate | Ruleset `main: PR and test-and-docker required` | R-06 | Active on `main`, no bypass |
 | 1. CI and quality gate | [PENDING: failing PR link] | C-02 | [PENDING: check failed; merge blocked] |
 | 2. Docker and configuration | [Dockerfile](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/Dockerfile); [C-03 output](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c03-fresh-clone-compose.txt) | C-03, commit `4a434e8` | Fresh clone builds and runs; data survives a restart; no secret in the image |
-| 3. GCP deployment | [PENDING: public URL; screenshots] | C-04 | [PENDING] |
+| 3. GCP deployment | [Public URL](https://hairroot-368003298307.asia-southeast1.run.app); [live checks](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c04-live-checks.txt); Figures 5 and 6 | C-04 | Ready with `db: connected`; access restriction and CSRF control work. [PENDING: signed-in journey figures] |
 | 3. GCP deployment | [PENDING: before and after screenshots] | C-05 | [PENDING] |
 | 4. Release pipeline | [PENDING: Issue, PRs, deploy run, revision] | C-06 | [PENDING] |
 
@@ -146,11 +147,30 @@ Secret scanning and push protection are on. `.env` files are ignored by Git. A s
 - Cloud Run service `hairroot` (min 0, max 3 instances)
 - Runtime service account `hairroot-runner`
 
-[PENDING: confirmation that deploy.sh ran, and Figure of the Cloud Run service and Cloud SQL instance]
+ทิฐินันท์ (project Owner) ran `deploy/deploy.sh` in Cloud Shell, after a dry run he reviewed on #39. [PENDING: Figure of the Cloud Run service and the Cloud SQL instance in the Console]
 
-**C-04: domain workflow on the public URL.** [PENDING: screenshots with the URL visible of signing in, booking a time, and one rejection: the slot-taken message or another customer's booking showing "Booking not found."]
+**C-04: domain workflow on the public URL** (https://hairroot-368003298307.asia-southeast1.run.app). Every screenshot carries a banner with the real address and time, added by [`tools/pdf/capture-live.mjs`](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/tools/pdf/capture-live.mjs).
 
-**UI, API, and database connectivity.** [PENDING: `curl <URL>/api/ready` returning `{"status":"ready","db":"connected"}`]
+![Protected page redirects](screenshots/c04-1-protected-page-redirects-to-login.png)
+
+*Figure 5. C-04 (R-03): opening `/bookings` without signing in leads to the sign-in page on the live URL.*
+
+![Wrong password](screenshots/c04-2-wrong-password-rejected.png)
+
+*Figure 6. C-04 (R-03): a wrong password is rejected on the live URL.*
+
+[PENDING: Figures 7 to 10 from `capture-live.mjs` with the demo password set: the confirm step, the booking confirmed, another customer's booking showing "Booking not found.", and the specialist seeing the booking]
+
+**UI, API, and database connectivity** (from [c04-live-checks.txt](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c04-live-checks.txt), 21 November 2026, 13:35 UTC):
+
+```text
+GET /api/health                       -> 200 {"status":"ok"}
+GET /api/ready                        -> 200 {"status":"ready","db":"connected"}
+GET /                                 -> 200 <title>HairRoot</title>
+GET /api/bookings/mine, no session    -> 401 UNAUTHENTICATED
+POST /api/auth/login, own origin      -> 401 INVALID_CREDENTIALS (origin accepted)
+POST /api/auth/login, foreign origin  -> 403 CSRF_REJECTED
+```
 
 **C-05: data survives a restart and a redeploy.** [PENDING: a booking before, after a new revision or restart, and after a redeploy, with revision names]
 

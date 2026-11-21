@@ -1,0 +1,27 @@
+Live checks against https://hairroot-368003298307.asia-southeast1.run.app
+Run 2026-11-21 13:35 UTC with curl by Claude Code for ไอโว. No account was used.
+
+$ GET /api/health
+{"status":"ok"}
+-> HTTP 200
+
+$ GET /api/ready  (UI, API, and database connected)
+{"status":"ready","db":"connected"}
+-> HTTP 200
+
+$ GET /  (UI served by the same service)
+<title>HairRoot</title>
+-> HTTP 200
+
+$ GET /api/bookings/mine without a session (access restriction)
+{"error":"Authentication required.","code":"UNAUTHENTICATED"}
+-> HTTP 401
+
+$ POST /api/auth/login, wrong password, from the service's own origin
+{"error":"Invalid email or password.","code":"INVALID_CREDENTIALS"}
+-> HTTP 401
+
+$ POST /api/auth/login from a foreign origin (CSRF control)
+{"error":"Request origin not allowed","code":"CSRF_REJECTED"}
+-> HTTP 403
+
