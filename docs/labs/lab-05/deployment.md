@@ -54,3 +54,46 @@ migration job runs `prisma migrate deploy` and the TypeScript seed from the same
 in the image. `DATABASE_URL` and `SEED_DEMO_PASSWORD` are injected at run time.
 
 C-03 evidence from a fresh clone: [evidence/c03-fresh-clone-compose.txt](evidence/c03-fresh-clone-compose.txt).
+
+## GCP resources
+
+| Item | Name |
+|---|---|
+| Project | `cpe334-hairroot` (Free Trial, owned by ทิฐินันท์; ไอโว has Editor) |
+| Region | `asia-southeast1` |
+| Artifact Registry repository | `hairroot` (image `hairroot`, tagged with the full commit SHA) |
+| Cloud SQL for PostgreSQL 16 | instance `hairroot-pg`, database and user `hairroot`, tier `db-f1-micro`, storage auto-increase off |
+| Secret Manager | `hairroot-database-url`, `hairroot-demo-password` |
+| Cloud Run service | `hairroot`, min 0 and max 3 instances, port 3000 |
+| Cloud Run job | `hairroot-migrate`: `prisma migrate deploy`, then the rerunnable seed |
+| Runtime service account | `hairroot-runner`: Cloud SQL client, and reads the two secrets |
+| Deployer service account | `hairroot-deployer`: Cloud Run developer, Artifact Registry writer on `hairroot` only, acts as `hairroot-runner` only; no keys |
+| Workload Identity Federation | pool `github-actions`, provider `github-main` |
+
+`CLIENT_ORIGIN` lists both Cloud Run URLs of the service, separated by commas, because the
+service answers at both.
+
+## One-time setup (project Owner, in Cloud Shell)
+
+Both scripts are safe to rerun. Run each with `DRY_RUN=1` first and read the output.
+
+```bash
+git clone https://github.com/alvin777777/hairroot.git && cd hairroot
+DRY_RUN=1 PROJECT_ID=cpe334-hairroot bash deploy/deploy.sh
+PROJECT_ID=cpe334-hairroot bash deploy/deploy.sh        # Issue #31: first deploy
+DRY_RUN=1 PROJECT_ID=cpe334-hairroot bash deploy/setup-wif.sh
+PROJECT_ID=cpe334-hairroot bash deploy/setup-wif.sh     # Issue #32: keyless GitHub access
+```
+
+`setup-wif.sh` prints four values for the GitHub environment `demo`: `GCP_PROJECT_ID`,
+`GCP_REGION`, `WIF_PROVIDER`, and `WIF_SERVICE_ACCOUNT`. None is secret. The provider accepts only
+tokens from `deploy.yml` on `main` of this repository, through the `demo` environment. The repository
+uses immutable OIDC subject claims, so the subject includes the owner and repository IDs.
+
+## GitHub settings
+
+| Setting | Value |
+|---|---|
+| Ruleset `main: PR and test-and-docker required` | Active on `main`, with no bypass. Requires a PR with one approval and the `test-and-docker` check, with the branch up to date. Blocks deletion and force pushes. |
+| Environment `demo` | Deployable from `main` only. Holds the four variables above. |
+| Secret scanning and push protection | Enabled |
