@@ -54,20 +54,27 @@ DEPLOYED_REVISION="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["st
 
 REVISION_INFO="$(gcloud run revisions describe "$DEPLOYED_REVISION" \
   --project="$PROJECT_ID" --region="$REGION" --format=json)"
-read -r RUNNING_IMAGE RUNNING_COMMIT < <(python3 -c '
-import json, sys
-revision = json.load(sys.stdin)
-container = (revision.get("spec", {}).get("containers") or [{}])[0]
-env = {entry.get("name"): entry.get("value", "") for entry in container.get("env", [])}
-print(container.get("image", ""), env.get("DEPLOYED_COMMIT_SHA", ""))
-' <<<"$REVISION_INFO")
+read -r RUNNING_IMAGE RUNNING_COMMIT < <(python3 deploy/revision_info.py <<<"$REVISION_INFO")
 
 [[ "$RUNNING_IMAGE" == "$DIGEST_IMAGE" ]] || {
-  echo 'Latest ready revision is not running the deployed image digest.' >&2
+  echo "Latest ready revision is not running the deployed image digest (revision reports: '${RUNNING_IMAGE:-none}')." >&2
   exit 1
 }
 [[ "$RUNNING_COMMIT" == "$IMAGE_TAG" ]] || {
   echo 'Latest ready revision does not record the requested commit SHA.' >&2
+  exit 1
+}
+
+# The application itself must report the same commit (GET /api/version, Issue #45).
+LIVE_COMMIT=""
+for attempt in 1 2 3 4 5; do
+  LIVE_COMMIT="$(curl -fsS --max-time 20 "${SERVICE_URL}/api/version" 2>/dev/null \
+    | python3 -c 'import json,sys; print(json.load(sys.stdin).get("commit") or "")' 2>/dev/null || true)"
+  [[ "$LIVE_COMMIT" == "$IMAGE_TAG" ]] && break
+  sleep 5
+done
+[[ "$LIVE_COMMIT" == "$IMAGE_TAG" ]] || {
+  echo "The live service reports commit '${LIVE_COMMIT:-none}', not the deployed commit." >&2
   exit 1
 }
 
