@@ -102,10 +102,10 @@ jobs:
         run: |
           {
             echo '### HairRoot demo deployment'
-            echo "- Commit: `$IMAGE_TAG`"
-            echo "- Image digest: `$DEPLOYED_IMAGE`"
-            echo "- Cloud Run revision: `$DEPLOYED_REVISION`"
-            echo "- Rollback: `$ROLLBACK`"
+            echo "- Commit: \`$IMAGE_TAG\`"
+            echo "- Image digest: \`$DEPLOYED_IMAGE\`"
+            echo "- Cloud Run revision: \`$DEPLOYED_REVISION\`"
+            echo "- Rollback: \`$ROLLBACK\`"
             echo '- Smoke checks: health, readiness/database, and UI passed.'
             echo '- The public URL is omitted from this summary.'
           } >> "$GITHUB_STEP_SUMMARY"
