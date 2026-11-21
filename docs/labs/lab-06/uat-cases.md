@@ -11,7 +11,8 @@ Version 0.1 — draft, 2026-11-21. Prepared by the HairRoot Product Team for the
 | Repository | https://github.com/alvin777777/hairroot (public) |
 | Sprint 1 baseline | Tag `v0.1.0-sprint1`, commit `d1e8d81`, contract in `docs/sprints/sprint-1/` |
 | Release under test | [PENDING: Lab 5 release tag and commit on `main`] |
-| Deployed revision and URL | [PENDING: Cloud Run revision and URL] |
+| URL | https://hairroot-368003298307.asia-southeast1.run.app/ (sign in at `/login`). `<URL>` in the cases means this address. |
+| Deployed revision | [PENDING: Cloud Run revision and the commit it serves] |
 | Browser | A current desktop Chrome, Edge, Firefox, or Safari. Phone width also works. |
 | Time zone | All times are shown in Asia/Bangkok. |
 
