@@ -1,0 +1,181 @@
+# CPE 334 Lab 5: Cloud Deployment and CI/CD Pipeline on GCP
+
+**HairRoot**, hair clinic appointment booking (Group Project Theme 1). [PENDING: section and group name]
+
+## Answer Part 0: Team and Evidence Index
+
+| | |
+|---|---|
+| **Students** | ไอโว ปีเตอร์ อัลวิน รันเน่, 67070501051, GitHub `alvin777777`<br>ทิฐินันท์ สอบกิ่ง, 67070501018, GitHub `Ohmmykung09` |
+| **Repository (public)** | https://github.com/alvin777777/hairroot |
+| **Starting point** | Sprint 1 release `v0.1.0-sprint1`, commit `d1e8d81` |
+| **Submitted release** | [PENDING: Lab 5 release tag and commit on main] |
+| **Public URL and serving commit** | [PENDING: Cloud Run URL, revision, and the commit it serves] |
+| **GCP project** | `cpe334-hairroot`, region `asia-southeast1` |
+| **Deployment guide** | [docs/labs/lab-05/deployment.md](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/deployment.md) |
+
+### Contributions
+
+| Work | Issue | Pull Request | Author | Reviewer |
+|---|---|---|---|---|
+| GCP account, project, budget, IAM | [#27](https://github.com/alvin777777/hairroot/issues/27) | Console, no branch | ทิฐินันท์ (Owner); ไอโว added as Editor | — |
+| Cloud-ready app | [#28](https://github.com/alvin777777/hairroot/issues/28) | [#36](https://github.com/alvin777777/hairroot/pull/36) | ไอโว | ทิฐินันท์ |
+| Docker | [#29](https://github.com/alvin777777/hairroot/issues/29) | [#37](https://github.com/alvin777777/hairroot/pull/37) | ไอโว | ทิฐินันท์ (found the Windows CRLF defect; re-reviewed) |
+| CI on Pull Requests | [#30](https://github.com/alvin777777/hairroot/issues/30) | [#38](https://github.com/alvin777777/hairroot/pull/38) | ทิฐินันท์ | ไอโว |
+| Deploy and WIF scripts; ruleset; `demo` environment | [#31](https://github.com/alvin777777/hairroot/issues/31), [#32](https://github.com/alvin777777/hairroot/issues/32) | [#39](https://github.com/alvin777777/hairroot/pull/39) | ไอโว | [PENDING: review of #39] |
+| Deploy workflow and visible release | [#33](https://github.com/alvin777777/hairroot/issues/33) | [PENDING: PR] | ทิฐินันท์ | [PENDING] |
+| Persistence check | [#34](https://github.com/alvin777777/hairroot/issues/34) | [PENDING] | ทิฐินันท์ | [PENDING] |
+| deployment.md and this PDF | [#35](https://github.com/alvin777777/hairroot/issues/35) | [PENDING: PR] | ไอโว | [PENDING] |
+
+### Evidence index
+
+| Rubric part | Artifact and direct link | IDs and version | Verification result |
+|---|---|---|---|
+| 1. CI and quality gate | [CI workflow](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/.github/workflows/ci-docker.yml); [PR #38 run 44760127831](https://github.com/alvin777777/hairroot/actions/runs/44760127831) | C-01, commit `a50c012` | Passed: server 41, client 4, E2E 3, Docker build |
+| 1. CI and quality gate | Ruleset `main: PR and test-and-docker required` | R-06 | Active on `main`, no bypass |
+| 1. CI and quality gate | [PENDING: failing PR link] | C-02 | [PENDING: check failed; merge blocked] |
+| 2. Docker and configuration | [Dockerfile](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/Dockerfile); [C-03 output](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c03-fresh-clone-compose.txt) | C-03, commit `4a434e8` | Fresh clone builds and runs; data survives a restart; no secret in the image |
+| 3. GCP deployment | [PENDING: public URL; screenshots] | C-04 | [PENDING] |
+| 3. GCP deployment | [PENDING: before and after screenshots] | C-05 | [PENDING] |
+| 4. Release pipeline | [PENDING: Issue, PRs, deploy run, revision] | C-06 | [PENDING] |
+
+## Answer Part 1: CI and Quality Gate
+
+**CI workflow.** [`.github/workflows/ci-docker.yml`](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/.github/workflows/ci-docker.yml) runs job `test-and-docker` on every Pull Request into `sprint-1-staging` and `main`. It is also reusable by the deploy workflow. The job:
+
+1. starts a throwaway PostgreSQL service
+2. migrates and seeds with CI-only values
+3. runs the server tests (Vitest and Supertest against the real database)
+4. runs the client tests and the production build
+5. runs Playwright E2E (T-30 to T-32)
+6. builds the Docker image
+
+It uses `contents: read` permission, and its actions are pinned to full commit SHAs.
+
+**C-01: a passing Pull Request.** [PR #38](https://github.com/alvin777777/hairroot/pull/38), [run 44760127831](https://github.com/alvin777777/hairroot/actions/runs/44760127831) at commit `a50c012`. Every step passed:
+
+```text
+server   Test Files 8 passed (8)   Tests 41 passed (41)
+client   Test Files 2 passed (2)   Tests 4 passed (4)
+e2e      3 passed (6.2s)           T-30, T-31, T-32
+docker   docker build .            succeeded
+```
+
+[PR #39](https://github.com/alvin777777/hairroot/pull/39) also passed `test-and-docker` ([run 44789528243](https://github.com/alvin777777/hairroot/actions/runs/44789528243), commit `1b97baa`).
+
+**Required check on `main` (R-06).** The ruleset is active on `refs/heads/main` with an empty bypass list. It requires a Pull Request with one approval and the status check `test-and-docker` with the branch up to date, and it blocks deletion and force pushes. Here is the setting as returned by the GitHub API:
+
+```text
+name: main: PR and test-and-docker required    enforcement: active    target: refs/heads/main
+bypass_actors: []
+pull_request: required_approving_review_count 1
+required_status_checks: test-and-docker (strict: true)
+also: deletion, non_fast_forward
+```
+
+[PENDING: Figure: Settings > Rules > Rulesets page for main]
+
+**C-02: a failing Pull Request cannot merge.** [PENDING: link to the temporary-branch PR from `sprint-1-staging` into `main` with one failing test, its failed run, and Figure showing the blocked merge button. Not merged.]
+
+*Note:* the first attempt, [PR #40](https://github.com/alvin777777/hairroot/pull/40), branched from `main`, which did not have the workflow yet, so no check ran. It was closed unmerged and redone from `sprint-1-staging`.
+
+## Answer Part 2: Docker and Reproducible Configuration
+
+**Files.**
+- [`Dockerfile`](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/Dockerfile) builds in three stages (UI build, API build, runtime). The runtime runs as the non-root `node` user on port 3000, and the API serves the built UI.
+- [`.dockerignore`](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/.dockerignore) excludes every `.env` file.
+- [`docker-compose.yml`](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docker-compose.yml) runs the database, a migrate-and-seed job, and the app.
+- `.gitattributes` keeps shell scripts as LF, fixing the Windows defect found in review of #37.
+
+**C-03: fresh clone.** From a fresh clone of `4a434e8`, with only `.env.example` values filled in ([full output](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c03-fresh-clone-compose.txt)):
+
+```text
+$ cp .env.example .env && docker compose up --build -d
+migrate: No pending migrations / Seeded demo data. Demo password not shown.
+$ curl /api/health  -> {"status":"ok"}        $ curl /api/ready -> {"status":"ready"}
+$ curl /            -> HTTP 200 <title>HairRoot</title>   (UI from the same container)
+POST /api/auth/login (password from .env, not shown) -> HTTP 200
+POST /api/bookings -> booking 1 "Docker check"
+$ docker compose restart app ; GET /api/bookings/1 -> same booking
+$ docker compose run --rm migrate (rerun migrations and seed) ; GET /api/bookings/1 -> same booking
+$ docker compose exec app whoami -> node
+$ docker image inspect: NODE_ENV, TZ, PORT only; no password or DATABASE_URL in the image
+```
+
+The ready response gained `"db": "connected"` in PR #39 for the smoke test.
+
+**Configuration and secrets.** Every setting comes from the environment:
+- [`server/.env.example`](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/server/.env.example), [`client/.env.example`](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/client/.env.example), and the root [`.env.example`](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/.env.example) hold placeholders only.
+- The environment table in [deployment.md](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/deployment.md) gives each variable's purpose, whether it is secret, and where its value comes from.
+
+| Variable | Secret | GCP value from |
+|---|---|---|
+| `DATABASE_URL` | Yes | Secret Manager `hairroot-database-url` |
+| `SEED_DEMO_PASSWORD` | Yes | Secret Manager `hairroot-demo-password` |
+| `CLIENT_ORIGIN` | No | Both Cloud Run URLs, set by `deploy.sh` |
+| `PORT`, `NODE_ENV`, `TZ` | No | Cloud Run and the image |
+| `SEED_RESET` | No | Not set; refused in production |
+
+Secret scanning and push protection are on. `.env` files are ignored by Git. A search of the full history for common credential patterns found none.
+
+## Answer Part 3: GCP Deployment and Persistence
+
+**GCP project.** The Free Trial is active on project `cpe334-hairroot`, with no credits used.
+
+![Free Trial and project](private-assets/gcp-free-trial.png)
+
+*Figure 1. Issue #27: the Free Trial is active on project `cpe334-hairroot`.*
+
+![Billing enabled](private-assets/gcp-billing-true.png)
+
+*Figure 2. Issue #27: in Cloud Shell, `billingEnabled` returns True for `cpe334-hairroot`.*
+
+![Budget](private-assets/gcp-budget.png)
+
+*Figure 3. Cost control: the alerts-only budget `CPE334-Alert`, THB 250, with alerts at 10, 20, 50, and 90 percent.*
+
+![IAM](private-assets/gcp-iam.png)
+
+*Figure 4. Issue #27: ทิฐินันท์ is Owner, and ไอโว is Editor.*
+
+**Resources.** These come from [`deploy/deploy.sh`](https://github.com/alvin777777/hairroot/blob/deploy/31-gcp-first-deploy/deploy/deploy.sh):
+- Artifact Registry `hairroot`
+- Cloud SQL PostgreSQL 16 `hairroot-pg` (`db-f1-micro`, storage auto-increase off)
+- Secret Manager `hairroot-database-url` and `hairroot-demo-password`
+- Cloud Run job `hairroot-migrate`
+- Cloud Run service `hairroot` (min 0, max 3 instances)
+- Runtime service account `hairroot-runner`
+
+[PENDING: confirmation that deploy.sh ran, and Figure of the Cloud Run service and Cloud SQL instance]
+
+**C-04: domain workflow on the public URL.** [PENDING: screenshots with the URL visible of signing in, booking a time, and one rejection: the slot-taken message or another customer's booking showing "Booking not found."]
+
+**UI, API, and database connectivity.** [PENDING: `curl <URL>/api/ready` returning `{"status":"ready","db":"connected"}`]
+
+**C-05: data survives a restart and a redeploy.** [PENDING: a booking before, after a new revision or restart, and after a redeploy, with revision names]
+
+## Answer Part 4: Repeatable Release Pipeline
+
+**Keyless access.** [`deploy/setup-wif.sh`](https://github.com/alvin777777/hairroot/blob/deploy/31-gcp-first-deploy/deploy/setup-wif.sh) creates the deployer `hairroot-deployer`, which has no keys. Its roles are Cloud Run developer, Artifact Registry writer on `hairroot` only, and service account user on `hairroot-runner` only. It also creates Workload Identity Federation pool `github-actions` and provider `github-main`.
+
+The provider accepts only tokens from `.github/workflows/deploy.yml` on `refs/heads/main` of this repository (owner ID 161717496, repo ID 1449523924), through environment `demo`. The GitHub environment `demo` allows deployment from `main` only. [PENDING: confirmation that setup-wif.sh ran, and the four environment variables were set]
+
+**C-06: one labelled change through the pipeline.** [PENDING: Issue, then PR into `sprint-1-staging` with a specific teammate review, then release PR into `main`, then CI, then the deploy run, then the running revision and its commit]
+
+**Release procedure.** See [deployment.md](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/deployment.md). [PENDING: final procedure, including how to find the running commit and how to roll back]
+
+## AI use and limitations
+
+**AI-use declaration.**
+
+| Student | Tool | Tasks assisted |
+|---|---|---|
+| ไอโว | Claude Code (Claude Opus 5.5) | Adapting the kit's Docker, deploy, and WIF scripts; the cloud-ready changes and their tests; reviews of #38 after reading its runs; deployment.md; this PDF |
+| ทิฐินันท์ | OpenAI Codex (GPT-6) | [PENDING: teammate to confirm] |
+
+No password, connection string, or key was pasted into an AI chat.
+
+**Limitations.**
+- Lab 5 was due 15 November 2026, and this work continued after that date.
+- The budget period ends on 30 November 2026. It should be extended to the Final Project deadline.
+- [PENDING: anything not completed at submission]

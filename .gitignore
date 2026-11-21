@@ -7,3 +7,6 @@ dist/
 coverage/
 e2e/test-results/
 e2e/playwright-report/
+# Lab PDF screenshots that show personal emails stay local and out of the public repo
+docs/labs/*/private-assets/
+docs/labs/*/*.pdf

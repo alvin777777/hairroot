@@ -1,0 +1,7 @@
+{
+  "name": "hairroot-pdf",
+  "private": true,
+  "type": "module",
+  "scripts": { "draft": "node build.mjs", "final": "node build.mjs --final" },
+  "dependencies": { "marked": "^12.0.2", "mermaid": "^10.9.3", "playwright": "^1.49.1" }
+}
