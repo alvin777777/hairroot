@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
+import { E2E_DEMO_PASSWORD } from "../demo-password.js";
 
-const PASSWORD = "Password123!";
+const PASSWORD = E2E_DEMO_PASSWORD;
 const SPECIALIST = "specialist.somchai@hairroot.test";
 const CUSTOMER = "customer.anan@hairroot.test";
 const OTHER_CUSTOMER = "customer.mali@hairroot.test";
