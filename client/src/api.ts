@@ -40,6 +40,8 @@ export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise
   return body as T;
 }
 
+export const getVersion = (): Promise<{ commit: string | null }> => Promise.reject(new Error("not implemented"));
+
 export const login = (email: string, password: string) =>
   apiFetch<{ user: User }>("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });
 export const logout = () => apiFetch<void>("/api/auth/logout", { method: "POST" });
