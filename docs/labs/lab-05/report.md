@@ -22,9 +22,10 @@
 | GCP account, project, budget, IAM | [#27](https://github.com/alvin777777/hairroot/issues/27) | Console, no branch | ทิฐินันท์ (Owner); ไอโว added as Editor | — |
 | Cloud-ready app | [#28](https://github.com/alvin777777/hairroot/issues/28) | [#36](https://github.com/alvin777777/hairroot/pull/36) | ไอโว | ทิฐินันท์ |
 | Docker | [#29](https://github.com/alvin777777/hairroot/issues/29) | [#37](https://github.com/alvin777777/hairroot/pull/37) | ไอโว | ทิฐินันท์ (found the Windows CRLF defect; re-reviewed) |
-| CI on Pull Requests | [#30](https://github.com/alvin777777/hairroot/issues/30) | [#38](https://github.com/alvin777777/hairroot/pull/38) | ทิฐินันท์ | ไอโว |
+| CI on Pull Requests; C-02 demonstration | [#30](https://github.com/alvin777777/hairroot/issues/30) | [#38](https://github.com/alvin777777/hairroot/pull/38); [#43](https://github.com/alvin777777/hairroot/pull/43), closed unmerged | ทิฐินันท์ | ไอโว (for #38) |
 | Deploy and WIF scripts; ruleset; `demo` environment | [#31](https://github.com/alvin777777/hairroot/issues/31), [#32](https://github.com/alvin777777/hairroot/issues/32) | [#39](https://github.com/alvin777777/hairroot/pull/39) | ไอโว; WIF fix by ทิฐินันท์ | ทิฐินันท์ (found that `job_workflow_ref` is absent for normal jobs; fixed in `a22b631`) |
-| Deploy workflow and visible release | [#33](https://github.com/alvin777777/hairroot/issues/33) | [PENDING: PR] | ทิฐินันท์ | [PENDING] |
+| Deploy workflow and release script | [#33](https://github.com/alvin777777/hairroot/issues/33) | [#44](https://github.com/alvin777777/hairroot/pull/44) | ทิฐินันท์ | ไอโว (found the summary backtick defect; re-reviewed) |
+| Visible change: version footer | [#45](https://github.com/alvin777777/hairroot/issues/45) | [#46](https://github.com/alvin777777/hairroot/pull/46) | ไอโว | [PENDING: review of #46] |
 | Persistence check | [#34](https://github.com/alvin777777/hairroot/issues/34) | [PENDING] | ทิฐินันท์ | [PENDING] |
 | deployment.md and this PDF | [#35](https://github.com/alvin777777/hairroot/issues/35) | [PENDING: PR] | ไอโว | [PENDING] |
 
@@ -34,7 +35,7 @@
 |---|---|---|---|
 | 1. CI and quality gate | [CI workflow](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/.github/workflows/ci-docker.yml); [PR #38 run 44760127831](https://github.com/alvin777777/hairroot/actions/runs/44760127831) | C-01, commit `a50c012` | Passed: server 41, client 4, E2E 3, Docker build |
 | 1. CI and quality gate | Ruleset `main: PR and test-and-docker required` | R-06 | Active on `main`, no bypass |
-| 1. CI and quality gate | [PENDING: failing PR link] | C-02 | [PENDING: check failed; merge blocked] |
+| 1. CI and quality gate | [PR #43](https://github.com/alvin777777/hairroot/pull/43); [run 44891832001](https://github.com/alvin777777/hairroot/actions/runs/44891832001) | C-02, commit `579de3c` | `test-and-docker` failed; merge blocked; closed unmerged |
 | 2. Docker and configuration | [Dockerfile](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/Dockerfile); [C-03 output](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c03-fresh-clone-compose.txt) | C-03, commit `4a434e8` | Fresh clone builds and runs; data survives a restart; no secret in the image |
 | 3. GCP deployment | [Public URL](https://hairroot-368003298307.asia-southeast1.run.app); [live checks](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c04-live-checks.txt); Figures 5 and 6 | C-04 | Ready with `db: connected`; access restriction and CSRF control work. [PENDING: signed-in journey figures] |
 | 3. GCP deployment | [PENDING: before and after screenshots] | C-05 | [PENDING] |
@@ -76,7 +77,15 @@ also: deletion, non_fast_forward
 
 [PENDING: Figure: Settings > Rules > Rulesets page for main]
 
-**C-02: a failing Pull Request cannot merge.** [PENDING: link to the temporary-branch PR from `sprint-1-staging` into `main` with one failing test, its failed run, and Figure showing the blocked merge button. Not merged.]
+**C-02: a failing Pull Request cannot merge.** [PR #43](https://github.com/alvin777777/hairroot/pull/43) from the temporary branch `demo/30-failing-check`, based on `sprint-1-staging`, into `main`. It added one intentionally failing test, `server/tests/ci-failure-demo.test.ts`. The required check failed in [run 44891832001](https://github.com/alvin777777/hairroot/actions/runs/44891832001), at commit `579de3c`:
+
+```text
+FAIL  tests/ci-failure-demo.test.ts > temporary ...
+AssertionError: expected true to be false // Object.is equality
+Test Files  1 failed | 8 passed
+```
+
+The ruleset blocked the merge, and the PR was closed unmerged. The released application was never affected. [PENDING: Figure of PR #43 showing the failed check and the blocked merge button, from ทิฐินันท์]
 
 *Note:* the first attempt, [PR #40](https://github.com/alvin777777/hairroot/pull/40), branched from `main`, which did not have the workflow yet, so no check ran. It was closed unmerged and redone from `sprint-1-staging`.
 
