@@ -35,5 +35,29 @@ class RevisionInfoTest(unittest.TestCase):
         self.assertEqual(revision_info.format_line(json.dumps(V2)), f"{DIGEST} {SHA}")
 
 
+REPO = "asia-southeast1-docker.pkg.dev/cpe334-hairroot/hairroot/hairroot"
+MANIFEST = REPO + "@sha256:" + "d" * 64  # what Cloud Run records for the platform image
+
+
+class VerifyTest(unittest.TestCase):
+    """Run 44985131642: the tag resolved to an index digest while the revision recorded a manifest digest."""
+
+    def revision(self, image, commit=SHA):
+        return {"spec": {"containers": [{"image": image, "env": [{"name": "DEPLOYED_COMMIT_SHA", "value": commit}]}]}}
+
+    def test_accepts_a_different_digest_from_our_repository_with_the_right_commit(self):
+        self.assertEqual(revision_info.verify(self.revision(MANIFEST), REPO, SHA), "")
+
+    def test_rejects_an_image_from_another_repository(self):
+        other = "us-docker.pkg.dev/someone/else/app@sha256:" + "d" * 64
+        self.assertIn("repository", revision_info.verify(self.revision(other), REPO, SHA))
+
+    def test_rejects_an_image_that_is_not_pinned_by_digest(self):
+        self.assertIn("digest", revision_info.verify(self.revision(REPO + ":latest"), REPO, SHA))
+
+    def test_rejects_a_revision_recording_another_commit(self):
+        self.assertIn("commit", revision_info.verify(self.revision(MANIFEST, "f" * 40), REPO, SHA))
+
+
 if __name__ == "__main__":
     unittest.main()
