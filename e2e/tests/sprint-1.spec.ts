@@ -150,3 +150,25 @@ test("T-32 shows a conflict and refreshes the times when another customer books 
     await otherContext.close();
   }
 });
+
+test("T-39 prevents a customer from opening another customer's booking (AC-21)", async ({ page }) => {
+  const startAt = await createFutureSlot(page, 12, 2);
+  const privateTopic = `UAT ownership ${Date.now()}`;
+
+  await signIn(page, CUSTOMER);
+  await chooseSlot(page, startAt, privateTopic);
+  await page.getByRole("button", { name: "Confirm booking" }).click();
+  await expect(page).toHaveURL(/\/bookings\/\d+$/);
+  const bookingUrl = page.url();
+  await expect(page.getByTestId("booking-detail")).toContainText(privateTopic);
+
+  await page.getByRole("button", { name: "Log out" }).click();
+  await expect(page).toHaveURL(/\/login$/);
+  await signIn(page, OTHER_CUSTOMER);
+  await expect(page).toHaveURL(/\/slots$/);
+  await expect(page.getByTestId("current-user")).toHaveText("Mali Rattana (Customer)");
+  await page.goto(bookingUrl);
+
+  await expect(page.getByRole("alert")).toHaveText("Booking not found.");
+  await expect(page.getByText(privateTopic, { exact: false })).toHaveCount(0);
+});
