@@ -271,7 +271,7 @@ The two digests differ because the pushed tag points to an image index, while Cl
 | Student | Tool | Tasks assisted |
 |---|---|---|
 | ไอโว | Claude Code (Claude Opus 5.5) | Adapting the kit's Docker, deploy, and WIF scripts; the cloud-ready changes and their tests; reviews of #38 after reading its runs; deployment.md; this PDF |
-| ทิฐินันท์ | OpenAI Codex (GPT-6) | [PENDING: teammate to confirm] |
+| ทิฐินันท์ | OpenAI Codex (GPT-6) only | Writing and reviewing the CI workflow (#38), the C-02 demonstration (#43), the deploy workflow and release scripts (#44), reviews of ไอโว's PRs, and GCP setup steps in Cloud Shell. No other AI tool was used. |
 
 No password, connection string, or key was pasted into an AI chat.
 
