@@ -30,7 +30,7 @@ are written with their feature contracts before implementation.
 | BR-03 | F-03 | 1 | AC-11 | T-11a, T-11b |
 | BR-04 | F-03 | 1 | AC-12 | T-12a, T-12b, T-12c |
 | BR-05 | F-02, F-03, F-05 | 1 | AC-13, AC-23 | T-13, T-23 |
-| BR-06 | F-02, F-04, F-05 | 1 | AC-14, AC-21 | T-14, T-21 |
+| BR-06 | F-02, F-04, F-05 | 1 | AC-14, AC-21 | T-14, T-21, T-39 |
 | BR-07 | F-02, F-04 | 1 | AC-19 | T-19 |
 | BR-08 | F-04 | 1 | AC-15b | T-15b |
 | BR-09 | F-06, F-07 | 2 | Sprint 2 contract | Sprint 2 contract |
@@ -41,7 +41,7 @@ are written with their feature contracts before implementation.
 | BR-14 | F-13 | 3 | Sprint 3 contract | Sprint 3 contract |
 | BR-15 | F-15 | 3 | Sprint 3 contract | Sprint 3 contract |
 | NFR-01 | F-01, F-02 | 1 | AC-05 | T-05 |
-| NFR-02 | F-02 | 1 | AC-06, AC-13, AC-21, AC-23 | T-06, T-13, T-21, T-23 |
+| NFR-02 | F-02 | 1 | AC-06, AC-13, AC-21, AC-23 | T-06, T-13, T-21, T-23, T-39 |
 | NFR-03 | F-01 | 1 | AC-07 | T-07a, T-07b |
 | NFR-04 | F-04 | 1 | AC-17 | T-17 |
 | NFR-05 | F-01 | 1 | AC-03, AC-08 | T-03, T-08 |

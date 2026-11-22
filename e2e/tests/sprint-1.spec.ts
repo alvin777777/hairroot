@@ -151,7 +151,7 @@ test("T-32 shows a conflict and refreshes the times when another customer books 
   }
 });
 
-test("T-33 prevents a customer from opening another customer's booking (AC-21)", async ({ page }) => {
+test("T-39 prevents a customer from opening another customer's booking (AC-21)", async ({ page }) => {
   const startAt = await createFutureSlot(page, 12, 2);
   const privateTopic = `UAT ownership ${Date.now()}`;
 
