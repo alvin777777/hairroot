@@ -41,6 +41,13 @@ app.get("/api/ready", async (_req, res) => {
   }
 });
 
+// Lab 5 #45 (R-08): which commit this revision serves. release.sh sets DEPLOYED_COMMIT_SHA on each revision.
+// Only a full commit SHA is returned, so nothing else from the environment can leak here.
+app.get("/api/version", (_req, res) => {
+  const sha = process.env.DEPLOYED_COMMIT_SHA ?? "";
+  res.status(200).json({ commit: /^[0-9a-f]{40}$/.test(sha) ? sha : null });
+});
+
 app.use("/api", (_req, res) => {
   res.status(404).json({ error: "Not found.", code: "NOT_FOUND" });
 });
