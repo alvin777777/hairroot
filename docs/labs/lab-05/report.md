@@ -27,7 +27,7 @@
 | Deploy workflow and release script | [#33](https://github.com/alvin777777/hairroot/issues/33) | [#44](https://github.com/alvin777777/hairroot/pull/44) | ทิฐินันท์ | ไอโว (found the summary backtick defect; re-reviewed) |
 | Visible change: version footer | [#45](https://github.com/alvin777777/hairroot/issues/45) | [#46](https://github.com/alvin777777/hairroot/pull/46) | ไอโว | ทิฐินันท์ |
 | Persistence check | [#34](https://github.com/alvin777777/hairroot/issues/34) | [PENDING] | ทิฐินันท์ | [PENDING] |
-| deployment.md and this PDF | [#35](https://github.com/alvin777777/hairroot/issues/35) | [PENDING: PR] | ไอโว | [PENDING] |
+| deployment.md and this PDF | [#35](https://github.com/alvin777777/hairroot/issues/35) | [#53](https://github.com/alvin777777/hairroot/pull/53) | ไอโว | ทิฐินันท์ |
 
 ### Evidence index
 
