@@ -26,7 +26,7 @@
 | Deploy and WIF scripts; ruleset; `demo` environment | [#31](https://github.com/alvin777777/hairroot/issues/31), [#32](https://github.com/alvin777777/hairroot/issues/32) | [#39](https://github.com/alvin777777/hairroot/pull/39) | ไอโว; WIF fix by ทิฐินันท์ | ทิฐินันท์ (found that `job_workflow_ref` is absent for normal jobs; fixed in `a22b631`) |
 | Deploy workflow and release script | [#33](https://github.com/alvin777777/hairroot/issues/33) | [#44](https://github.com/alvin777777/hairroot/pull/44) | ทิฐินันท์ | ไอโว (found the summary backtick defect; re-reviewed) |
 | Visible change: version footer | [#45](https://github.com/alvin777777/hairroot/issues/45) | [#46](https://github.com/alvin777777/hairroot/pull/46) | ไอโว | ทิฐินันท์ |
-| Persistence check | [#34](https://github.com/alvin777777/hairroot/issues/34) | [PENDING] | ทิฐินันท์ | [PENDING] |
+| Persistence check | [#34](https://github.com/alvin777777/hairroot/issues/34) | Browser and Console check; no code change | ทิฐินันท์ | — |
 | deployment.md and this PDF | [#35](https://github.com/alvin777777/hairroot/issues/35) | [#53](https://github.com/alvin777777/hairroot/pull/53) | ไอโว | ทิฐินันท์ |
 
 ### Evidence index
@@ -38,7 +38,7 @@
 | 1. CI and quality gate | [PR #43](https://github.com/alvin777777/hairroot/pull/43); [run 44891832001](https://github.com/alvin777777/hairroot/actions/runs/44891832001) | C-02, commit `579de3c` | `test-and-docker` failed; merge blocked; closed unmerged |
 | 2. Docker and configuration | [Dockerfile](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/Dockerfile); [C-03 output](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c03-fresh-clone-compose.txt) | C-03, commit `4a434e8` | Fresh clone builds and runs; data survives a restart; no secret in the image |
 | 3. GCP deployment | [Public URL](https://hairroot-368003298307.asia-southeast1.run.app); [live checks](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c04-live-checks.txt); Figures 5 and 6 | C-04 | Ready with `db: connected`; access restriction and CSRF control work. Signed-in booking journey: Figures 7a to 7d |
-| 3. GCP deployment | Figures 7a to 7c (before) and Figure 9 (redeploys) | C-05, revisions `e1a408a` to `ac0a57b` | Booking created before two redeploys. [PENDING: "after" figure] |
+| 3. GCP deployment | Figures 7a to 7c (before) and Figure 9 (redeploys) | C-05, revisions `e1a408a` to `ac0a57b` | Booking created before two redeploys. The "after" screenshot was not captured (see Limitations) |
 | 4. Release pipeline | Issue #45, PR #46, release PR #52, [deploy run 44992339630](https://github.com/alvin777777/hairroot/actions/runs/44992339630) | C-06, commit `ac0a57b` | All steps green; the revision and live `/api/version` show `ac0a57b` |
 
 ## Answer Part 1: CI and Quality Gate
@@ -75,7 +75,7 @@ required_status_checks: test-and-docker (strict: true)
 also: deletion, non_fast_forward
 ```
 
-[PENDING: Figure: Settings > Rules > Rulesets page for main]
+Only repository admins can open the settings page. The API output above is the configuration as stored, and PR #43 below shows it enforced.
 
 **C-02: a failing Pull Request cannot merge.** [PR #43](https://github.com/alvin777777/hairroot/pull/43) from the temporary branch `demo/30-failing-check`, based on `sprint-1-staging`, into `main`. It added one intentionally failing test, `server/tests/ci-failure-demo.test.ts`. The required check failed in [run 44891832001](https://github.com/alvin777777/hairroot/actions/runs/44891832001), at commit `579de3c`:
 
@@ -162,7 +162,7 @@ Secret scanning and push protection are on. `.env` files are ignored by Git. A s
 
 *Figure 9. Cloud Run service `hairroot` in `asia-southeast1`. The revision history shows the first deploys by `deploy.sh` (`hairroot-00001`, `-00002`) and the three pipeline releases. `hairroot-sha-ac0a57b9eb87-44992339630-1` serves 100%. Its environment shows `DEPLOYED_COMMIT_SHA` = `ac0a57b…`, both service URLs in `CLIENT_ORIGIN`, and `DATABASE_URL` only as a Secret Manager reference. There is one Cloud SQL connection.*
 
-[PENDING: Figure of the Cloud SQL instance `hairroot-pg` in the Console]
+The Cloud SQL instance `hairroot-pg` appears as the service's Cloud SQL connection (Figure 9). The live `/api/ready` returns `"db":"connected"` (C-04 checks). No separate Cloud SQL Console figure is included.
 
 **C-04: domain workflow on the public URL** (https://hairroot-368003298307.asia-southeast1.run.app). Every screenshot carries a banner with the real address and time, added by [`tools/pdf/capture-live.mjs`](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/tools/pdf/capture-live.mjs).
 
@@ -207,7 +207,7 @@ POST /api/auth/login, foreign origin  -> 403 CSRF_REJECTED
 
 **C-05: data survives a restart and a redeploy.** Before: Figures 7a to 7c, the booking "ผมร่วงตลอดเลย" for Tue 24 Nov, 11:00, created on revision `hairroot-sha-e1a408af040a-44941950376-1`. Since then the service was redeployed twice, through `hairroot-sha-c40463c3901e-44985131642-1` and `hairroot-sha-ac0a57b9eb87-44992339630-1` (Figure 9). Each release also reran the migration job and the seed, which never deletes data.
 
-[PENDING: "after" screenshot on revision ac0a57b: Dr. Somchai's schedule or Anan's My bookings still showing Tue 24 Nov, 11:00, "ผมร่วงตลอดเลย", with the URL or the footer "Version ac0a57b" visible]
+**Not captured at submission:** an "after" screenshot on revision `ac0a57b` showing this booking. The redeploys and the rerunnable seed are shown above, and C-03 shows locally that a booking survives a restart and a reseed. Live persistence after the redeploys is therefore not proven by a screenshot here.
 
 ## Answer Part 4: Repeatable Release Pipeline
 
@@ -278,4 +278,8 @@ No password, connection string, or key was pasted into an AI chat.
 **Limitations.**
 - Lab 5 was due 15 November 2026, and this work continued after that date.
 - The budget period ends on 30 November 2026. It should be extended to the Final Project deadline.
-- [PENDING: anything not completed at submission]
+- **C-05 is incomplete:** the "before" booking and the two later redeploys are shown, but there is no "after" screenshot on revision `ac0a57b`.
+- **No settings screenshots:** the ruleset settings page and the Cloud SQL instance have no Console screenshots. The ruleset is shown through the GitHub API output and enforced on PR #43, and Cloud SQL is shown through the service's connection and `/api/ready`.
+- **PR #43 screenshot:** it was taken after the PR was closed, so it shows the failed check and the unmerged state, not the disabled merge button.
+- **Smoke test login is skipped:** `SMOKE_EMAIL` and `SMOKE_PASSWORD` are not configured, so the smoke test does not sign in. Health, readiness with the database, and the UI are checked.
+- **Two red deploy runs:** runs 44941950376 and 44985131642 deployed and served correctly, but their post-deploy check failed (#48). Fixing it took two attempts, because the first diagnosis (#49) was wrong.
