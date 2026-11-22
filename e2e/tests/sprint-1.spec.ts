@@ -163,6 +163,7 @@ test("T-33 prevents a customer from opening another customer's booking (AC-21)",
   await expect(page.getByTestId("booking-detail")).toContainText(privateTopic);
 
   await page.getByRole("button", { name: "Log out" }).click();
+  await expect(page).toHaveURL(/\/login$/);
   await signIn(page, OTHER_CUSTOMER);
   await page.goto(bookingUrl);
 
