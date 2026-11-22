@@ -37,8 +37,8 @@
 | 1. CI and quality gate | Ruleset `main: PR and test-and-docker required` | R-06 | Active on `main`, no bypass |
 | 1. CI and quality gate | [PR #43](https://github.com/alvin777777/hairroot/pull/43); [run 44891832001](https://github.com/alvin777777/hairroot/actions/runs/44891832001) | C-02, commit `579de3c` | `test-and-docker` failed; merge blocked; closed unmerged |
 | 2. Docker and configuration | [Dockerfile](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/Dockerfile); [C-03 output](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c03-fresh-clone-compose.txt) | C-03, commit `4a434e8` | Fresh clone builds and runs; data survives a restart; no secret in the image |
-| 3. GCP deployment | [Public URL](https://hairroot-368003298307.asia-southeast1.run.app); [live checks](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c04-live-checks.txt); Figures 5 and 6 | C-04 | Ready with `db: connected`; access restriction and CSRF control work. [PENDING: signed-in journey figures] |
-| 3. GCP deployment | [PENDING: before and after screenshots] | C-05 | [PENDING] |
+| 3. GCP deployment | [Public URL](https://hairroot-368003298307.asia-southeast1.run.app); [live checks](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c04-live-checks.txt); Figures 5 and 6 | C-04 | Ready with `db: connected`; access restriction and CSRF control work. Signed-in booking journey: Figures 7a to 7d |
+| 3. GCP deployment | Figures 7a to 7c (before) and Figure 9 (redeploys) | C-05, revisions `e1a408a` to `ac0a57b` | Booking created before two redeploys. [PENDING: "after" figure] |
 | 4. Release pipeline | Issue #45, PR #46, release PR #52, [deploy run 44992339630](https://github.com/alvin777777/hairroot/actions/runs/44992339630) | C-06, commit `ac0a57b` | All steps green; the revision and live `/api/version` show `ac0a57b` |
 
 ## Answer Part 1: CI and Quality Gate
@@ -192,7 +192,7 @@ Secret scanning and push protection are on. `.env` files are ignored by Git. A s
 
 *Figure 7d. C-04: the browser address bar shows the live URL `hairroot-368003298307.asia-southeast1.run.app/login`, with "Version ac0a57b".*
 
-The rule rejection and access restriction on the live URL are in Figure 6 (wrong password) and the live checks above (401 without a session, 403 from a foreign origin). [PENDING: optional live "Booking not found." screenshot from `capture-live.mjs`]
+The rule rejection and access restriction on the live URL are in Figure 6 (wrong password) and the live checks above (401 without a session, 403 from a foreign origin).
 
 **UI, API, and database connectivity** (from [c04-live-checks.txt](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c04-live-checks.txt), 21 November 2026, 13:35 UTC):
 
