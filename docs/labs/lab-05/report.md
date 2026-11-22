@@ -168,7 +168,7 @@ Secret scanning and push protection are on. `.env` files are ignored by Git. A s
 
 *Figure 6. C-04 (R-03): a wrong password is rejected on the live URL.*
 
-[PENDING: Figures 7 to 10 from `capture-live.mjs` with the demo password set: the confirm step, the booking confirmed, another customer's booking showing "Booking not found.", and the specialist seeing the booking]
+[PENDING: Figures from `capture-live.mjs` with the demo password set: the confirm step, the booking confirmed, another customer's booking showing "Booking not found.", and the specialist seeing the booking]
 
 **UI, API, and database connectivity** (from [c04-live-checks.txt](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c04-live-checks.txt), 21 November 2026, 13:35 UTC):
 
@@ -218,7 +218,13 @@ $ curl <URL>/api/version  ->  {"commit":"ac0a57b9eb871128807733a0e9d75d77a662b47
 
 The two digests differ because the pushed tag points to an image index, while Cloud Run records the platform image it runs. The release check therefore verifies three things: the repository and digest pinning, the revision's commit, and the live version. The two failed runs show the pipeline stopping instead of reporting success it could not verify. Every merge into `main` here was a reviewed release PR, and nothing was pushed to `main` directly.
 
-[PENDING: Figure of the live footer showing "Version ac0a57b" with the URL, and of the green run summary]
+![Live footer](screenshots/c06-1-live-footer-version.png)
+
+*Figure 7. C-06 (R-08): the live URL shows "Version ac0a57b". Its tooltip and `/api/version` give the full SHA `ac0a57b9eb871128807733a0e9d75d77a662b477`.*
+
+![Green deploy run](screenshots/c06-2-green-deploy-run.png)
+
+*Figure 8. C-06 (R-07): [deploy run 44992339630](https://github.com/alvin777777/hairroot/actions/runs/44992339630), triggered by the merge of release PR #52 into `main` at `ac0a57b`. Both `test-and-docker` and `deploy` succeeded.*
 
 **Release procedure.** This is summarised from [deployment.md](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/deployment.md#release-procedure).
 
