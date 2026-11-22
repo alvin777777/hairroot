@@ -8,7 +8,7 @@
 | **Sprint 1 scope** | Sign-in and roles; a specialist adds times; a customer books by service, day, and time; exclusive booking; own-booking and own-schedule views (Part A, Section 1) |
 | **Repository** | https://github.com/alvin777777/hairroot (public) |
 | **Sprint 1 baseline** | Tag `v0.1.0-sprint1`, commit `d1e8d81` |
-| **Tested release** | [PENDING: commit on `main` and Cloud Run revision the UAT team tested] |
+| **Tested release** | Commit `ac0a57b` on `main`, Cloud Run revision `hairroot-sha-ac0a57b9eb87-44992339630-1` |
 | **Deployed URL** | https://hairroot-368003298307.asia-southeast1.run.app |
 | **Partner team** | [PENDING: team name, both students and IDs, and their repository and URL] |
 | **Independent UAT testers of HairRoot** | [PENDING: names of the partner team's testers] |
@@ -21,7 +21,7 @@
 | Role | Commit or tag | Cloud Run revision | Notes |
 |---|---|---|---|
 | Sprint 1 baseline | `v0.1.0-sprint1` (`d1e8d81`) | — | Accepted Sprint 1 contract and scope |
-| Release under UAT | [PENDING: commit] | [PENDING: revision] | It adds the Lab 5 changes (Docker, CI/CD, version footer), with no Sprint 1 behaviour change, and the guided flow (C-02) |
+| Release under UAT | `ac0a57b` | `hairroot-sha-ac0a57b9eb87-44992339630-1` | It adds the Lab 5 changes (Docker, CI/CD, version footer), with no Sprint 1 behaviour change, and the guided flow (C-02) |
 | Defective commit(s), if any | [PENDING] | — | |
 | Regression test (RED) | [PENDING] | — | |
 | Fix (GREEN) and release PR | [PENDING] | [PENDING] | |
@@ -36,7 +36,7 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 | Category | Case | AC |
 |---|---|---|
 | Normal domain journey | UAT-01 | AC-10, AC-14, AC-15, AC-20, AC-22, AC-27 |
-| Business rule | UAT-02 | AC-16, AC-17 |
+| Business rule | UAT-02 | AC-16 (AC-17 by automated T-17) |
 | Boundary | UAT-03 | AC-11, AC-12, AC-15b |
 | Forbidden role or ownership | UAT-04 | AC-05, AC-06, AC-21, AC-23 |
 | State and persistence | UAT-05 | AC-14, AC-20, AC-22, AC-24 |
@@ -51,7 +51,7 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 
 **Credentials.** The demo password is in Secret Manager. ทิฐินันท์ gave it to the UAT team privately [PENDING: date and channel, with no value]. It does not appear in this PDF, in Git, or in any screenshot.
 
-**Automated support.** E2E tests cover the same paths as UAT-01, UAT-02, and UAT-04: T-31, T-32, and [PENDING: the ownership E2E ID from PR #54]. They run in CI on every PR. They support the UAT but do not replace independent testing.
+**Automated support.** E2E tests cover the same paths as UAT-01, UAT-02, and UAT-04: T-31, T-32, and T-39 (added in PR #54). They run in CI on every PR. They support the UAT but do not replace independent testing.
 
 **Sessions with the partner team.**
 
@@ -117,7 +117,7 @@ Only the UAT team can confirm acceptance.
 
 | Work | ไอโว | ทิฐินันท์ |
 |---|---|---|
-| UAT cases and handoff (PR #42) | Wrote the cases and checked the expected messages against a local run | Reviewed them against the contract and the live app, and added the release, revision, and URL [PENDING: confirm] |
+| UAT cases and handoff (PR #42) | Wrote the cases and checked the expected messages against a local run | Reviewed them against the contract and the live app, requested the boundary and AC-17 corrections, and confirmed the release and revision |
 | E2E for UAT-04 (PR #54) | Reviewed it and ran it locally (4/4, twice) | Wrote it |
 | Testing the partner product | [PENDING] | [PENDING] |
 | Findings, triage, and fixes | [PENDING] | [PENDING] |
@@ -126,7 +126,7 @@ Only the UAT team can confirm acceptance.
 | Student | AI tool | Tasks assisted |
 |---|---|---|
 | ไอโว | Claude Code (Claude Opus 5.5) | Drafting the UAT cases and this report; the browser check of the expected results; reviewing PR #54 |
-| ทิฐินันท์ | OpenAI Codex (GPT-6) | [PENDING: confirm] |
+| ทิฐินันท์ | OpenAI Codex (GPT-6) | Adding E2E test T-39; reviewing PR #42 |
 
 No password or secret was given to an AI tool.
 

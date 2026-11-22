@@ -10,9 +10,9 @@ Version 0.1 — draft, 2026-11-21. Prepared by the HairRoot Product Team for the
 | Product Team | ไอโว ปีเตอร์ อัลวิน รันเน่ (67070501051), ทิฐินันท์ สอบกิ่ง (67070501018) |
 | Repository | https://github.com/alvin777777/hairroot (public) |
 | Sprint 1 baseline | Tag `v0.1.0-sprint1`, commit `d1e8d81`, contract in `docs/sprints/sprint-1/` |
-| Release under test | [PENDING: Lab 5 release tag and commit on `main`] |
+| Release under test | Commit `ac0a57b` on `main` (Lab 5 release) |
 | URL | https://hairroot-368003298307.asia-southeast1.run.app/ (sign in at `/login`). `<URL>` in the cases means this address. |
-| Deployed revision | [PENDING: Cloud Run revision and the commit it serves] |
+| Deployed revision | Cloud Run revision `hairroot-sha-ac0a57b9eb87-44992339630-1`, serving `ac0a57b`. The footer shows *Version ac0a57b*. |
 | Browser | A current desktop Chrome, Edge, Firefox, or Safari. Phone width also works. |
 | Time zone | All times are shown in Asia/Bangkok. |
 
@@ -91,7 +91,7 @@ agreed handoff channel. Include:
 
 | | |
 |---|---|
-| **Requirements and AC** | BR-01; AC-16, AC-17 |
+| **Requirements and AC** | BR-01; AC-16 |
 | **Purpose** | A time can never be given to two customers. |
 | **Roles** | S1, C2, and C3 in two separate browser windows (one normal and one private) |
 | **Preconditions** | As S1, add a new time T2 on date D2, as in UAT-01 steps 1 and 2. Then log out. |
@@ -104,22 +104,40 @@ agreed handoff channel. Include:
 5. In window B, open **My bookings**. Expected: there is no booking for D2, T2.
 6. In window A, open **My bookings**. Expected: C2's booking for D2, T2 is still there with the topic `UAT race C2`.
 
-### UAT-03 Boundaries: invalid times and topic length
+The two confirmations are sequential, so this case checks AC-16. AC-17 (20 truly concurrent requests) cannot be produced by hand; it is verified by the automated integration test T-17.
+
+### UAT-03 Boundaries: invalid times, durations, and topic length
 
 | | |
 |---|---|
 | **Requirements and AC** | BR-03, BR-04, BR-08; AC-11, AC-12, AC-15b |
-| **Purpose** | Invalid input is rejected with a clear message, and nothing is saved. |
+| **Purpose** | Invalid input is rejected with a clear message and nothing is saved; the limits themselves are accepted. |
 | **Roles** | S1, then C1 |
 | **Preconditions** | Signed out. Choose a new date D3 10 to 30 days ahead. |
-| **Inputs** | Past date: yesterday at 10:00. Times on D3: 17:00 for 60 minutes, then 17:30 for 30 minutes, then 18:00 for 30 minutes. Topics `ab` (2 characters) and `abc` (3 characters). |
+| **Inputs** | Past date: yesterday at 10:00. Times on D3: 17:00 for 60 minutes, 17:30 for 30 minutes, 18:00 for 30 minutes, 19:00 for **15 minutes**, and 20:00 for **120 minutes**. Topics `ab` (2 characters), `abc` (3), and the 200- and 201-character topics below. |
+
+Topic of exactly 200 characters, `0123456789` twenty times. Copy it from `docs/labs/lab-06/uat-cases.md` in the repository, because a PDF copy may add line breaks:
+
+```text
+01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789
+```
+
+The 201-character topic is the same text with `X` added at the end.
 
 1. Sign in as S1. Enter yesterday's date, 10:00, and 30 minutes, then choose **Add time**. Expected: *A slot must start in the future.*, and nothing is added.
 2. Add D3, 17:00, **60 minutes**. Expected: *Time added.*
 3. Add D3, 17:30, 30 minutes. Expected: *This time overlaps another slot on the schedule.*, and nothing is added.
 4. Add D3, 18:00, 30 minutes, which starts exactly when the 17:00 time ends. Expected: *Time added.* Adjacent times are allowed.
-5. Log out and sign in as C1. Choose the S1 consultation service, D3, and 18:00. Enter the topic `ab` and confirm. Expected: an error under the topic says it must be 3 to 200 characters, and no booking is made.
-6. Change the topic to `abc` and confirm. Expected: the booking is confirmed.
+5. Add D3, 19:00, **15 minutes** (the shortest duration). Expected: *Time added*, shown as 19:00 to 19:15.
+6. Add D3, 20:00, **120 minutes** (the longest duration). Expected: *Time added*, shown as 20:00 to 22:00.
+7. Open the **Duration** list. Expected: it offers only 15, 30, 45, 60, 90, and 120 minutes, so 14 and 121 minutes cannot be chosen.
+8. Log out and sign in as C1. Choose the S1 consultation service, D3, and 18:00. Enter the topic `ab` and confirm. Expected: *Enter a topic of 3 to 200 characters.* under the topic, and no booking is made.
+9. Replace the topic with the 201-character topic and confirm. Expected: the same message, and no booking is made.
+10. Replace it with the 200-character topic and confirm. Expected: the booking is confirmed, and its detail shows the full topic.
+11. Choose D3 and 19:00, enter the topic `abc`, and confirm. Expected: the booking is confirmed.
+12. Open **My bookings**. Expected: exactly two bookings on D3 (18:00 and 19:00), and none for the rejected attempts.
+
+Through the UI this case checks the past start, the 15- and 120-minute limits, overlap, adjacency, and topic lengths 2, 3, 200, and 201. Rejections of 14 and 121 minutes, and of an end not after the start, cannot be entered in the UI; they are verified by automated tests T-11a and T-11b.
 
 ### UAT-04 Forbidden role and ownership
 
@@ -179,11 +197,11 @@ agreed handoff channel. Include:
 |---|---|
 | AC-01 to AC-03 | UAT-06 |
 | AC-05, AC-06 | UAT-04 |
-| AC-10 to AC-12 | UAT-01, UAT-03 |
-| AC-14 to AC-17 | UAT-01, UAT-02, UAT-03, UAT-05 |
+| AC-10 to AC-12 | UAT-01, UAT-03 (14 and 121 minutes and end before start: T-11a, T-11b only) |
+| AC-14 to AC-16 | UAT-01, UAT-02, UAT-03, UAT-05 |
 | AC-20 to AC-24 | UAT-01, UAT-04, UAT-05 |
 | AC-27 | UAT-01 |
-| AC-04, AC-07, AC-08, AC-13, AC-18, AC-19, AC-25, AC-26 | Automated tests only. They cannot be observed through the UI without developer tools. |
+| AC-04, AC-07, AC-08, AC-13, AC-17, AC-18, AC-19, AC-25, AC-26 | Automated tests only. They cannot be observed through the UI without developer tools. |
 
 ## 4. Execution record (completed by the UAT Team)
 
