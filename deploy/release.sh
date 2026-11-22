@@ -54,14 +54,11 @@ DEPLOYED_REVISION="$(python3 -c 'import json,sys; print(json.load(sys.stdin)["st
 
 REVISION_INFO="$(gcloud run revisions describe "$DEPLOYED_REVISION" \
   --project="$PROJECT_ID" --region="$REGION" --format=json)"
-read -r RUNNING_IMAGE RUNNING_COMMIT < <(python3 deploy/revision_info.py <<<"$REVISION_INFO")
-
-[[ "$RUNNING_IMAGE" == "$DIGEST_IMAGE" ]] || {
-  echo "Latest ready revision is not running the deployed image digest (revision reports: '${RUNNING_IMAGE:-none}')." >&2
-  exit 1
-}
-[[ "$RUNNING_COMMIT" == "$IMAGE_TAG" ]] || {
-  echo 'Latest ready revision does not record the requested commit SHA.' >&2
+# The revision must run an image from our repository, pinned by digest, recording this commit.
+# Its digest may differ from the tag's: the tag can point to an index (Issue #48).
+RUNNING_IMAGE="$(python3 deploy/revision_info.py --verify \
+  "${REGION}-docker.pkg.dev/${PROJECT_ID}/hairroot/hairroot" "$IMAGE_TAG" <<<"$REVISION_INFO")" || {
+  echo 'Latest ready revision does not match this release (reason above).' >&2
   exit 1
 }
 
@@ -78,10 +75,10 @@ done
   exit 1
 }
 
-printf 'Commit: %s\nImage digest: %s\nCloud Run revision: %s\n' \
-  "$IMAGE_TAG" "$DIGEST_IMAGE" "$DEPLOYED_REVISION"
+printf 'Commit: %s\nPushed tag digest: %s\nRunning image: %s\nCloud Run revision: %s\n' \
+  "$IMAGE_TAG" "$DIGEST_IMAGE" "$RUNNING_IMAGE" "$DEPLOYED_REVISION"
 
 if [[ -n "${GITHUB_ENV:-}" ]]; then
   printf 'SERVICE_URL=%s\nDEPLOYED_IMAGE=%s\nDEPLOYED_REVISION=%s\n' \
-    "$SERVICE_URL" "$DIGEST_IMAGE" "$DEPLOYED_REVISION" >> "$GITHUB_ENV"
+    "$SERVICE_URL" "$RUNNING_IMAGE" "$DEPLOYED_REVISION" >> "$GITHUB_ENV"
 fi
