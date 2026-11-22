@@ -28,6 +28,11 @@ def image_and_commit(revision):
     return container.get("image", "") or "", env.get("DEPLOYED_COMMIT_SHA", "") or ""
 
 
+def verify(revision, repository, commit):
+    """Return "" when the revision runs our image for `commit`, or a reason when it does not."""
+    raise NotImplementedError
+
+
 def format_line(text):
     image, commit = image_and_commit(json.loads(text))
     return f"{image} {commit}"
