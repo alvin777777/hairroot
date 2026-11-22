@@ -26,7 +26,7 @@
 | Deploy and WIF scripts; ruleset; `demo` environment | [#31](https://github.com/alvin777777/hairroot/issues/31), [#32](https://github.com/alvin777777/hairroot/issues/32) | [#39](https://github.com/alvin777777/hairroot/pull/39) | ไอโว; WIF fix by ทิฐินันท์ | ทิฐินันท์ (found that `job_workflow_ref` is absent for normal jobs; fixed in `a22b631`) |
 | Deploy workflow and release script | [#33](https://github.com/alvin777777/hairroot/issues/33) | [#44](https://github.com/alvin777777/hairroot/pull/44) | ทิฐินันท์ | ไอโว (found the summary backtick defect; re-reviewed) |
 | Visible change: version footer | [#45](https://github.com/alvin777777/hairroot/issues/45) | [#46](https://github.com/alvin777777/hairroot/pull/46) | ไอโว | ทิฐินันท์ |
-| Persistence check | [#34](https://github.com/alvin777777/hairroot/issues/34) | Browser and Console check; no code change | ทิฐินันท์ | — |
+| Persistence check | [#34](https://github.com/alvin777777/hairroot/issues/34) | Browser and Console check, before and after two redeploys; no code change | ทิฐินันท์ | — |
 | deployment.md and this PDF | [#35](https://github.com/alvin777777/hairroot/issues/35) | [#53](https://github.com/alvin777777/hairroot/pull/53) | ไอโว | ทิฐินันท์ |
 
 ### Evidence index
@@ -38,7 +38,7 @@
 | 1. CI and quality gate | [PR #43](https://github.com/alvin777777/hairroot/pull/43); [run 44891832001](https://github.com/alvin777777/hairroot/actions/runs/44891832001) | C-02, commit `579de3c` | `test-and-docker` failed; merge blocked; closed unmerged |
 | 2. Docker and configuration | [Dockerfile](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/Dockerfile); [C-03 output](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c03-fresh-clone-compose.txt) | C-03, commit `4a434e8` | Fresh clone builds and runs; data survives a restart; no secret in the image |
 | 3. GCP deployment | [Public URL](https://hairroot-368003298307.asia-southeast1.run.app); [live checks](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c04-live-checks.txt); Figures 5 and 6 | C-04 | Ready with `db: connected`; access restriction and CSRF control work. Signed-in booking journey: Figures 7a to 7d |
-| 3. GCP deployment | Figures 7a to 7c (before) and Figure 9 (redeploys) | C-05, revisions `e1a408a` to `ac0a57b` | Booking created before two redeploys. The "after" screenshot was not captured (see Limitations) |
+| 3. GCP deployment | Figures 7a to 7c (before), Figure 9 (redeploys), and Figures 10a to 10c (after) | C-05, revisions `e1a408a` to `ac0a57b` | Booking created on `e1a408a` (Figures 7a to 7c) is still booked on `ac0a57b` after two redeploys (Figures 10a to 10c) |
 | 4. Release pipeline | Issue #45, PR #46, release PR #52, [deploy run 44992339630](https://github.com/alvin777777/hairroot/actions/runs/44992339630) | C-06, commit `ac0a57b` | All steps green; the revision and live `/api/version` show `ac0a57b` |
 
 ## Answer Part 1: CI and Quality Gate
@@ -207,7 +207,19 @@ POST /api/auth/login, foreign origin  -> 403 CSRF_REJECTED
 
 **C-05: data survives a restart and a redeploy.** Before: Figures 7a to 7c, the booking "ผมร่วงตลอดเลย" for Tue 24 Nov, 11:00, created on revision `hairroot-sha-e1a408af040a-44941950376-1`. Since then the service was redeployed twice, through `hairroot-sha-c40463c3901e-44985131642-1` and `hairroot-sha-ac0a57b9eb87-44992339630-1` (Figure 9). Each release also reran the migration job and the seed, which never deletes data.
 
-**Not captured at submission:** an "after" screenshot on revision `ac0a57b` showing this booking. The redeploys and the rerunnable seed are shown above, and C-03 shows locally that a booking survives a restart and a reseed. Live persistence after the redeploys is therefore not proven by a screenshot here.
+**After** (ทิฐินันท์, 22 November 2026, 16:38, revision `ac0a57b`, two redeploys later): Dr. Somchai's schedule still shows the same booking.
+
+![After, full schedule](screenshots/c05-2-after-full-schedule.png)
+
+*Figure 10a. C-05 (R-04) after: Dr. Somchai Prasert's live schedule, signed in as the Specialist, with the footer "Version ac0a57b".*
+
+![After, booked row](screenshots/c05-3-after-tue24-row.png)
+
+*Figure 10b. Enlarged from Figure 10a: Tue 24 Nov, 11:00 to 11:30, still **Booked** by Anan Suksan with the topic "ผมร่วงตลอดเลย", the booking created in Figure 7b on revision `e1a408a`.*
+
+![After, footer](screenshots/c05-4-after-footer.png)
+
+*Figure 10c. Enlarged from Figure 10a: the footer "Version ac0a57b", the release served after both redeploys. Figures 10a to 10c come from a screenshot shared through chat, so the enlargements are soft.*
 
 ## Answer Part 4: Repeatable Release Pipeline
 
@@ -278,7 +290,7 @@ No password, connection string, or key was pasted into an AI chat.
 **Limitations.**
 - Lab 5 was due 15 November 2026, and this work continued after that date.
 - The budget period ends on 30 November 2026. It should be extended to the Final Project deadline.
-- **C-05 is incomplete:** the "before" booking and the two later redeploys are shown, but there is no "after" screenshot on revision `ac0a57b`.
+- **C-05 has no restart:** it covers two redeploys, `e1a408a` to `c40463c` to `ac0a57b`. A separate restart without a new release was not performed. The "after" figures are enlarged from a chat screenshot and are soft.
 - **No settings screenshots:** the ruleset settings page and the Cloud SQL instance have no Console screenshots. The ruleset is shown through the GitHub API output and enforced on PR #43, and Cloud SQL is shown through the service's connection and `/api/ready`.
 - **PR #43 screenshot:** it was taken after the PR was closed, so it shows the failed check and the unmerged state, not the disabled merge button.
 - **Smoke test login is skipped:** `SMOKE_EMAIL` and `SMOKE_PASSWORD` are not configured, so the smoke test does not sign in. Health, readiness with the database, and the UI are checked.
