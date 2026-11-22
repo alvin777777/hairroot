@@ -85,7 +85,9 @@ AssertionError: expected true to be false // Object.is equality
 Test Files  1 failed | 8 passed
 ```
 
-The ruleset blocked the merge, and the PR was closed unmerged. The released application was never affected. [PENDING: Figure of PR #43 showing the failed check and the blocked merge button, from ทิฐินันท์]
+The ruleset blocked the merge, and the PR was closed unmerged. The released application was never affected. ![PR 43](screenshots/c02-pr43-failed-check-closed.png)
+
+*Figure C-02. [PR #43](https://github.com/alvin777777/hairroot/pull/43), 22 November 2026: the temporary branch `demo/30-failing-check` into `main`. The last commit, `579de3c` "test: demonstrate required CI failure", has the failed `test-and-docker` check (✗). The PR was closed with unmerged commits, and its branch was deleted. This screenshot was taken after closing, so the merge box is not shown. The ruleset requires `test-and-docker` (Part 1 above).*
 
 *Note:* the first attempt, [PR #40](https://github.com/alvin777777/hairroot/pull/40), branched from `main`, which did not have the workflow yet, so no check ran. It was closed unmerged and redone from `sprint-1-staging`.
 
@@ -156,7 +158,11 @@ Secret scanning and push protection are on. `.env` files are ignored by Git. A s
 - Cloud Run service `hairroot` (min 0, max 3 instances)
 - Runtime service account `hairroot-runner`
 
-ทิฐินันท์ (project Owner) ran `deploy/deploy.sh` in Cloud Shell, after a dry run he reviewed on #39. [PENDING: Figure of the Cloud Run service and the Cloud SQL instance in the Console]
+ทิฐินันท์ (project Owner) ran `deploy/deploy.sh` in Cloud Shell, after a dry run he reviewed on #39. ![Cloud Run](screenshots/part3-cloud-run-revisions.png)
+
+*Figure 9. Cloud Run service `hairroot` in `asia-southeast1`. The revision history shows the first deploys by `deploy.sh` (`hairroot-00001`, `-00002`) and the three pipeline releases. `hairroot-sha-ac0a57b9eb87-44992339630-1` serves 100%. Its environment shows `DEPLOYED_COMMIT_SHA` = `ac0a57b…`, both service URLs in `CLIENT_ORIGIN`, and `DATABASE_URL` only as a Secret Manager reference. There is one Cloud SQL connection.*
+
+[PENDING: Figure of the Cloud SQL instance `hairroot-pg` in the Console]
 
 **C-04: domain workflow on the public URL** (https://hairroot-368003298307.asia-southeast1.run.app). Every screenshot carries a banner with the real address and time, added by [`tools/pdf/capture-live.mjs`](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/tools/pdf/capture-live.mjs).
 
@@ -168,7 +174,25 @@ Secret scanning and push protection are on. `.env` files are ignored by Git. A s
 
 *Figure 6. C-04 (R-03): a wrong password is rejected on the live URL.*
 
-[PENDING: Figures from `capture-live.mjs` with the demo password set: the confirm step, the booking confirmed, another customer's booking showing "Booking not found.", and the specialist seeing the booking]
+**Signed-in journey on the live service** (ทิฐินันท์, 22 November 2026, 03:16 to 03:21, revision `e1a408a`):
+
+![Confirm step](screenshots/c04-3-customer-confirm-live.png)
+
+*Figure 7a. C-04: customer Anan chooses Hair transplant consultation with Dr. Somchai Prasert, Tue 24 Nov, 11:00 to 11:30, topic "ผมร่วงตลอดเลย".*
+
+![Confirmed](screenshots/c04-4-booking-confirmed-live.png)
+
+*Figure 7b. C-04: the booking is confirmed and saved.*
+
+![Specialist view](screenshots/c05-1-before-specialist-sees-booking.png)
+
+*Figure 7c. C-04 and C-05 "before": Dr. Somchai's schedule shows Tue 24 Nov, 11:00 to 11:30, as **Booked** by Anan Suksan with the topic.*
+
+![Live URL](screenshots/c04-5-live-url-login-version.png)
+
+*Figure 7d. C-04: the browser address bar shows the live URL `hairroot-368003298307.asia-southeast1.run.app/login`, with "Version ac0a57b".*
+
+The rule rejection and access restriction on the live URL are in Figure 6 (wrong password) and the live checks above (401 without a session, 403 from a foreign origin). [PENDING: optional live "Booking not found." screenshot from `capture-live.mjs`]
 
 **UI, API, and database connectivity** (from [c04-live-checks.txt](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c04-live-checks.txt), 21 November 2026, 13:35 UTC):
 
@@ -181,7 +205,9 @@ POST /api/auth/login, own origin      -> 401 INVALID_CREDENTIALS (origin accepte
 POST /api/auth/login, foreign origin  -> 403 CSRF_REJECTED
 ```
 
-**C-05: data survives a restart and a redeploy.** [PENDING: a booking before, after a new revision or restart, and after a redeploy, with revision names]
+**C-05: data survives a restart and a redeploy.** Before: Figures 7a to 7c, the booking "ผมร่วงตลอดเลย" for Tue 24 Nov, 11:00, created on revision `hairroot-sha-e1a408af040a-44941950376-1`. Since then the service was redeployed twice, through `hairroot-sha-c40463c3901e-44985131642-1` and `hairroot-sha-ac0a57b9eb87-44992339630-1` (Figure 9). Each release also reran the migration job and the seed, which never deletes data.
+
+[PENDING: "after" screenshot on revision ac0a57b: Dr. Somchai's schedule or Anan's My bookings still showing Tue 24 Nov, 11:00, "ผมร่วงตลอดเลย", with the URL or the footer "Version ac0a57b" visible]
 
 ## Answer Part 4: Repeatable Release Pipeline
 
@@ -223,6 +249,10 @@ The two digests differ because the pushed tag points to an image index, while Cl
 *Figure 7. C-06 (R-08): the live URL shows "Version ac0a57b". Its tooltip and `/api/version` give the full SHA `ac0a57b9eb871128807733a0e9d75d77a662b477`.*
 
 ![Green deploy run](screenshots/c06-2-green-deploy-run.png)
+
+![Deploy steps](screenshots/c06-3-deploy-steps-green.png)
+
+*Figure 8b. C-06 (R-07): the `deploy` job of run 44992339630 passed every step: WIF authentication, build and push, verify, migrate, and deploy, the smoke test, and the summary.*
 
 *Figure 8. C-06 (R-07): [deploy run 44992339630](https://github.com/alvin777777/hairroot/actions/runs/44992339630), triggered by the merge of release PR #52 into `main` at `ac0a57b`. Both `test-and-docker` and `deploy` succeeded.*
 
