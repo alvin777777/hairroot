@@ -4,7 +4,7 @@ import express, { type NextFunction, type Request, type Response } from "express
 import { getPrisma } from "./prisma.js";
 import cors from "cors";
 import cookieParser from "cookie-parser";
-import { csrfOriginCheck, allowedOrigin } from "./middleware/csrf.js";
+import { csrfOriginCheck, allowedOrigins } from "./middleware/csrf.js";
 import { authRouter } from "./routes/auth.js";
 import { schedulesRouter } from "./routes/schedules.js";
 import { bookingsRouter, slotsRouter } from "./routes/bookings.js";
@@ -17,7 +17,7 @@ app.get("/healthz", (_req, res) => {
   res.status(200).json({ status: "ok" });
 });
 
-app.use(cors({ origin: allowedOrigin(), credentials: true }));
+app.use(cors({ origin: (origin, done) => done(null, !!origin && allowedOrigins().includes(origin)), credentials: true }));
 app.use(csrfOriginCheck);
 app.use(cookieParser());
 app.use(express.json());
@@ -35,10 +35,17 @@ app.get("/api/health", (_req, res) => {
 app.get("/api/ready", async (_req, res) => {
   try {
     await getPrisma().$queryRaw`SELECT 1`;
-    res.status(200).json({ status: "ready" });
+    res.status(200).json({ status: "ready", db: "connected" });
   } catch {
     res.status(503).json({ status: "unavailable" });
   }
+});
+
+// Lab 5 #45 (R-08): which commit this revision serves. release.sh sets DEPLOYED_COMMIT_SHA on each revision.
+// Only a full commit SHA is returned, so nothing else from the environment can leak here.
+app.get("/api/version", (_req, res) => {
+  const sha = process.env.DEPLOYED_COMMIT_SHA ?? "";
+  res.status(200).json({ commit: /^[0-9a-f]{40}$/.test(sha) ? sha : null });
 });
 
 app.use("/api", (_req, res) => {

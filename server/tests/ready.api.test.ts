@@ -14,7 +14,7 @@ describe("health and readiness (Lab 5 #2)", () => {
   it("reports ready at /api/ready when the database answers", async () => {
     const res = await api().get("/api/ready");
     expect(res.status).toBe(200);
-    expect(res.body).toEqual({ status: "ready" });
+    expect(res.body).toEqual({ status: "ready", db: "connected" });
   });
 
   it("answers 503 at /api/ready when the database cannot be reached, without internal details", async () => {
