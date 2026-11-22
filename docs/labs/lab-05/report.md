@@ -9,9 +9,9 @@
 | **Students** | ไอโว ปีเตอร์ อัลวิน รันเน่, 67070501051, GitHub `alvin777777`<br>ทิฐินันท์ สอบกิ่ง, 67070501018, GitHub `Ohmmykung09` |
 | **Repository (public)** | https://github.com/alvin777777/hairroot |
 | **Starting point** | Sprint 1 release `v0.1.0-sprint1`, commit `d1e8d81` |
-| **Submitted release** | [PENDING: Lab 5 release tag and commit on main] |
+| **Submitted release** | `main` at commit `ac0a57b9eb871128807733a0e9d75d77a662b477` (release PR #52) |
 | **Public URL** | https://hairroot-368003298307.asia-southeast1.run.app |
-| **Running revision and commit** | [PENDING: Cloud Run revision name and the commit or image it serves] |
+| **Running revision and commit** | `hairroot-sha-ac0a57b9eb87-44992339630-1` serves `ac0a57b`, deployed by [run 44992339630](https://github.com/alvin777777/hairroot/actions/runs/44992339630). The live `/api/version` and the page footer report the same commit. |
 | **GCP project** | `cpe334-hairroot`, region `asia-southeast1` |
 | **Deployment guide** | [docs/labs/lab-05/deployment.md](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/deployment.md) |
 
@@ -25,7 +25,7 @@
 | CI on Pull Requests; C-02 demonstration | [#30](https://github.com/alvin777777/hairroot/issues/30) | [#38](https://github.com/alvin777777/hairroot/pull/38); [#43](https://github.com/alvin777777/hairroot/pull/43), closed unmerged | ทิฐินันท์ | ไอโว (for #38) |
 | Deploy and WIF scripts; ruleset; `demo` environment | [#31](https://github.com/alvin777777/hairroot/issues/31), [#32](https://github.com/alvin777777/hairroot/issues/32) | [#39](https://github.com/alvin777777/hairroot/pull/39) | ไอโว; WIF fix by ทิฐินันท์ | ทิฐินันท์ (found that `job_workflow_ref` is absent for normal jobs; fixed in `a22b631`) |
 | Deploy workflow and release script | [#33](https://github.com/alvin777777/hairroot/issues/33) | [#44](https://github.com/alvin777777/hairroot/pull/44) | ทิฐินันท์ | ไอโว (found the summary backtick defect; re-reviewed) |
-| Visible change: version footer | [#45](https://github.com/alvin777777/hairroot/issues/45) | [#46](https://github.com/alvin777777/hairroot/pull/46) | ไอโว | [PENDING: review of #46] |
+| Visible change: version footer | [#45](https://github.com/alvin777777/hairroot/issues/45) | [#46](https://github.com/alvin777777/hairroot/pull/46) | ไอโว | ทิฐินันท์ |
 | Persistence check | [#34](https://github.com/alvin777777/hairroot/issues/34) | [PENDING] | ทิฐินันท์ | [PENDING] |
 | deployment.md and this PDF | [#35](https://github.com/alvin777777/hairroot/issues/35) | [PENDING: PR] | ไอโว | [PENDING] |
 
@@ -39,7 +39,7 @@
 | 2. Docker and configuration | [Dockerfile](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/Dockerfile); [C-03 output](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c03-fresh-clone-compose.txt) | C-03, commit `4a434e8` | Fresh clone builds and runs; data survives a restart; no secret in the image |
 | 3. GCP deployment | [Public URL](https://hairroot-368003298307.asia-southeast1.run.app); [live checks](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/evidence/c04-live-checks.txt); Figures 5 and 6 | C-04 | Ready with `db: connected`; access restriction and CSRF control work. [PENDING: signed-in journey figures] |
 | 3. GCP deployment | [PENDING: before and after screenshots] | C-05 | [PENDING] |
-| 4. Release pipeline | [PENDING: Issue, PRs, deploy run, revision] | C-06 | [PENDING] |
+| 4. Release pipeline | Issue #45, PR #46, release PR #52, [deploy run 44992339630](https://github.com/alvin777777/hairroot/actions/runs/44992339630) | C-06, commit `ac0a57b` | All steps green; the revision and live `/api/version` show `ac0a57b` |
 
 ## Answer Part 1: CI and Quality Gate
 
@@ -187,11 +187,46 @@ POST /api/auth/login, foreign origin  -> 403 CSRF_REJECTED
 
 **Keyless access.** [`deploy/setup-wif.sh`](https://github.com/alvin777777/hairroot/blob/deploy/31-gcp-first-deploy/deploy/setup-wif.sh) creates the deployer `hairroot-deployer`, which has no keys. Its roles are Cloud Run developer, Artifact Registry writer on `hairroot` only, and service account user on `hairroot-runner` only. It also creates Workload Identity Federation pool `github-actions` and provider `github-main`.
 
-The provider accepts only tokens from `.github/workflows/deploy.yml` on `refs/heads/main` of this repository (owner ID 161717496, repo ID 1449523924), through environment `demo`. The GitHub environment `demo` allows deployment from `main` only. [PENDING: confirmation that setup-wif.sh ran, and the four environment variables were set]
+The provider accepts only tokens from `.github/workflows/deploy.yml` on `refs/heads/main` of this repository (owner ID 161717496, repo ID 1449523924), through environment `demo`. The GitHub environment `demo` allows deployment from `main` only. ทิฐินันท์ ran `setup-wif.sh` as Owner. ไอโว set the four non-secret variables on environment `demo` (`GCP_PROJECT_ID`, `GCP_REGION`, `WIF_PROVIDER`, `WIF_SERVICE_ACCOUNT`), and the environment holds no secrets. All three deploy runs below authenticated through WIF, with no service account key.
 
-**C-06: one labelled change through the pipeline.** [PENDING: Issue, then PR into `sprint-1-staging` with a specific teammate review, then release PR into `main`, then CI, then the deploy run, then the running revision and its commit]
+**C-06: one labelled change through the pipeline.** The visible change is the version footer.
 
-**Release procedure.** See [deployment.md](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/deployment.md). [PENDING: final procedure, including how to find the running commit and how to roll back]
+1. [Issue #45](https://github.com/alvin777777/hairroot/issues/45), labelled `lab5`.
+2. [PR #46](https://github.com/alvin777777/hairroot/pull/46) into `sprint-1-staging`, with failing tests first (`0c007a1`). ทิฐินันท์ reviewed it: *"the endpoint only exposes a validated 40-character DEPLOYED_COMMIT_SHA, and the footer shows its 7-character prefix on all routes."* `test-and-docker` passed.
+3. Release PRs from `sprint-1-staging` into `main`, each requiring an approval and `test-and-docker`, after which `deploy.yml` ran:
+
+| Release PR | Commit | Deploy run | Result |
+|---|---|---|---|
+| [#47](https://github.com/alvin777777/hairroot/pull/47) | `e1a408a` | [44941950376](https://github.com/alvin777777/hairroot/actions/runs/44941950376) | Deployed and serving, but the post-deploy check failed and stopped before the smoke test ([#48](https://github.com/alvin777777/hairroot/issues/48)) |
+| [#50](https://github.com/alvin777777/hairroot/pull/50) | `c40463c` | [44985131642](https://github.com/alvin777777/hairroot/actions/runs/44985131642) | Same. The clearer message from #49 showed the running digest differs from the tag digest |
+| [#52](https://github.com/alvin777777/hairroot/pull/52) | `ac0a57b` | [44992339630](https://github.com/alvin777777/hairroot/actions/runs/44992339630) | **Every step passed**, after #51 changed the check to repository, commit, and live version |
+
+From run 44992339630:
+
+```text
+Service [hairroot] revision [hairroot-sha-ac0a57b9eb87-44992339630-1] has been deployed and is serving 100 percent of traffic.
+Commit: ac0a57b9eb871128807733a0e9d75d77a662b477
+Pushed tag digest: .../hairroot/hairroot@sha256:f4379144fda5...
+Running image:     .../hairroot/hairroot@sha256:d6d223caa24a...
+Cloud Run revision: hairroot-sha-ac0a57b9eb87-44992339630-1
+PASS /api/health
+PASS /api/ready
+PASS /
+SKIP login: optional smoke credentials are not configured
+$ curl <URL>/api/version  ->  {"commit":"ac0a57b9eb871128807733a0e9d75d77a662b477"}
+```
+
+The two digests differ because the pushed tag points to an image index, while Cloud Run records the platform image it runs. The release check therefore verifies three things: the repository and digest pinning, the revision's commit, and the live version. The two failed runs show the pipeline stopping instead of reporting success it could not verify. Every merge into `main` here was a reviewed release PR, and nothing was pushed to `main` directly.
+
+[PENDING: Figure of the live footer showing "Version ac0a57b" with the URL, and of the green run summary]
+
+**Release procedure.** This is summarised from [deployment.md](https://github.com/alvin777777/hairroot/blob/sprint-1-staging/docs/labs/lab-05/deployment.md#release-procedure).
+
+1. Open an Issue labelled `lab5`, branch from `sprint-1-staging`, and open a PR into it. The teammate reviews, and `test-and-docker` must pass.
+2. Open a release PR from `sprint-1-staging` into `main`. If GitHub asks, update the branch, because the ruleset requires it to be up to date. It needs an approval and `test-and-docker`.
+3. Merging runs `deploy.yml`: CI again, then build, push with the full commit SHA tag, the migration job, the service update, the verification, and the smoke test.
+4. To find the running commit, look at the footer *Version abc1234*, `GET /api/version`, the revision name `hairroot-sha-<12 chars>-<run id>-<attempt>`, or the run summary.
+5. To roll back, use Actions > *Deploy HairRoot demo* > Run workflow on `main` with `image_tag` set to an earlier full commit SHA. This skips tests, build, and migration.
 
 ## AI use and limitations
 

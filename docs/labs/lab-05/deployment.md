@@ -112,3 +112,19 @@ Demo account passwords are in Secret Manager (`hairroot-demo-password`). The pro
 privately, and they never appear in Git, chats, or screenshots. For C-04 evidence, run
 `HAIRROOT_URL=https://hairroot-368003298307.asia-southeast1.run.app HAIRROOT_DEMO_PASSWORD=... node tools/pdf/capture-live.mjs docs/labs/lab-05/screenshots`
 in your own terminal.
+
+## Release procedure
+
+1. Open an Issue labelled `lab5`, branch from `sprint-1-staging`, and open a PR into `sprint-1-staging`. The teammate reviews it, and `test-and-docker` must pass.
+2. Open a release PR from `sprint-1-staging` into `main`. The ruleset requires one approval, `test-and-docker`, and an up-to-date branch, so use **Update branch** if GitHub asks.
+3. Merging into `main` runs `.github/workflows/deploy.yml`:
+   1. CI again
+   2. WIF login, then build and push `hairroot:<full commit SHA>`
+   3. the `hairroot-migrate` job (migrations and the rerunnable seed)
+   4. `gcloud run services update` with `DEPLOYED_COMMIT_SHA`
+   5. verification with `deploy/revision_info.py`: the image comes from our repository, is pinned by a digest, and the revision records the commit; then the live `/api/version` must match
+   6. the smoke test
+4. Find the running commit in any of these places: the page footer (*Version abc1234*), `GET /api/version`, the revision name `hairroot-sha-<12 chars>-<run id>-<attempt>`, or the run summary.
+5. Roll back from Actions > *Deploy HairRoot demo* > **Run workflow** on `main`, with `image_tag` set to the full SHA of an earlier release. This skips tests, build, and migration, so keep migrations additive.
+
+The running digest can differ from the pushed tag's digest, because the tag points to an image index while Cloud Run records the platform image (Issue #48). The check does not compare the two.
