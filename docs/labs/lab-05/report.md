@@ -1,6 +1,6 @@
 # CPE 334 Lab 5: Cloud Deployment and CI/CD Pipeline on GCP
 
-**HairRoot**, hair clinic appointment booking (Group Project Theme 1). [PENDING: section and group name]
+**HairRoot**, hair clinic appointment booking (Group Project Theme 1). Group **TH-060_P1**, section [PENDING: section number]
 
 ## Answer Part 0: Team and Evidence Index
 
