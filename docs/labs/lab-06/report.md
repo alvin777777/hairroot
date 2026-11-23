@@ -10,8 +10,8 @@
 | **Sprint 1 baseline** | Tag `v0.1.0-sprint1`, commit `d1e8d81` |
 | **Tested release** | Commit `ac0a57b` on `main`, Cloud Run revision `hairroot-sha-ac0a57b9eb87-44992339630-1` |
 | **Deployed URL** | https://hairroot-368003298307.asia-southeast1.run.app |
-| **Partner team** | [PENDING: team name, both students and IDs, and their repository and URL] |
-| **Independent UAT testers of HairRoot** | [PENDING: names of the partner team's testers] |
+| **Partner team** | ซวยแล้วหนูคู่หูพี่มาแล้ว: Anapat Banjerdsilp (67070501049) and Siwarak Chatvichai (67070501086). Product DineQ, restaurant walk-in queue (Theme 9). Repository https://github.com/PpAnpt/dineq |
+| **Independent UAT testers of HairRoot** | Anapat Banjerdsilp and Siwarak Chatvichai [PENDING: confirm both tested] |
 | **Final UAT decision for HairRoot** | [PENDING: Accepted, Accepted with documented minor limitations, or Not Accepted, recorded by the partner team] |
 
 <!-- TOC -->
@@ -64,7 +64,15 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 
 ## Part B: Independent execution of the partner team's product
 
-**Product tested.** [PENDING: partner product name, tested release or commit, URL, and the cases they gave us]
+**Product tested.** DineQ (restaurant walk-in queue management, CPE 334 Theme 9) by ซวยแล้วหนูคู่หูพี่มาแล้ว.
+
+| | |
+|---|---|
+| Release under test | Commit `17c8b90` on `main` (merge of their PR #42) |
+| Cloud Run revision | `s21271a0d-00005-rdp` |
+| URL | https://s21271a0d-4d7hbszvwq-as.a.run.app/login |
+| Deploy evidence | https://github.com/PpAnpt/dineq/actions/runs/44986245220 |
+| Cases received | [PENDING: their UAT case document and IDs] |
 
 Both students tested together. Results are recorded as observed, not copied from expected results.
 
