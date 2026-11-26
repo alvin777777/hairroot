@@ -59,7 +59,7 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 |---|---|---|---|---|
 | Handoff | [PENDING] | Both teams | [PENDING] | [PENDING] |
 | Initial UAT of HairRoot (run R01) | 26 Nov 2026, 17:46 to 18:27 Bangkok | Siwarak Chatvichai (DineQ) [PENDING: Anapat's part] | `ac0a57b` (footer) | 5 PASS, 1 FAIL (UAT-07), 1 BLOCKED (UAT-05 step 4) |
-| Our UAT of the partner product | [PENDING] | ไอโว and ทิฐินันท์ | [PENDING] | [PENDING] |
+| Our UAT of DineQ (final run) | 25 Nov 2026, 21:19 to 21:24 Bangkok | ทิฐินันท์ (Playwright-driven session) [PENDING: ไอโว's part] | `17c8b90` (handoff value) | 9 PASS, 2 BLOCKED (DQ-UAT-04C, DQ-UAT-08B), no FAIL |
 | Re-test after corrections | [PENDING] | Partner testers | [PENDING] | [PENDING] |
 
 ## Part B: Independent execution of the partner team's product
@@ -72,15 +72,43 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 | Cloud Run revision | `s21271a0d-00005-rdp` |
 | URL | https://s21271a0d-4d7hbszvwq-as.a.run.app/login |
 | Deploy evidence | https://github.com/PpAnpt/dineq/actions/runs/44986245220 |
-| Cases received | [PENDING: their UAT case document and IDs] |
+| Cases received | DQ-UAT-01 to DQ-UAT-08B, `docs/labs/lab-06/uat-cases.md` and `handoff.md` in their repository |
 
-Both students tested together. Results are recorded as observed, not copied from expected results.
+ทิฐินันท์ ran the final pass on 25 November 2026 with a Playwright script that signs in through the visible login form and records each observation; no password, cookie, or token was recorded. Earlier attempts that evening (preflight at 20:40, and partial runs with cleanup) are kept in the raw logs but are not counted. [PENDING: ไอโว's participation, or a second run by ไอโว.] The commit and revision are the values from DineQ's handoff; the DineQ owners have not yet confirmed them against the live service. Results are as observed, not copied from expected results.
 
-| Case | Tester | Date and time | Tested version | Inputs | Actual result | Result | Evidence |
+| Case | Tester | Time (25 Nov, Bangkok) | Tested version | Inputs | Actual result | Result | Evidence |
 |---|---|---|---|---|---|---|---|
-| [PENDING: partner case ID] | [PENDING] | [PENDING] | [PENDING] | [PENDING] | [PENDING] | PASS / FAIL / BLOCKED | E-B1 |
+| DQ-UAT-01 Sign-in, roles, sign-out | ทิฐินันท์ | 21:19:29 | `17c8b90` | Unknown email; Customer, assigned Host H1, unassigned Host H2 | Wrong credentials gave `401 INVALID_CREDENTIALS`; each role saw its own pages; H2 denied the queue; after logout a protected page returned to sign-in | PASS | E-B1 |
+| DQ-UAT-02 Join, call, complete, refresh | ทิฐินันท์ | 21:19:45 | `17c8b90` | Customer joins with party size 4; H1 calls and completes | The same ticket #12 went WAITING, CALLED, COMPLETED, and the customer saw each state after refresh | PASS | E-B2, E-B3 |
+| DQ-UAT-03 Duplicate join while WAITING or CALLED | ทิฐินันท์ | 21:19:47 | `17c8b90` | Second join by the same customer | `409 DUPLICATE_ACTIVE` in both states; only the original ticket #13 existed and was completed | PASS | E-B4 |
+| DQ-UAT-04A Invalid party sizes | ทิฐินันท์ | 21:19:39 | `17c8b90` | 0, 9, 1.5 in the UI; also 0, 9, 1.5, "four" by API | All rejected; no ticket created | PASS | E-B5 |
+| DQ-UAT-04B Valid party sizes 1 and 8 | ทิฐินันท์ | 21:19:42 | `17c8b90` | 1, then 8 | Both accepted (#10, #11) and later completed | PASS | Raw log |
+| DQ-UAT-04C Join a CLOSED queue | ทิฐินันท์ | 21:19:55; context captured 21:24 | `17c8b90` | — | Not run: the queue was OPEN, and only DineQ can close and reopen it | BLOCKED | Raw log |
+| DQ-UAT-05 Customer and unassigned Host forbidden | ทิฐินันท์ | 21:19:50 | `17c8b90` | Customer and H2 call Host actions | 401/403 for every attempt; C2's ticket stayed WAITING | PASS | E-B6 |
+| DQ-UAT-06 Ticket ownership | ทิฐินันท์ | 21:19:51 | `17c8b90` | C1 requests C2's ticket by API | Denied; C2's ticket unchanged | PASS | Raw log |
+| DQ-UAT-07 FIFO and invalid transitions | ทิฐินันท์ | 21:19:55 | `17c8b90` | Two waiting tickets; invalid transitions; empty queue | Called in arrival order; invalid transitions rejected; empty queue returned 404 | PASS | Raw log |
+| DQ-UAT-08A Reload and new session | ทิฐินันท์ | 21:19:59 | `17c8b90` | Reload and a fresh session for C1 and C2 | T02 still COMPLETED and T08 still WAITING | PASS | Raw log |
+| DQ-UAT-08B Persistence after restart | ทิฐินันท์ | 21:19:59; baseline captured 21:24 | `17c8b90` | — | Not run: DineQ has not performed and announced a restart; T08 is kept as the baseline | BLOCKED | Raw log |
 
-[PENDING: evidence E-B1 and later. At least the normal journey and a negative or access case, each captioned with the evidence ID, action, expected and actual result, time, and tested version. For a rejected operation, also show that the protected state was not changed or disclosed.]
+Raw log: `results/2026-11-25T14-19-21-222Z-run-report.json` and the blocked-case record `2026-11-25T14-24-44-991Z-blocked-evidence-report.json`, kept with the screenshots outside the repository. Each screenshot has a banner with its evidence name, UTC time, and URL. All accounts are DineQ's synthetic accounts.
+
+![E-B1](evidence/DQ-01-invalid-login.png)
+*E-B1. DQ-UAT-01, 21:19:23. Action: sign in with the unknown email `uat-nobody@dineq.test`. Expected: rejected without signing in. Actual: `401 INVALID_CREDENTIALS: Email or password is incorrect`, still on the sign-in page. **PASS***
+
+![E-B2](evidence/DQ-02-customer-waiting.png)
+*E-B2. DQ-UAT-02, 21:19:43. Action: the customer joins with party size 4 and opens *My queue*. Expected: a new WAITING ticket. Actual: ticket #12, party size 4, WAITING. **PASS***
+
+![E-B3](evidence/DQ-02-completed.png)
+*E-B3. DQ-UAT-02, 21:19:44. Action: host H1 calls and completes the next ticket. Expected: the same ticket becomes COMPLETED. Actual: *Ticket #12: COMPLETED.* **PASS***
+
+![E-B4](evidence/DQ-03-duplicate-waiting.png)
+*E-B4. DQ-UAT-03, 21:19:46. Action: the customer with WAITING ticket #13 joins again. Expected: rejected; no second ticket. Actual: `409 DUPLICATE_ACTIVE: You already have an active ticket in this queue`. **PASS***
+
+![E-B5](evidence/DQ-04A-invalid-boundaries.png)
+*E-B5. DQ-UAT-04A, 21:19:39. Action: enter party size 1.5 (after 0 and 9) and join. Expected: rejected; queue unchanged. Actual: the browser's number check blocked submission (field outlined), and the run log records 0, 9, 1.5, and "four" also rejected by the API with no ticket created. **PASS***
+
+![E-B6](evidence/DQ-06-cross-customer-403.png)
+*E-B6. Access check (logged under DQ-UAT-06), 21:19:50. Action: a customer opens the host page of the queue. Expected: denied with nothing of the queue shown. Actual: `403 FORBIDDEN: This page is not available for your role`. The ticket-ownership check itself was by API and is in the raw log. **PASS***
 
 ## Part C: Defect reporting and triage
 
@@ -88,7 +116,7 @@ Both students tested together. Results are recorded as observed, not copied from
 
 | ID | Case and requirement | Version | Steps, expected, and actual | Severity and user impact | Evidence | Partner's response |
 |---|---|---|---|---|---|---|
-| [PENDING: or "None: every case passed"] | | | | | | |
+| None | Every executed DineQ case passed. DQ-UAT-04C and DQ-UAT-08B are BLOCKED on DineQ-owned setup (a CLOSED queue, and a restart), not failures | `17c8b90` | — | — | — | [PENDING: DineQ to provide the setup so both can run] |
 
 ### C.2 Results of the independent UAT of HairRoot
 
