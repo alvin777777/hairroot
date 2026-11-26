@@ -22,9 +22,9 @@
 |---|---|---|---|
 | Sprint 1 baseline | `v0.1.0-sprint1` (`d1e8d81`) | — | Accepted Sprint 1 contract and scope |
 | Release under UAT | `ac0a57b` | `hairroot-sha-ac0a57b9eb87-44992339630-1` | It adds the Lab 5 changes (Docker, CI/CD, version footer), with no Sprint 1 behaviour change, and the guided flow (C-02) |
-| Defective commit(s), if any | [PENDING] | — | |
-| Regression test (RED) | [PENDING] | — | |
-| Fix (GREEN) and release PR | [PENDING] | [PENDING] | |
+| Defective commit(s), if any | `ac0a57b` (topic length uses `topic.length`) | `hairroot-sha-ac0a57b9eb87-44992339630-1` | HR-F01 observed here by DineQ, run R01 |
+| Regression test (RED) | `c569be9`, `5f6c1f4`, `fe1af6f` (PR #58) | — | Each test failed before the commit that follows it |
+| Fix (GREEN) and release PR | `edaa6cf`, `0e489d0`, `dfc9364`; PR #58 merged as `76a4506`; release PR [PENDING] | [PENDING] | |
 | Revision re-tested by the UAT team | [PENDING] | [PENDING] | |
 
 Each release into `main` passes through `sprint-1-staging` as a merge commit, so a release commit on `main` differs from the staging commit it merges. The deployed footer *Version abc1234* and `GET /api/version` give the commit actually served.
@@ -166,7 +166,7 @@ Every received finding is classified against the Sprint 1 contract. A failing re
 
 | Issue | Reporter | Case and requirement | Version | Classification | Reason, from the contract and evidence | Severity | Owner | Status |
 |---|---|---|---|---|---|---|---|---|
-| HR-F01 [PENDING: Issue number] | Siwarak Chatvichai (DineQ) | UAT-07 steps 2, 3, and 5; BR-08, AC-15b | `ac0a57b` | Accepted defect | AC-15b requires topics shorter than 3 characters to be rejected. `🙂🙂` is 2 characters but was stored. The cause is in `server/src/services/bookings.ts`: `topic.length` counts UTF-16 code units, so `"🙂🙂".length` is 4 | Minor: no access or data loss, but an invalid booking is saved and uses up a time | ทิฐินันท์ | [PENDING: open, fixed in, re-tested] |
+| HR-F01, Issue #57 | Siwarak Chatvichai (DineQ) | UAT-07 steps 2, 3, and 5; BR-08, AC-15b | `ac0a57b` | Accepted defect | AC-15b requires topics shorter than 3 characters to be rejected. `🙂🙂` is 2 characters but was stored. The cause is in `server/src/services/bookings.ts`: `topic.length` counts UTF-16 code units, so `"🙂🙂".length` is 4 | Minor: no access or data loss, but an invalid booking is saved and uses up a time | ทิฐินันท์ | Fixed in PR #58 (`76a4506` on `sprint-1-staging`); [PENDING: release, deploy, R02 re-test] |
 
 ### C.4 Accepted minor limitations
 
@@ -176,7 +176,24 @@ Every received finding is classified against the Sprint 1 contract. A failing re
 
 ### D.1 Accepted-defect chain
 
-[PENDING: for each corrected release-blocking defect: the Issue; the regression test excerpt with RED output on the defective commit; the fix diff; GREEN output with the existing regression tests; the teammate's PR review; CI; the release PR into `main`; the deploy run and revision; the post-deployment smoke check; and the partner's re-test. If HairRoot had no legitimate defect, record the TA's controlled defect exercise here instead, on an isolated branch (Lab 6 Section 3.5).]
+**HR-F01, Issue #57.** Opened by ทิฐินันท์ on 26 November 2026 from DineQ's finding.
+
+**Product decision.** While fixing it, the HairRoot team also decided that a topic must not contain any emoji, whatever its length. This was recorded as a dated amendment to BR-08 and AC-15b in `docs/labs/lab-06/HR-F01-topic-policy.md`, with links from `srs.md` and `F-04-booking.md`. The original Sprint 1 criteria and DineQ's R01 result are kept unchanged as history. The re-test UAT-07-R02 (Appendix A) gives the new expected results. DineQ must agree to it before re-testing [PENDING: DineQ's agreement].
+
+**Regression tests and fix (PR #58).** Each RED test commit failed on the code before it, and the next commit made it pass:
+
+| Step | Commit | Observed |
+|---|---|---|
+| RED: `🙂🙂` must be rejected | `c569be9` | Expected 400, received 201 on the old server |
+| GREEN: count code points | `edaa6cf` | `Array.from(topic).length` replaces `topic.length` |
+| RED: emoji policy | `5f6c1f4` | Expected 400, received 201 for `🙂🙂🙂` |
+| GREEN: reject emoji | `0e489d0` | Topics with RGI emoji rejected |
+| RED: emoji-capable symbols | `fe1af6f` | Expected 400, received 201 for `ก❤ข` |
+| GREEN: Unicode `Emoji` property | `dfc9364` | Rejects `❤`, `☀`, `©`, flags, keycaps, and joined emoji; allows plain digits, `#`, and `*` |
+
+After the fix the server suite passed 47/47, and the client suite 8/8. The existing ASCII 2, 3, 200, and 201 boundary test still passes. ไอโว reviewed and approved PR #58, and CI `test-and-docker` (tests, E2E, Docker build) was green. It was merged into `sprint-1-staging` as `76a4506`.
+
+[PENDING: RED and GREEN terminal output excerpts; the release PR into `main`; the deploy run and revision; the post-deployment smoke check; DineQ's UAT-07-R02 re-test, and UAT-05 step 4 with the announced redeployment]
 
 ### D.2 Independent acceptance decision for HairRoot
 
