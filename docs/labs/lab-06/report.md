@@ -31,13 +31,13 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 
 ## Part A: UAT preparation and handoff
 
-**Cases.** HairRoot's six Sprint 1 UAT cases are in Appendix A, and they cover every required category:
+**Cases.** HairRoot's seven Sprint 1 UAT cases are in Appendix A, and they cover every required category:
 
 | Category | Case | AC |
 |---|---|---|
 | Normal domain journey | UAT-01 | AC-10, AC-14, AC-15, AC-20, AC-22, AC-27 |
 | Business rule | UAT-02 | AC-16 (AC-17 by automated T-17) |
-| Boundary | UAT-03 | AC-11, AC-12, AC-15b |
+| Boundary | UAT-03, UAT-07 | AC-11, AC-12, AC-15b |
 | Forbidden role or ownership | UAT-04 | AC-05, AC-06, AC-21, AC-23 |
 | State and persistence | UAT-05 | AC-14, AC-20, AC-22, AC-24 |
 | Authentication | UAT-06 | AC-01, AC-02, AC-03 |
