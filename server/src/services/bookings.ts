@@ -6,6 +6,8 @@ const slotView = { include: { schedule: { include: { specialist: true } } } } as
 
 export const MIN_TOPIC = 3;
 export const MAX_TOPIC = 200;
+// RGI emoji includes single emoji, flags, keycaps, modifiers, and ZWJ sequences.
+const emojiTopic = new RegExp("\\p{RGI_Emoji}", "v");
 
 // BR-02 and BR-06: future slots with no active booking. Nothing about any booking is selected.
 export async function listAvailableSlots(now = new Date()) {
@@ -23,7 +25,9 @@ export function parseBookingInput(body: { slotId?: unknown; topic?: unknown } | 
   const topic = typeof body?.topic === "string" ? body.topic.trim() : "";
   // String.length counts UTF-16 code units; count Unicode code points for the topic rule.
   const topicLength = Array.from(topic).length;
-  if (topicLength < MIN_TOPIC || topicLength > MAX_TOPIC) {
+  if (emojiTopic.test(topic)) {
+    fields.topic = "Topics cannot contain emoji.";
+  } else if (topicLength < MIN_TOPIC || topicLength > MAX_TOPIC) {
     fields.topic = `Enter a topic of ${MIN_TOPIC} to ${MAX_TOPIC} characters.`;
   }
   if (Object.keys(fields).length > 0) throw validation(fields);

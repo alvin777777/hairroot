@@ -72,7 +72,11 @@ describe("booking", () => {
 
   it("HR-F01 rejects emoji anywhere in a topic without consuming a slot (AC-15b)", async () => {
     const free = await slot(24);
-    for (const topic of ["🙂🙂🙂", "🙂🙂", "ก🙂ข", "👨‍👩‍👧", "🇹🇭", "1️⃣", "👍🏽", `เริ่ม${"ก".repeat(195)}🙂จบ`]) {
+    const emojiTopics = [
+      "🙂", "🙂🙂🙂", "🙂🙂", "ก🙂ข", "👨‍👩‍👧", "🇹🇭", "1️⃣",
+      "👍🏽", "❤️", "☀️", "👩🏽‍💻", `เริ่ม${"ก".repeat(195)}🙂จบ`,
+    ];
+    for (const topic of emojiTopics) {
       const res = await book(alice, free.id, topic);
       expect(res.status).toBe(400);
       expect(res.body.fields.topic).toBe("Topics cannot contain emoji.");

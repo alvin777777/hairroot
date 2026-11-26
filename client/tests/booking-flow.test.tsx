@@ -49,4 +49,22 @@ describe("T-27 guided booking flow (AC-27)", () => {
 
     expect(create).toHaveBeenCalledWith(2, "Hairline");
   });
+
+  it("HR-F01 shows the server's emoji rejection on the booking form", async () => {
+    vi.spyOn(api, "getAvailableSlots").mockResolvedValue({ slots: SLOTS });
+    const create = vi.spyOn(api, "createBooking").mockRejectedValue(
+      new api.ApiError(400, { fields: { topic: "Topics cannot contain emoji." } })
+    );
+    const user = userEvent.setup();
+    render(<MemoryRouter><SlotsPage /></MemoryRouter>);
+
+    await user.click(await screen.findByRole("button", { name: /Consultation.*Dr\. One/ }));
+    await user.click(within(screen.getByRole("group", { name: "Choose a time" })).getByRole("button", { name: "09:00" }));
+    await user.type(screen.getByLabelText(/discuss/i), "ก🙂ข");
+    await user.click(screen.getByRole("button", { name: "Confirm booking" }));
+
+    expect(create).toHaveBeenCalledWith(1, "ก🙂ข");
+    expect(await screen.findByText("Topics cannot contain emoji.")).toBeVisible();
+    expect(screen.getByRole("button", { name: "Confirm booking" })).toBeVisible();
+  });
 });
