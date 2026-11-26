@@ -22,6 +22,8 @@ Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation
 - A customer may book several non-overlapping slots. Overlap between a customer's bookings is BR-11,
   planned for Sprint 2.
 
+For the corrected release after Lab 6 finding HR-F01, the product team amended BR-08 to reject any emoji or emoji-capable symbol in a topic. The original Sprint 1 criteria below remain the historical baseline; see the [dated amendment and independent retest](../../labs/lab-06/HR-F01-topic-policy.md).
+
 ## API
 
 | Method and path | Access | Request | Success | Errors |

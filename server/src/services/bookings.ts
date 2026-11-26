@@ -6,6 +6,16 @@ const slotView = { include: { schedule: { include: { specialist: true } } } } as
 
 export const MIN_TOPIC = 3;
 export const MAX_TOPIC = 200;
+// The Emoji property also includes plain ASCII digits, # and * as keycap bases.
+// Allow those characters alone, but reject actual keycaps and emoji-capable symbols.
+const emojiCodePoint = /\p{Emoji}/u;
+const plainKeycapBase = /^[0-9#*]$/u;
+
+function containsEmoji(topic: string) {
+  return Array.from(topic).some((character) =>
+    character === "\u20E3" || (emojiCodePoint.test(character) && !plainKeycapBase.test(character))
+  );
+}
 
 // BR-02 and BR-06: future slots with no active booking. Nothing about any booking is selected.
 export async function listAvailableSlots(now = new Date()) {
@@ -21,7 +31,11 @@ export function parseBookingInput(body: { slotId?: unknown; topic?: unknown } | 
   const slotId = body?.slotId;
   if (typeof slotId !== "number" || !Number.isInteger(slotId) || slotId <= 0) fields.slotId = "Choose a slot.";
   const topic = typeof body?.topic === "string" ? body.topic.trim() : "";
-  if (topic.length < MIN_TOPIC || topic.length > MAX_TOPIC) {
+  // String.length counts UTF-16 code units; count Unicode code points for the topic rule.
+  const topicLength = Array.from(topic).length;
+  if (containsEmoji(topic)) {
+    fields.topic = "Topics cannot contain emoji.";
+  } else if (topicLength < MIN_TOPIC || topicLength > MAX_TOPIC) {
     fields.topic = `Enter a topic of ${MIN_TOPIC} to ${MAX_TOPIC} characters.`;
   }
   if (Object.keys(fields).length > 0) throw validation(fields);

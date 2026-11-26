@@ -1,6 +1,6 @@
 # HairRoot — Sprint 1 UAT Cases and Handoff (Lab 6, Part A)
 
-Version 0.1 — draft, 2026-11-21. Prepared by the HairRoot Product Team for the independent UAT Team.
+Version 0.2 — draft, 2026-11-26. Prepared by the HairRoot Product Team for the independent UAT Team.
 
 ## 1. Handoff
 
@@ -183,12 +183,45 @@ Through the UI this case checks the past start, the 15- and 120-minute limits, o
 3. Sign in with C1's correct password. Expected: the booking page opens, and the header shows *Anan Suksan (Customer)*.
 4. Choose **Log out**, then press the browser's Back button and reload. Expected: the sign-in page, not C1's data.
 
+### UAT-07 Topic length with Unicode characters
+
+| | |
+|---|---|
+| **Requirements and AC** | BR-08; AC-15b |
+| **Purpose** | The 3-to-200-character topic rule works for text a customer can enter, including Unicode symbols. |
+| **Roles** | S1, then C3, then S1 |
+| **Preconditions** | Signed out. Choose a date D7 10 to 30 days ahead and two unused, non-overlapping times T7A and T7B on S1's consultation schedule. Use a unique start minute for each time. |
+| **Inputs** | Two 30-minute times; topic `🙂🙂` for T7A (two displayed characters); topic `🙂🙂🙂` for T7B (three displayed characters). Copy the symbols from this Markdown file if the PDF does not render them. |
+
+1. Sign in as S1. Add T7A and T7B on D7 to **Hair transplant consultation**, each lasting 30 minutes. Expected: *Time added.* appears for each and both show **Available**. Log out.
+2. Sign in as C3. Choose the same service, D7, and T7A. Enter `🙂🙂` as the topic and choose **Confirm booking**. Expected: *Enter a topic of 3 to 200 characters.* appears, the confirmation page does not open, and T7A stays available.
+3. Open **My bookings**. Expected: no booking exists for D7, T7A. Return to **Book**.
+4. Choose the same service, D7, and T7B. Enter `🙂🙂🙂` as the topic and confirm. Expected: the booking is confirmed and its detail shows the three symbols unchanged. Log out.
+5. Sign in as S1 and open D7 on **My schedule**. Expected: T7A remains **Available** and T7B shows **Booked** with C3 and the three-symbol topic.
+
+The steps above are the **original R01 case** executed against `ac0a57b`. Keep its recorded FAIL and the three-symbol positive-control observation as historical facts. The HairRoot product team subsequently changed the policy: the corrected release rejects emoji and emoji-capable symbols anywhere in a topic. Use the separate retest below after DineQ agrees to the [contract amendment in PR #58](https://github.com/alvin777777/hairroot/pull/58) and HairRoot announces the corrected deployment. After both PRs merge, the amendment is at [HR-F01 topic policy](HR-F01-topic-policy.md).
+
+### UAT-07-R02 Emoji prohibition on the corrected release
+
+| | |
+|---|---|
+| **Requirements and AC** | Amended BR-08 / AC-15b; HR-F01 Issue #57 |
+| **Roles** | S1 prepares slots, C3 tests, S1 verifies slot state |
+| **Preconditions** | Record the corrected full commit, Version footer and Cloud Run revision. Use fresh unused slots; keep the R01 bookings 2 and 3 as evidence. |
+| **Inputs** | Negative: `🙂🙂`, `🙂🙂🙂`, `ก🙂ข`, `ก❤ข`, `ก☀ข`, `ก©ข`, `🇹🇭`, `1️⃣`, `👨‍👩‍👧`. Positive: `กขค`, `𠮷กข`, or `123 # *`. |
+
+1. S1 creates fresh, non-overlapping 30-minute slots and confirms they are **Available**. Log out.
+2. C3 tries each negative topic on an unused slot. Expected for every input: *Topics cannot contain emoji.* appears, no confirmation opens, and no booking is created.
+3. C3 refreshes **My bookings** and **Book**; S1 refreshes **My schedule**. Expected: each rejected slot remains **Available**.
+4. C3 books a separate fresh slot with a positive non-emoji topic. Expected: confirmation shows the trimmed topic; S1 sees **Booked** for that slot.
+5. Record actual outcomes, tester, time, URL, full commit, revision and screenshots. A mismatch is FAIL; an unexecuted step is BLOCKED. Do not rewrite R01 as a PASS.
+
 ## 3. Coverage
 
 | Lab 6 category | Cases |
 |---|---|
 | Normal domain journey | UAT-01 |
-| Business rule or boundary | UAT-02, UAT-03 |
+| Business rule or boundary | UAT-02, UAT-03, UAT-07 (R01), UAT-07-R02 (corrected release) |
 | Forbidden role or ownership | UAT-04 |
 | State, history, or persistence | UAT-05 |
 | Authentication | UAT-06 |
@@ -198,7 +231,7 @@ Through the UI this case checks the past start, the 15- and 120-minute limits, o
 | AC-01 to AC-03 | UAT-06 |
 | AC-05, AC-06 | UAT-04 |
 | AC-10 to AC-12 | UAT-01, UAT-03 (14 and 121 minutes and end before start: T-11a, T-11b only) |
-| AC-14 to AC-16 | UAT-01, UAT-02, UAT-03, UAT-05 |
+| AC-14 to AC-16 | UAT-01, UAT-02, UAT-03, UAT-05, UAT-07 (original AC-15b), UAT-07-R02 (amended AC-15b) |
 | AC-20 to AC-24 | UAT-01, UAT-04, UAT-05 |
 | AC-27 | UAT-01 |
 | AC-04, AC-07, AC-08, AC-13, AC-17, AC-18, AC-19, AC-25, AC-26 | Automated tests only. They cannot be observed through the UI without developer tools. |
@@ -213,5 +246,6 @@ Through the UI this case checks the past start, the 15- and 120-minute limits, o
 | UAT-04 | | | | | | | |
 | UAT-05 | | | | | | | |
 | UAT-06 | | | | | | | |
+| UAT-07 | | | | | | | |
 
 Record what actually happened, not the expected result. BLOCKED is not a pass.
