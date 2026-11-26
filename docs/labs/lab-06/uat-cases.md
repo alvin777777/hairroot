@@ -199,7 +199,7 @@ Through the UI this case checks the past start, the 15- and 120-minute limits, o
 4. Choose the same service, D7, and T7B. Enter `🙂🙂🙂` as the topic and confirm. Expected: the booking is confirmed and its detail shows the three symbols unchanged. Log out.
 5. Sign in as S1 and open D7 on **My schedule**. Expected: T7A remains **Available** and T7B shows **Booked** with C3 and the three-symbol topic.
 
-The steps above are the **original R01 case** executed against `ac0a57b`. Keep its recorded FAIL and the three-symbol positive-control observation as historical facts. The HairRoot product team subsequently changed the policy: the corrected release rejects emoji and emoji-capable symbols anywhere in a topic. Use the separate retest below after DineQ agrees to that [contract amendment](https://github.com/alvin777777/hairroot/blob/codex/fix-hr-f01-unicode-topic/docs/labs/lab-06/HR-F01-topic-policy.md) and HairRoot announces the corrected deployment.
+The steps above are the **original R01 case** executed against `ac0a57b`. Keep its recorded FAIL and the three-symbol positive-control observation as historical facts. The HairRoot product team subsequently changed the policy: the corrected release rejects emoji and emoji-capable symbols anywhere in a topic. Use the separate retest below after DineQ agrees to the [contract amendment in PR #58](https://github.com/alvin777777/hairroot/pull/58) and HairRoot announces the corrected deployment. After both PRs merge, the amendment is at [HR-F01 topic policy](HR-F01-topic-policy.md).
 
 ### UAT-07-R02 Emoji prohibition on the corrected release
 
