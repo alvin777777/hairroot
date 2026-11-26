@@ -70,36 +70,20 @@ describe("booking", () => {
     expect((await book(alice, (await slot(48)).id, "y".repeat(200))).status).toBe(201);
   });
 
-  it("HR-F01 counts Unicode code points without consuming a slot on rejection (AC-15b)", async () => {
+  it("HR-F01 rejects emoji anywhere in a topic without consuming a slot (AC-15b)", async () => {
     const free = await slot(24);
-    const tooShort = await book(alice, free.id, "🙂🙂");
-    expect(tooShort.status).toBe(400);
-    expect(tooShort.body.fields.topic).toBe("Enter a topic of 3 to 200 characters.");
+    for (const topic of ["🙂🙂🙂", "🙂🙂", "ก🙂ข", "👨‍👩‍👧", "🇹🇭", "1️⃣", "👍🏽", `เริ่ม${"ก".repeat(195)}🙂จบ`]) {
+      const res = await book(alice, free.id, topic);
+      expect(res.status).toBe(400);
+      expect(res.body.fields.topic).toBe("Topics cannot contain emoji.");
+    }
     expect(await activeRows(free.id)).toBe(0);
     const available = await api().get("/api/slots/available").set("Cookie", alice);
     expect(available.body.slots.map((s: { id: number }) => s.id)).toContain(free.id);
 
-    const valid = await book(alice, free.id, "🙂🙂🙂");
-    expect(valid.status).toBe(201);
-    expect(valid.body.booking.topic).toBe("🙂🙂🙂");
-
-    const upper = await slot(48);
-    expect((await book(alice, upper.id, "🙂".repeat(201))).status).toBe(400);
-    expect(await activeRows(upper.id)).toBe(0);
-    const max = await book(alice, upper.id, "🙂".repeat(200));
-    expect(max.status).toBe(201);
-    expect(max.body.booking.topic).toBe("🙂".repeat(200));
-
-    const mixed = await slot(72);
-    for (const topic of ["  ก🙂  ", "𠮷ก"]) {
-      const res = await book(alice, mixed.id, topic);
-      expect(res.status).toBe(400);
-      expect(res.body.fields.topic).toBe("Enter a topic of 3 to 200 characters.");
-    }
-    expect(await activeRows(mixed.id)).toBe(0);
-    const mixedValid = await book(alice, mixed.id, "  ก🙂ข  ");
-    expect(mixedValid.status).toBe(201);
-    expect(mixedValid.body.booking.topic).toBe("ก🙂ข");
+    const nonEmoji = await book(alice, free.id, "  𠮷กข  ");
+    expect(nonEmoji.status).toBe(201);
+    expect(nonEmoji.body.booking.topic).toBe("𠮷กข");
   });
 
   it("rejects a booking with a missing or unknown slot", async () => {
