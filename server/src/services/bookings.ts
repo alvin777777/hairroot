@@ -21,7 +21,9 @@ export function parseBookingInput(body: { slotId?: unknown; topic?: unknown } | 
   const slotId = body?.slotId;
   if (typeof slotId !== "number" || !Number.isInteger(slotId) || slotId <= 0) fields.slotId = "Choose a slot.";
   const topic = typeof body?.topic === "string" ? body.topic.trim() : "";
-  if (topic.length < MIN_TOPIC || topic.length > MAX_TOPIC) {
+  // String.length counts UTF-16 code units; count Unicode code points for the topic rule.
+  const topicLength = Array.from(topic).length;
+  if (topicLength < MIN_TOPIC || topicLength > MAX_TOPIC) {
     fields.topic = `Enter a topic of ${MIN_TOPIC} to ${MAX_TOPIC} characters.`;
   }
   if (Object.keys(fields).length > 0) throw validation(fields);
