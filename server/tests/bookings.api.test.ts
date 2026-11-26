@@ -70,6 +70,29 @@ describe("booking", () => {
     expect((await book(alice, (await slot(48)).id, "y".repeat(200))).status).toBe(201);
   });
 
+  it("HR-F01 rejects emoji anywhere in a topic without consuming a slot (AC-15b)", async () => {
+    const free = await slot(24);
+    const emojiTopics = [
+      "ก❤ข", "ก☀ข", "ก©ข", "🙂", "🙂🙂🙂", "🙂🙂", "ก🙂ข", "👨‍👩‍👧", "🇹🇭", "1️⃣",
+      "👍🏽", "❤️", "☀️", "👩🏽‍💻", `เริ่ม${"ก".repeat(195)}🙂จบ`,
+    ];
+    for (const topic of emojiTopics) {
+      const res = await book(alice, free.id, topic);
+      expect(res.status).toBe(400);
+      expect(res.body.fields.topic).toBe("Topics cannot contain emoji.");
+    }
+    expect(await activeRows(free.id)).toBe(0);
+    const available = await api().get("/api/slots/available").set("Cookie", alice);
+    expect(available.body.slots.map((s: { id: number }) => s.id)).toContain(free.id);
+
+    const nonEmoji = await book(alice, free.id, "  𠮷กข  ");
+    expect(nonEmoji.status).toBe(201);
+    expect(nonEmoji.body.booking.topic).toBe("𠮷กข");
+
+    const digits = await book(alice, (await slot(48)).id, "123 # *");
+    expect(digits.status).toBe(201);
+  });
+
   it("rejects a booking with a missing or unknown slot", async () => {
     const missing = await api().post("/api/bookings").set("Cookie", alice).send({ topic: "Hairline consultation" });
     expect(missing.status).toBe(400);

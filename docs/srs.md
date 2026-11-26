@@ -91,6 +91,8 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 | BR-14 | An outcome can be recorded only on an active booking whose slot has started. | 3 |
 | BR-15 | Summary figures include only schedules assigned to the requesting specialist. | 3 |
 
+**Post-UAT amendment to BR-08:** The corrected release also rejects topics containing emoji or emoji-capable symbols. This does not change the original Sprint 1 test record; see [HR-F01 topic policy and retest](labs/lab-06/HR-F01-topic-policy.md).
+
 ## 6. Non-functional requirements
 
 | ID | Requirement and measurable target | Verification | Sprint |
