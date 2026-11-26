@@ -70,6 +70,27 @@ describe("booking", () => {
     expect((await book(alice, (await slot(48)).id, "y".repeat(200))).status).toBe(201);
   });
 
+  it("HR-F01 rejects two Unicode symbols without consuming a slot (AC-15b)", async () => {
+    const free = await slot(24);
+    const tooShort = await book(alice, free.id, "🙂🙂");
+    expect(tooShort.status).toBe(400);
+    expect(tooShort.body.fields.topic).toBe("Enter a topic of 3 to 200 characters.");
+    expect(await activeRows(free.id)).toBe(0);
+    const available = await api().get("/api/slots/available").set("Cookie", alice);
+    expect(available.body.slots.map((s: { id: number }) => s.id)).toContain(free.id);
+
+    const valid = await book(alice, free.id, "🙂🙂🙂");
+    expect(valid.status).toBe(201);
+    expect(valid.body.booking.topic).toBe("🙂🙂🙂");
+
+    const upper = await slot(48);
+    expect((await book(alice, upper.id, "🙂".repeat(201))).status).toBe(400);
+    expect(await activeRows(upper.id)).toBe(0);
+    const max = await book(alice, upper.id, "🙂".repeat(200));
+    expect(max.status).toBe(201);
+    expect(max.body.booking.topic).toBe("🙂".repeat(200));
+  });
+
   it("rejects a booking with a missing or unknown slot", async () => {
     const missing = await api().post("/api/bookings").set("Cookie", alice).send({ topic: "Hairline consultation" });
     expect(missing.status).toBe(400);
