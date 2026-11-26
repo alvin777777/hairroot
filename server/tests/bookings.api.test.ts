@@ -70,7 +70,7 @@ describe("booking", () => {
     expect((await book(alice, (await slot(48)).id, "y".repeat(200))).status).toBe(201);
   });
 
-  it("HR-F01 rejects two Unicode symbols without consuming a slot (AC-15b)", async () => {
+  it("HR-F01 counts Unicode code points without consuming a slot on rejection (AC-15b)", async () => {
     const free = await slot(24);
     const tooShort = await book(alice, free.id, "🙂🙂");
     expect(tooShort.status).toBe(400);
@@ -89,6 +89,17 @@ describe("booking", () => {
     const max = await book(alice, upper.id, "🙂".repeat(200));
     expect(max.status).toBe(201);
     expect(max.body.booking.topic).toBe("🙂".repeat(200));
+
+    const mixed = await slot(72);
+    for (const topic of ["  ก🙂  ", "𠮷ก"]) {
+      const res = await book(alice, mixed.id, topic);
+      expect(res.status).toBe(400);
+      expect(res.body.fields.topic).toBe("Enter a topic of 3 to 200 characters.");
+    }
+    expect(await activeRows(mixed.id)).toBe(0);
+    const mixedValid = await book(alice, mixed.id, "  ก🙂ข  ");
+    expect(mixedValid.status).toBe(201);
+    expect(mixedValid.body.booking.topic).toBe("ก🙂ข");
   });
 
   it("rejects a booking with a missing or unknown slot", async () => {
