@@ -58,7 +58,7 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 | Session | Date and time | Who | Release | Outcome |
 |---|---|---|---|---|
 | Handoff | [PENDING] | Both teams | [PENDING] | [PENDING] |
-| Initial UAT of HairRoot | [PENDING] | Partner testers | [PENDING] | [PENDING] |
+| Initial UAT of HairRoot (run R01) | 26 Nov 2026, 17:46 to 18:27 Bangkok | Siwarak Chatvichai (DineQ) [PENDING: Anapat's part] | `ac0a57b` (footer) | 5 PASS, 1 FAIL (UAT-07), 1 BLOCKED (UAT-05 step 4) |
 | Our UAT of the partner product | [PENDING] | ไอโว and ทิฐินันท์ | [PENDING] | [PENDING] |
 | Re-test after corrections | [PENDING] | Partner testers | [PENDING] | [PENDING] |
 
@@ -90,15 +90,57 @@ Both students tested together. Results are recorded as observed, not copied from
 |---|---|---|---|---|---|---|
 | [PENDING: or "None: every case passed"] | | | | | | |
 
-### C.2 Findings received about HairRoot
+### C.2 Results of the independent UAT of HairRoot
+
+DineQ ran HairRoot's cases v0.2 (UAT-01 to UAT-07) against the live service on 26 November 2026, run R01. The footer showed *Version ac0a57b* throughout. Their full record is `docs/labs/lab-06/hairroot-run-2026-11-26-R01.md` in https://github.com/PpAnpt/dineq (commit `26070fc`): 43 steps, 39 PASS, 3 FAIL, and 1 BLOCKED.
+
+| Case | Result | What the UAT team observed |
+|---|---|---|
+| UAT-01 | PASS | Booking 4 confirmed, found again in *My bookings*, and shown to S1 with the customer and topic |
+| UAT-02 | PASS | C2 won the time; C3's stale request got *Another customer has just taken this time*; neither list was wrong. Sequential, not concurrent |
+| UAT-03 | PASS | Past start and overlap rejected; adjacent, 15- and 120-minute times accepted; topics of 2 and 201 characters rejected, 3 and 200 accepted |
+| UAT-04 | PASS | C2 got *Booking not found.* for C1's booking; C2 was redirected from `/schedule`; a visitor was sent to sign-in; S2 saw only its own schedule |
+| UAT-05 | BLOCKED | Steps 1 to 3 passed in a fresh session. Step 4 needs a redeployment announced by HairRoot, which had not happened |
+| UAT-06 | PASS | Wrong and unknown credentials gave the same generic message; logout, Back, and reload returned to sign-in |
+| UAT-07 | FAIL | The two-symbol topic `🙂🙂` was accepted as booking 2 and used up the time (finding HR-F01). The three-symbol control passed |
+
+![HR-E01-05-R01](evidence/HR-E01-05-R01.png)
+*HR-E01-05-R01. UAT-01 step 5, 26 Nov 2026 18:11:40 Bangkok, Version ac0a57b, actor C1. Action: C1 confirms a booking with topic `UAT hairline review`; expected: "Your booking is confirmed." with the details; actual: Booking 4 confirmed with the right time, specialist, service and topic.* **PASS**.
+
+![HR-E02-04-R01](evidence/HR-E02-04-R01.png)
+*HR-E02-04-R01. UAT-02 step 4, 26 Nov 2026 18:18:49 Bangkok, Version ac0a57b, actor C3. Action: C3 confirms the time C2 has just booked; expected: "Another customer has just taken this time"; T2 no longer offered; actual: The message shown; T2 removed from the list.* **PASS**.
+
+![HR-E03-10-R01](evidence/HR-E03-10-R01.png)
+*HR-E03-10-R01. UAT-03 step 10, 26 Nov 2026 18:14:03 Bangkok, Version ac0a57b, actor C1. Action: C1 books with the 200-character topic; expected: Booking confirmed with the full topic; actual: Booking 5 confirmed; detail shows all 200 characters.* **PASS**.
+
+![HR-E04-02-R01](evidence/HR-E04-02-R01.png)
+*HR-E04-02-R01. UAT-04 step 2, 26 Nov 2026 18:19:41 Bangkok, Version ac0a57b, actor C2. Action: C2 opens the address of C1's booking 4; expected: "Booking not found."; nothing of C1 shown; actual: Only "Booking not found."; no name, time or topic of C1.* **PASS**.
+
+![HR-E05-01-DETAIL-R01](evidence/HR-E05-01-DETAIL-R01.png)
+*HR-E05-01-DETAIL-R01. UAT-05 step 1, 26 Nov 2026 18:26:54 Bangkok, Version ac0a57b, actor C1. Action: C1 reopens booking 4 in a new browser session; expected: Same date, time and topic; actual: Unchanged and Confirmed; also shows C2's attempt in UAT-04 changed nothing.* **PASS**.
+
+**Finding HR-F01 (UAT-07, BR-08, AC-15b).**
+
+![HR-E07-02-INPUT-R01](evidence/HR-E07-02-INPUT-R01.png)
+*HR-E07-02-INPUT-R01. UAT-07 step 2, 26 Nov 2026 18:03:12 Bangkok, Version ac0a57b, actor C3 Krit Boonmee. Action: C3 enters the topic `🙂🙂` (2 characters) for T7A; actual: The exact input before confirming.*
+
+![HR-E07-02-AFTER-R01](evidence/HR-E07-02-AFTER-R01.png)
+*HR-E07-02-AFTER-R01. UAT-07 step 2, 26 Nov 2026 18:03:39 Bangkok, Version ac0a57b, actor C3 Krit Boonmee. Action: C3 chooses Confirm booking; expected: "Enter a topic of 3 to 200 characters."; no booking; actual: Booking 2 confirmed with topic `🙂🙂`.* **FAIL**.
+
+![HR-E07-02-PERSISTED-R01](evidence/HR-E07-02-PERSISTED-R01.png)
+*HR-E07-02-PERSISTED-R01. UAT-07 step 2, 26 Nov 2026 18:06:04 Bangkok, Version ac0a57b, actor C3. Action: Booking 2 reopened later; expected: No such booking; actual: Still stored and Confirmed.* **FAIL**.
+
+Screenshots are DineQ's, copied unchanged from their commit `26070fc`, with synthetic accounts and no passwords.
+
+### C.3 Findings received about HairRoot
 
 Every received finding is classified against the Sprint 1 contract. A failing requirement is never relabelled as an enhancement.
 
 | Issue | Reporter | Case and requirement | Version | Classification | Reason, from the contract and evidence | Severity | Owner | Status |
 |---|---|---|---|---|---|---|---|---|
-| [PENDING: or "None received"] | | | | Accepted defect / duplicate / not a defect / enhancement | | Critical / major / minor | | |
+| HR-F01 [PENDING: Issue number] | Siwarak Chatvichai (DineQ) | UAT-07 steps 2, 3, and 5; BR-08, AC-15b | `ac0a57b` | Accepted defect | AC-15b requires topics shorter than 3 characters to be rejected. `🙂🙂` is 2 characters but was stored. The cause is in `server/src/services/bookings.ts`: `topic.length` counts UTF-16 code units, so `"🙂🙂".length` is 4 | Minor: no access or data loss, but an invalid booking is saved and uses up a time | ทิฐินันท์ | [PENDING: open, fixed in, re-tested] |
 
-### C.3 Accepted minor limitations
+### C.4 Accepted minor limitations
 
 [PENDING: minor defects the UAT team explicitly accepted as known limitations, with their confirmation, or "None"]
 
