@@ -1,0 +1,27 @@
+# Lab 7 RED/GREEN evidence index
+
+Date: 27 Nov 2026 (Asia/Bangkok)
+
+## RED on the actual pre-change release
+
+- Pre-change source: `main` commit `cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d`.
+- Test-only commit used for the baseline run: `1b92ff9dedfd067019aff1534c17756e5956a8da`.
+- Server command: `npm test -- --reporter=verbose tests/slots.unit.test.ts tests/slots.api.test.ts tests/bookings.api.test.ts`.
+- Server result: 18 passed, 2 failed. The expected failures show that 29 minutes was accepted (HTTP 201 instead of 400) and the unit rule treated 29 minutes as valid. T-11c passed: a Prisma-inserted legacy 15-minute slot stayed visible, bookable, and unchanged.
+- Client command: `npm test -- --reporter=verbose tests/screen-states.test.tsx`.
+- Client result: 3 passed, 1 failed. The expected failure shows the schedule page still offered 15 minutes.
+
+Full terminal output: `RED-server-2026-11-27.txt` and `RED-client-2026-11-27.txt`.
+
+## GREEN and regression on the implementation
+
+- Implementation branch: `feature/lab7-min-slot-duration`.
+- Tested implementation commit: `923c98e255822ee590093b1326e9c7f0819b5910`.
+- Server command: `npm test -- --reporter=verbose` — 48/48 passed.
+- Client command: `npm test -- --reporter=verbose` — 9/9 passed.
+- E2E command: `npm test -- tests/sprint-1.spec.ts --grep T-31` — 1/1 passed.
+- `npm run build` passed in both `server` and `client`.
+
+Full terminal output: `GREEN-server-2026-11-27.txt`, `GREEN-client-2026-11-27.txt`, and `GREEN-e2e-T31-2026-11-27.txt`.
+
+The API tests ran against a temporary local PostgreSQL `hairroot_test` database. No production data or live deployment was changed. The implementation remains unreviewed and undeployed pending teammate review.
