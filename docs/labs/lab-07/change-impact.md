@@ -1,8 +1,11 @@
 # Lab 7 change proposal: minimum new slot duration
 
-Issue: [#60](https://github.com/alvin777777/hairroot/issues/60)  
-Status: proposed contract; implementation has not started.  
-Reference release: `cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d`, Cloud Run revision `hairroot-sha-cbaf1baa38a5-45975306714-2`.  
+Issue: [#60](https://github.com/alvin777777/hairroot/issues/60)
+
+Status: proposed contract; implementation has not started.
+
+Reference release: `cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d`, Cloud Run revision `hairroot-sha-cbaf1baa38a5-45975306714-2`.
+
 Accepted Sprint 1 baseline: tag `v0.1.0-sprint1`, commit `d1e8d81`.
 
 ## Proposed change
