@@ -5,7 +5,9 @@
   "scripts": {
     "build": "node build-report.mjs",
     "lab6:draft": "node build-report.mjs ../../docs/labs/lab-06/report.md ../../docs/labs/lab-06/uat-cases.md ../../docs/labs/lab-06/lab6_sec131_TH-060_P1.pdf",
-    "lab6:final": "node build-report.mjs ../../docs/labs/lab-06/report.md ../../docs/labs/lab-06/uat-cases.md ../../docs/labs/lab-06/lab6_sec131_TH-060_P1.pdf --final"
+    "lab6:final": "node build-report.mjs ../../docs/labs/lab-06/report.md ../../docs/labs/lab-06/uat-cases.md ../../docs/labs/lab-06/lab6_sec131_TH-060_P1.pdf --final",
+    "lab7:draft": "node build-report.mjs ../../docs/labs/lab-07/report.md ../../docs/labs/lab-07/lab7_sec131_TH-060_P1.pdf",
+    "lab7:final": "node build-report.mjs ../../docs/labs/lab-07/report.md ../../docs/labs/lab-07/lab7_sec131_TH-060_P1.pdf --final"
   },
   "dependencies": {
     "marked": "^12.0.2",
