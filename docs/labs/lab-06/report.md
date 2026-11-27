@@ -24,8 +24,8 @@
 | Release under UAT | `ac0a57b` | `hairroot-sha-ac0a57b9eb87-44992339630-1` | It adds the Lab 5 changes (Docker, CI/CD, version footer), with no Sprint 1 behaviour change, and the guided flow (C-02) |
 | Defective commit(s), if any | `ac0a57b` (topic length uses `topic.length`) | `hairroot-sha-ac0a57b9eb87-44992339630-1` | HR-F01 observed here by DineQ, run R01 |
 | Regression test (RED) | `c569be9`, `5f6c1f4`, `fe1af6f` (PR #58) | — | Each test failed before the commit that follows it |
-| Fix (GREEN) and release PR | `edaa6cf`, `0e489d0`, `dfc9364`; PR #58 merged as `76a4506`; release PR [PENDING] | [PENDING] | |
-| Revision re-tested by the UAT team | [PENDING] | [PENDING] | |
+| Fix (GREEN) and release PR | `edaa6cf`, `0e489d0`, `dfc9364`; PR #58 merged as `76a4506`; release PR #59 merged into `main` as `cbaf1ba` | `hairroot-sha-cbaf1baa38a5-45975306714-2` | Deploy run 45975306714, 27 Nov 16:44 Bangkok |
+| Revision re-tested by the UAT team | `cbaf1ba` | `hairroot-sha-cbaf1baa38a5-45975306714-2` | DineQ run R02, 27 Nov 2026 |
 
 Each release into `main` passes through `sprint-1-staging` as a merge commit, so a release commit on `main` differs from the staging commit it merges. The deployed footer *Version abc1234* and `GET /api/version` give the commit actually served.
 
@@ -60,7 +60,7 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 | Handoff | [PENDING] | Both teams | [PENDING] | [PENDING] |
 | Initial UAT of HairRoot (run R01) | 26 Nov 2026, 17:46 to 18:27 Bangkok | Siwarak Chatvichai (DineQ) [PENDING: Anapat's part] | `ac0a57b` (footer) | 5 PASS, 1 FAIL (UAT-07), 1 BLOCKED (UAT-05 step 4) |
 | Our UAT of DineQ (final run) | 25 Nov 2026, 21:19 to 21:24 Bangkok | ทิฐินันท์ (Playwright-driven session) [PENDING: ไอโว's part] | `17c8b90` (handoff value) | 9 PASS, 2 BLOCKED (DQ-UAT-04C, DQ-UAT-08B), no FAIL |
-| Re-test after corrections | [PENDING] | Partner testers | [PENDING] | [PENDING] |
+| Re-test after corrections (run R02) | 27 Nov 2026, 17:00 to 17:24 Bangkok | Siwarak Chatvichai (DineQ) | `cbaf1ba` (footer and `/api/version`) | UAT-07-R02 PASS (9 of 9 emoji topics rejected, non-emoji topic booked); UAT-05 step 4 PASS |
 
 ## Part B: Independent execution of the partner team's product
 
@@ -166,7 +166,7 @@ Every received finding is classified against the Sprint 1 contract. A failing re
 
 | Issue | Reporter | Case and requirement | Version | Classification | Reason, from the contract and evidence | Severity | Owner | Status |
 |---|---|---|---|---|---|---|---|---|
-| HR-F01, Issue #57 | Siwarak Chatvichai (DineQ) | UAT-07 steps 2, 3, and 5; BR-08, AC-15b | `ac0a57b` | Accepted defect | AC-15b requires topics shorter than 3 characters to be rejected. `🙂🙂` is 2 characters but was stored. The cause is in `server/src/services/bookings.ts`: `topic.length` counts UTF-16 code units, so `"🙂🙂".length` is 4 | Minor: no access or data loss, but an invalid booking is saved and uses up a time | ทิฐินันท์ | Fixed in PR #58 (`76a4506` on `sprint-1-staging`); [PENDING: release, deploy, R02 re-test] |
+| HR-F01, Issue #57 | Siwarak Chatvichai (DineQ) | UAT-07 steps 2, 3, and 5; BR-08, AC-15b | `ac0a57b` | Accepted defect | AC-15b requires topics shorter than 3 characters to be rejected. `🙂🙂` is 2 characters but was stored. The cause is in `server/src/services/bookings.ts`: `topic.length` counts UTF-16 code units, so `"🙂🙂".length` is 4 | Minor: no access or data loss, but an invalid booking is saved and uses up a time | ทิฐินันท์ | Fixed in PR #58, released in #59 (`cbaf1ba`), re-test R02 PASS on 27 Nov. [PENDING: close #57] |
 
 ### C.4 Accepted minor limitations
 
@@ -178,7 +178,7 @@ Every received finding is classified against the Sprint 1 contract. A failing re
 
 **HR-F01, Issue #57.** Opened by ทิฐินันท์ on 26 November 2026 from DineQ's finding.
 
-**Product decision.** While fixing it, the HairRoot team also decided that a topic must not contain any emoji, whatever its length. This was recorded as a dated amendment to BR-08 and AC-15b in `docs/labs/lab-06/HR-F01-topic-policy.md`, with links from `srs.md` and `F-04-booking.md`. The original Sprint 1 criteria and DineQ's R01 result are kept unchanged as history. The re-test UAT-07-R02 (Appendix A) gives the new expected results. DineQ must agree to it before re-testing [PENDING: DineQ's agreement].
+**Product decision.** While fixing it, the HairRoot team also decided that a topic must not contain any emoji, whatever its length. This was recorded as a dated amendment to BR-08 and AC-15b in `docs/labs/lab-06/HR-F01-topic-policy.md`, with links from `srs.md` and `F-04-booking.md`. The original Sprint 1 criteria and DineQ's R01 result are kept unchanged as history. The re-test UAT-07-R02 (Appendix A) gives the new expected results. DineQ agreed to the amended rule before re-testing; their R02 record says the student asked for the re-test under it.
 
 **Regression tests and fix (PR #58).** Each RED test commit failed on the code before it, and the next commit made it pass:
 
@@ -193,7 +193,40 @@ Every received finding is classified against the Sprint 1 contract. A failing re
 
 After the fix the server suite passed 47/47, and the client suite 8/8. The existing ASCII 2, 3, 200, and 201 boundary test still passes. ไอโว reviewed and approved PR #58, and CI `test-and-docker` (tests, E2E, Docker build) was green. It was merged into `sprint-1-staging` as `76a4506`.
 
-[PENDING: RED and GREEN terminal output excerpts; the release PR into `main`; the deploy run and revision; the post-deployment smoke check; DineQ's UAT-07-R02 re-test, and UAT-05 step 4 with the announced redeployment]
+[PENDING: RED and GREEN terminal output excerpts from ทิฐินันท์]
+
+**Release and deployment.** Before the release, the live service returned `ac0a57b` from `/api/version` (recorded 27 Nov 02:11 Bangkok, `evidence/pre-deploy-version.txt`). ทิฐินันท์ announced the deployment to DineQ in advance. ไอโว approved release PR #59 (`sprint-1-staging` into `main`) but held the merge until DineQ had recorded the pre-deploy state. It merged as `cbaf1ba` on 27 Nov 16:37 Bangkok. Deploy run 45975306714 passed both `test-and-docker` and `deploy`, producing revision `hairroot-sha-cbaf1baa38a5-45975306714-2`.
+
+**Post-deployment smoke check** (27 Nov 20:14 Bangkok, `evidence/post-deploy-smoke.txt`): `/api/version` returned `cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d`, `/api/ready` returned `ready` with the database connected, and `/login` returned 200.
+
+**Independent re-test by DineQ (run R02).** Siwarak Chatvichai re-tested on `cbaf1ba` on 27 November, 17:00 to 17:24 Bangkok, with fresh slots on 16 December.
+
+| Check | Result | What the UAT team observed |
+|---|---|---|
+| UAT-07-R02, 9 emoji topics: `🙂🙂`, `🙂🙂🙂`, `ก🙂ข`, `ก❤ข`, `ก☀ข`, `ก©ข`, `🇹🇭`, `1️⃣`, `👨‍👩‍👧` | PASS | Each showed *Topics cannot contain emoji.*, no confirmation opened, C3's bookings were unchanged, and S1 still saw the time Available |
+| UAT-07-R02, positive control `  123 # *  ` | PASS | Booking 14 confirmed with the trimmed topic `123 # *`; still there after reload; S1 saw it Booked |
+| UAT-05 step 4, after the announced redeployment | PASS | Booking 4 from R01 (10 Dec 16:07, *UAT hairline review*) was unchanged for C1, not offered to C3, and still Booked for S1 |
+
+DineQ's full record is `HairRoot-R02-results.md`, with a SHA-256 manifest of its evidence. R01 is kept unchanged as the result for `ac0a57b`.
+
+![HR-E07-NEG-01-R02](evidence/HR-E07-NEG-01-R02.png)
+*HR-E07-NEG-01-R02. UAT-07-R02, 27 Nov 2026 17:09:40 Bangkok, Version cbaf1ba, C3. Action: topic `🙂🙂`, Confirm booking. Expected: *Topics cannot contain emoji.*, no booking. Actual: as expected; still on the booking form.* **PASS**
+
+![HR-E07-NEG-02-R02](evidence/HR-E07-NEG-02-R02.png)
+*HR-E07-NEG-02-R02. UAT-07-R02, 27 Nov 2026 17:10:09 Bangkok, Version cbaf1ba, C3. Action: topic `🙂🙂🙂`, which R01 accepted. Expected under the amended rule: rejected. Actual: *Topics cannot contain emoji.*; no booking.* **PASS**
+
+![HR-E07-NEG-04-R02](evidence/HR-E07-NEG-04-R02.png)
+*HR-E07-NEG-04-R02. UAT-07-R02, 27 Nov 2026 17:10:26 Bangkok, Version cbaf1ba, C3. Action: topic `ก❤ข`, an emoji-capable symbol inside Thai text. Expected: rejected. Actual: *Topics cannot contain emoji.*; no booking.* **PASS**
+
+![HR-E07-POSITIVE-PERSISTED-R02](evidence/HR-E07-POSITIVE-PERSISTED-R02.png)
+*HR-E07-POSITIVE-PERSISTED-R02. UAT-07-R02 positive control, 27 Nov 2026, Version cbaf1ba, C3. Action: book the 17:43 slot with `  123 # *  `, then reload. Expected: confirmed with the trimmed topic. Actual: booking 14 Confirmed, topic `123 # *`, unchanged after reload.* **PASS**
+
+![HR-E07-S1-FINAL-R02](evidence/HR-E07-S1-FINAL-R02.png)
+*HR-E07-S1-FINAL-R02. UAT-07-R02 final state, 27 Nov 2026, Version cbaf1ba, S1. Expected: the slot used for every rejected topic is still Available; the positive slot is Booked. Actual: 16:43 Available; 17:43 Booked under Krit with `123 # *`.* **PASS**
+
+![HR-E05-C1-PLAYWRIGHT-R02](evidence/HR-E05-C1-PLAYWRIGHT-R02.png)
+*HR-E05-C1-PLAYWRIGHT-R02. UAT-05 step 4, 27 Nov 2026 after the deployment, Version cbaf1ba, C1. Action: open booking 4, created on `ac0a57b` on 26 Nov. Expected: same date, time, and topic. Actual: 10 Dec 16:07 to 16:37, Dr. Somchai Prasert, *UAT hairline review*, Confirmed.* **PASS**
+
 
 ### D.2 Independent acceptance decision for HairRoot
 
