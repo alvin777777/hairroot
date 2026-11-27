@@ -124,7 +124,7 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 | ID | Question | Decision | Reason |
 |---|---|---|---|
 | D-01 | Which context? | Hair transplant clinic consultations (changed from academic advising in version 0.1, at the team's choice) | Consultation is an accepted context in the brief, and the slot rules carry over unchanged. |
-| D-02 | How long is a slot? | 15 to 120 minutes, chosen per slot | Consultations and follow-ups differ in length; the limits reject obvious mistakes. |
+| D-02 | How long is a newly created slot? | 30 to 120 minutes, chosen per slot; existing shorter slots remain bookable | The proposed Lab 7 change adds preparation and wrap-up time for new consultations while preserving already scheduled appointments. |
 | D-03 | Who changes availability? | Only the specialist assigned to the schedule | Matches the theme's authorisation requirement. |
 | D-04 | What is the cancellation limit? | 24 hours before the start | Gives another customer time to take the slot. |
 | D-05 | How is double booking prevented? | A partial unique index on active bookings per slot | Holds under concurrency, unlike a check made only in application code. |

@@ -19,7 +19,7 @@ replace persistence in these tests.
 | T-10 | AC-10 | API | Assigned specialist | Create a valid slot and retrieve it through the schedule list | 201; the slot appears with the same times |
 | T-11a | AC-11 | Unit | Times at the proposed boundaries | Call the slot validation rule | 30 and 120 minutes pass; 29, 121, zero, and negative fail |
 | T-11b | AC-11 | API | Assigned specialist | Post a past start, 29, 30, 120, and 121 minutes | Past start: 422; 29 and 121: 400 with no row stored; 30 and 120: 201 |
-| T-11c | AC-11 | API | A pre-existing slot shorter than 30 minutes with no active booking | Customer requests the available-slot list and books the existing slot | Slot remains listed and booking succeeds; no slot data is modified |
+| T-11c | AC-11 | API + database fixture | Insert a legacy slot shorter than 30 minutes directly with Prisma in test setup, bypassing the new slot-creation API; no active booking | Customer requests the available-slot list and books the existing slot through the normal API | Slot remains listed and booking succeeds; stored start/end timestamps are unchanged. Do not create this fixture through `POST /api/schedules/:id/slots`, which should reject it after the change. |
 | T-12a | AC-12 | API | A slot from 10:00 to 11:00 | Post 10:30 to 11:30 | 409 `SLOT_OVERLAP`; no new row |
 | T-12b | AC-12 | API | The same slot | Post 11:00 to 11:30, and 10:00 to 11:00 on another schedule | Both 201 |
 | T-12c | AC-12 | Integration | 8 identical requests | Send them concurrently | One 201, seven 409; one row stored |
