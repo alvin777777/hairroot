@@ -11,7 +11,7 @@
 | **Tested releases** | R01: `ac0a57b`, Cloud Run revision `hairroot-sha-ac0a57b9eb87-44992339630-1`. Targeted R02 and accepted release: `cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d`, HairRoot-supplied revision `hairroot-sha-cbaf1baa38a5-45975306714-2` |
 | **Deployed URL** | https://hairroot-368003298307.asia-southeast1.run.app |
 | **Partner team** | ซวยแล้วหนูคู่หูพี่มาแล้ว: Anapat Banjerdsilp (67070501049) and Siwarak Chatvichai (67070501086). Product DineQ, restaurant walk-in queue (Theme 9). Repository https://github.com/PpAnpt/dineq |
-| **Independent UAT testers of HairRoot** | Siwarak Chatvichai operated the recorded R01 and R02 runs. Anapat Banjerdsilp's execution has not been confirmed. |
+| **Independent UAT testers of HairRoot** | DineQ: Siwarak Chatvichai operated runs R01 and R02 (Anapat Banjerdsilp's part is not recorded) |
 | **Final UAT decision for HairRoot** | **Accepted**, stated by Siwarak Chatvichai for DineQ on 27 Nov 2026 for `cbaf1ba`; see Part D.2 and the transcribed decision. |
 
 <!-- TOC -->
@@ -49,7 +49,7 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 - cleanup, and the rule that the Product Team announces deployments in advance
 - how to report findings: the *UAT finding* Issue form, label `uat`
 
-**Credentials.** The demo password is in Secret Manager. ทิฐินันท์ gave it to the UAT team privately [PENDING: date and channel, with no value]. It does not appear in this PDF, in Git, or in any screenshot.
+**Credentials.** The demo password is in Secret Manager. ทิฐินันท์ gave it to the UAT team privately by Discord direct message; DineQ's coordination log records receipt on 25 November 2026. No value is recorded anywhere. It does not appear in this PDF, in Git, or in any screenshot.
 
 **Automated support.** E2E tests cover the same paths as UAT-01, UAT-02, and UAT-04: T-31, T-32, and T-39 (added in PR #54). They run in CI on every PR. They support the UAT but do not replace independent testing.
 
@@ -57,9 +57,9 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 
 | Session | Date and time | Who | Release | Outcome |
 |---|---|---|---|---|
-| Handoff | [PENDING] | Both teams | [PENDING] | [PENDING] |
-| Initial UAT of HairRoot (run R01) | 26 Nov 2026, 17:46 to 18:27 Bangkok | Siwarak Chatvichai (DineQ) [PENDING: Anapat's part] | `ac0a57b` (footer) | 5 PASS, 1 FAIL (UAT-07), 1 BLOCKED (UAT-05 step 4) |
-| Our UAT of DineQ (final run) | 25 Nov 2026, 21:19 to 21:24 Bangkok | ทิฐินันท์ (Playwright-driven session) [PENDING: ไอโว's part] | `17c8b90` (handoff value) | 9 PASS, 2 BLOCKED (DQ-UAT-04C, DQ-UAT-08B), no FAIL |
+| Handoff | 24 Nov 2026 (cases v0.1); 26 Nov 2026 (v0.2 with UAT-07) | Both teams, Discord server *รอดไหมปี3* | `ac0a57b` | DineQ recorded receipt and the file hash of each version in their `coordination.md` |
+| Initial UAT of HairRoot (run R01) | 26 Nov 2026, 17:46 to 18:27 Bangkok | Siwarak Chatvichai (DineQ); Anapat's part is not recorded in DineQ's run record | `ac0a57b` (footer) | 5 PASS, 1 FAIL (UAT-07), 1 BLOCKED (UAT-05 step 4) |
+| Our UAT of DineQ (final run) | 25 Nov 2026, 21:19 to 21:24 Bangkok | ทิฐินันท์ (Playwright-driven session); ไอโว ran DQ-UAT-01 steps 1 to 3 separately on 26 Nov 19:33 | `17c8b90` (handoff value) | 9 PASS, 2 BLOCKED (DQ-UAT-04C, DQ-UAT-08B), no FAIL |
 | Re-test after corrections (run R02) | 27 Nov 2026, 17:00 to 17:24 Bangkok | Siwarak Chatvichai (DineQ) | `cbaf1ba` (footer and `/api/version`) | UAT-07-R02 PASS (9 of 9 emoji topics rejected, non-emoji topic booked); UAT-05 step 4 PASS |
 
 ## Part B: Independent execution of the partner team's product
@@ -74,7 +74,7 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 | Deploy evidence | https://github.com/PpAnpt/dineq/actions/runs/44986245220 |
 | Cases received | DQ-UAT-01 to DQ-UAT-08B, `docs/labs/lab-06/uat-cases.md` and `handoff.md` in their repository |
 
-ทิฐินันท์ ran the final pass on 25 November 2026 with a Playwright script that signs in through the visible login form and records each observation; no password, cookie, or token was recorded. Earlier attempts that evening (preflight at 20:40, and partial runs with cleanup) are kept in the raw logs but are not counted. [PENDING: ไอโว's participation, or a second run by ไอโว.] The commit and revision are the values from DineQ's handoff; the DineQ owners have not yet confirmed them against the live service. Results are as observed, not copied from expected results.
+ทิฐินันท์ ran the final pass on 25 November 2026 with a Playwright script that signs in through the visible login form and records each observation; no password, cookie, or token was recorded. Earlier attempts that evening (preflight at 20:40, and partial runs with cleanup) are kept in the raw logs but are not counted. ไอโว ran DQ-UAT-01 steps 1 to 3 independently on 26 November 2026 at 19:33 Bangkok (E-B7 to E-B9). The remaining steps of that run need a correct password, which ไอโว did not have at the time, so they are not claimed. The commit and revision are the values from DineQ's handoff; the DineQ owners have not yet confirmed them against the live service. Results are as observed, not copied from expected results.
 
 | Case | Tester | Time (25 Nov, Bangkok) | Tested version | Inputs | Actual result | Result | Evidence |
 |---|---|---|---|---|---|---|---|
@@ -110,13 +110,30 @@ The [case-summary report](evidence/DQ-run-summary-2026-11-25.json) and [blocked-
 ![E-B6](evidence/DQ-05-customer-host-403.png)
 *E-B6. DQ-UAT-05 access check, 21:19:50. Action: a customer opens the host page of the queue. Expected: denied with nothing of the queue shown. Actual: `403 FORBIDDEN: This page is not available for your role`. The DQ-UAT-06 ticket-ownership check was recorded only in the local case-summary report; its request and response were not retained here. **PASS for this DQ-UAT-05 step***
 
+**Second tester, ไอโว (26 November 2026, 19:33 Bangkok, `17c8b90` per handoff).** The browser steps were scripted; no password was entered or recorded.
+
+| Case | Tester | Time (26 Nov, Bangkok) | Inputs | Actual result | Result | Evidence |
+|---|---|---|---|---|---|---|
+| DQ-UAT-01 step 1 | ไอโว | 19:33 | Signed out; open `/my-queue` | Sign-in page; `/api/auth/me` 401 | PASS | E-B7 |
+| DQ-UAT-01 step 3 | ไอโว | 19:33:52 | `customer03@dineq.test` with a made-up wrong password | `401 INVALID_CREDENTIALS`; still signed out (`/api/auth/me` 401) | PASS | E-B8 |
+| DQ-UAT-01 step 3 | ไอโว | 19:33 | `uat-nobody@dineq.test` with the same wrong password | The same generic message; still signed out | PASS | E-B9 |
+
+![E-B7](evidence/DQ-ALVIN-A01-anon-my-queue.png)
+*E-B7. DQ-UAT-01 step 1, 26 Nov 2026 19:33 Bangkok, tester ไอโว. Action: open `/my-queue` while signed out. Expected: sign-in page, no private data. Actual: *Sign in to DineQ* shown; `/api/auth/me` returned 401.* **PASS**
+
+![E-B8](evidence/DQ-ALVIN-A02-wrong-password-c1.png)
+*E-B8. DQ-UAT-01 step 3, 26 Nov 2026 19:33:52 Bangkok, tester ไอโว. Action: C1's email with a wrong password. Expected: 401 INVALID_CREDENTIALS, no session. Actual: `401 INVALID_CREDENTIALS: Email or password is incorrect`; `/api/auth/me` 401. The password field is empty in the capture.* **PASS**
+
+![E-B9](evidence/DQ-ALVIN-A03-unknown-email.png)
+*E-B9. DQ-UAT-01 step 3, 26 Nov 2026 19:33 Bangkok, tester ไอโว. Action: unknown email `uat-nobody@dineq.test`. Expected: the same generic message, so the account's existence is not revealed. Actual: identical message; no session.* **PASS**
+
 ## Part C: Defect reporting and triage
 
 ### C.1 Findings we reported to the partner team
 
 | ID | Case and requirement | Version | Steps, expected, and actual | Severity and user impact | Evidence | Partner's response |
 |---|---|---|---|---|---|---|
-| None | Every executed DineQ case passed. DQ-UAT-04C and DQ-UAT-08B are BLOCKED on DineQ-owned setup (a CLOSED queue, and a restart), not failures | `17c8b90` | — | — | — | [PENDING: DineQ to provide the setup so both can run] |
+| None | Every executed DineQ case passed. DQ-UAT-04C and DQ-UAT-08B are BLOCKED on DineQ-owned setup (a CLOSED queue, and a restart), not failures | `17c8b90` | — | — | — | Both remain BLOCKED: DineQ did not prepare a CLOSED queue or perform a restart before the deadline |
 
 ### C.2 Results of the independent UAT of HairRoot
 
@@ -247,19 +264,25 @@ Only the UAT team can confirm acceptance.
 |---|---|---|
 | UAT cases and handoff (PR #42) | Wrote the cases and checked the expected messages against a local run | Reviewed them against the contract and the live app, requested the boundary and AC-17 corrections, and confirmed the release and revision |
 | E2E for UAT-04 (PR #54) | Reviewed it and ran it locally (4/4, twice) | Wrote it |
-| Testing the partner product | [PENDING] | [PENDING] |
-| Findings, triage, and fixes | [PENDING] | [PENDING] |
-| This report | Structure and evidence | Checked accuracy [PENDING: confirm] |
+| Testing the partner product | Ran DQ-UAT-01 steps 1 to 3 (E-B7 to E-B9); checked the run's screenshots and wrote Part B | Ran the full DineQ suite on 25 Nov (9 PASS, 2 BLOCKED) with a Playwright script, and sent the results to DineQ |
+| Findings, triage, and fixes | Confirmed the HR-F01 cause; triage; reviewed and merged #58 and #55; approved release #59 and held it for DineQ's pre-deploy record; post-deploy smoke check | Opened and closed Issue #57; wrote the fix with three RED/GREEN pairs (PR #58) and the amendment; release #59 and deployment; coordinated R02 and the acceptance |
+| This report | Structure, Parts A to D, evidence selection and captions, PDF build | Added the R02 package, RED/GREEN output, and the acceptance record; checked accuracy |
 
 | Student | AI tool | Tasks assisted |
 |---|---|---|
-| ไอโว | Claude Code (Claude Opus 5.5) | Drafting the UAT cases and this report; the browser check of the expected results; reviewing PR #54 |
-| ทิฐินันท์ | OpenAI Codex (GPT-6) | Adding E2E test T-39; reviewing PR #42 |
+| ไอโว | Claude Code (Claude Opus 5.5) | Drafting the UAT cases and this report; the browser check of the expected results; reviewing PRs #54, #55, #58, #59; the DQ-UAT-01 browser script; the smoke check |
+| ทิฐินันท์ | OpenAI Codex (GPT-6) | Adding E2E test T-39; reviewing PR #42; the HR-F01 fix and its RED/GREEN evidence; the DineQ Playwright test script |
 
 No password or secret was given to an AI tool.
 
 **Limitations.**
-- [PENDING: anything not completed, BLOCKED cases, unresolved dependencies, and any TA notification about the partner team]
+- DQ-UAT-04C (CLOSED queue) and DQ-UAT-08B (persistence after a restart) of DineQ were not run, because only DineQ can prepare them. They are BLOCKED, not passed.
+- Our DineQ results use the commit and revision from DineQ's handoff (`17c8b90`, `s21271a0d-00005-rdp`); we did not query DineQ's cloud metadata.
+- Most of our DineQ testing was one Playwright-driven session by ทิฐินันท์. ไอโว's own execution covers DQ-UAT-01 steps 1 to 3 only.
+- DineQ's R01 and R02 runs of HairRoot were operated by Siwarak Chatvichai; Anapat Banjerdsilp's part is not recorded by DineQ.
+- R02 re-tested only UAT-07 (amended) and UAT-05 step 4 on `cbaf1ba`; the other cases were last run on `ac0a57b`. The only code change between them is the topic validation.
+- The emoji ban goes beyond fixing HR-F01. It was a product decision, recorded as a dated amendment, and DineQ agreed to it before R02.
+- The Lab 6 deadline moved from 22 November to 29 November 2026, as DineQ also recorded. We found a partner team, so no TA notification was needed.
 
 ## Appendix A: HairRoot Sprint 1 UAT cases and handoff
 
