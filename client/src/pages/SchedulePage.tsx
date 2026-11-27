@@ -1,7 +1,7 @@
 import { FormEvent, useEffect, useState } from "react";
 import { ApiError, Schedule, ScheduleSlot, addMinutes, bangkokToIso, createSlot, formatTime, getMySchedules, getScheduleSlots, groupByDay } from "../api.js";
 
-const DURATIONS = [15, 30, 45, 60, 90, 120];
+const DURATIONS = [30, 45, 60, 90, 120];
 
 export default function SchedulePage() {
   const [schedules, setSchedules] = useState<Schedule[] | null>(null);
