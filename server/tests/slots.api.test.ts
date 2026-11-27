@@ -48,7 +48,7 @@ describe("slot creation", () => {
     expect(pastRes.status).toBe(422);
     expect(pastRes.body.code).toBe("SLOT_IN_PAST");
 
-    for (const end of [14, 121, 0, -15]) {
+    for (const end of [29, 14, 121, 0, -15]) {
       const res = await post(scheduleA, specialistA, at(0), at(end));
       expect(res.status, `duration ${end}`).toBe(400);
       expect(res.body.fields.endAt).toBeDefined();
@@ -56,8 +56,8 @@ describe("slot creation", () => {
     expect(await slotCount()).toBe(0);
   });
 
-  it("T-11b accepts exactly 15 and exactly 120 minutes (AC-11)", async () => {
-    expect((await post(scheduleA, specialistA, at(0), at(15))).status).toBe(201);
+  it("T-11b accepts exactly 30 and exactly 120 minutes (AC-11)", async () => {
+    expect((await post(scheduleA, specialistA, at(0), at(30))).status).toBe(201);
     expect((await post(scheduleA, specialistA, at(60), at(180))).status).toBe(201);
   });
 
