@@ -8,11 +8,11 @@
 | **Sprint 1 scope** | Sign-in and roles; a specialist adds times; a customer books by service, day, and time; exclusive booking; own-booking and own-schedule views (Part A, Section 1) |
 | **Repository** | https://github.com/alvin777777/hairroot (public) |
 | **Sprint 1 baseline** | Tag `v0.1.0-sprint1`, commit `d1e8d81` |
-| **Tested release** | Commit `ac0a57b` on `main`, Cloud Run revision `hairroot-sha-ac0a57b9eb87-44992339630-1` |
+| **Tested releases** | R01: `ac0a57b`, Cloud Run revision `hairroot-sha-ac0a57b9eb87-44992339630-1`. Targeted R02 and accepted release: `cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d`, HairRoot-supplied revision `hairroot-sha-cbaf1baa38a5-45975306714-2` |
 | **Deployed URL** | https://hairroot-368003298307.asia-southeast1.run.app |
 | **Partner team** | ซวยแล้วหนูคู่หูพี่มาแล้ว: Anapat Banjerdsilp (67070501049) and Siwarak Chatvichai (67070501086). Product DineQ, restaurant walk-in queue (Theme 9). Repository https://github.com/PpAnpt/dineq |
-| **Independent UAT testers of HairRoot** | Anapat Banjerdsilp and Siwarak Chatvichai [PENDING: confirm both tested] |
-| **Final UAT decision for HairRoot** | [PENDING: Accepted, Accepted with documented minor limitations, or Not Accepted, recorded by the partner team] |
+| **Independent UAT testers of HairRoot** | Siwarak Chatvichai operated the recorded R01 and R02 runs. Anapat Banjerdsilp's execution has not been confirmed. |
+| **Final UAT decision for HairRoot** | **Accepted**, stated by Siwarak Chatvichai for DineQ on 27 Nov 2026 for `cbaf1ba`; see Part D.2 and the transcribed decision. |
 
 <!-- TOC -->
 
@@ -170,7 +170,7 @@ Every received finding is classified against the Sprint 1 contract. A failing re
 
 ### C.4 Accepted minor limitations
 
-[PENDING: minor defects the UAT team explicitly accepted as known limitations, with their confirmation, or "None"]
+None documented in the supplied DineQ acceptance decision. HR-F01 was fixed and passed targeted R02 before acceptance.
 
 ## Part D: Resolution and independent re-test
 
