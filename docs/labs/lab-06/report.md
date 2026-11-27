@@ -234,12 +234,12 @@ Only the UAT team can confirm acceptance.
 
 | | |
 |---|---|
-| Decision | [PENDING: Accepted / Accepted with documented minor limitations / Not Accepted] |
-| Tested release and revision | [PENDING] |
-| UAT testers (team and names) | [PENDING] |
-| Date | [PENDING] |
-| Conditions or reasons | [PENDING] |
-| Record | [PENDING: link to or screenshot of the partner's written decision] |
+| Decision | **Accepted**, stated by Siwarak Chatvichai on behalf of DineQ (TH-007_P9) |
+| Tested release and revision | Full commit `cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d` (`cbaf1ba`); HairRoot-supplied Cloud Run revision `hairroot-sha-cbaf1baa38a5-45975306714-2` for R02 |
+| UAT testers (team and names) | DineQ; Siwarak Chatvichai operated the recorded R01 and R02 runs. Anapat's execution is not recorded in the supplied R02 package or decision. |
+| Date | Decision: 27 Nov 2026; R01: 26 Nov 2026; targeted R02: 27 Nov 2026 |
+| Conditions or reasons | Sprint 1 accepted after UAT-07-R02 passed the jointly amended emoji policy and UAT-05 step 4 confirmed the original booking persisted after deployment. R01 remains the historical record; R02 was not a full-suite rerun. |
+| Record | [Transcription of the decision supplied by HairRoot's student](evidence/DineQ-acceptance-transcription-2026-11-27.md). [PENDING: link or screenshot of Siwarak's original message to verify provenance.] |
 
 ## Contributions, AI use, and limitations
 
