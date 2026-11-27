@@ -36,8 +36,8 @@ Change BR-03 for newly created slots from 15–120 minutes to 30–120 minutes i
 
 ## Contract sequence and approvals
 
-1. TA approval: pending. Record approver, date, and approved scope before implementation, as required by Lab 7.
-2. Teammate contract review: pending. Complete before the implementation PR begins.
+1. TA approval: not required for this change, per the team's direction on 27 Nov 2026. No TA approval is claimed.
+2. Teammate contract review: approved by Iivo (ไอโว) on 27 Nov 2026 in PR #61, before implementation.
 3. New tests and RED against the actual pre-change code: not started.
 4. Implementation and GREEN/regression: not started.
 5. Staging, release, deployment and post-deployment checks: not started.
