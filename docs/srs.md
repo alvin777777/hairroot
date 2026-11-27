@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.2 — draft, 2026-11-07, pending teammate review |
+| **Version** | 0.3 — Lab 7 BR-03 change proposal, 2026-11-27; pending TA approval and teammate contract review before implementation |
 | **Course theme** | Theme 1: Appointment and Scheduling System |
 | **Chosen context** | Consultation appointments at a hair transplant clinic |
 
@@ -55,7 +55,7 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 | FR-01 | A seeded user can log in with an email and password and receives a session. | 1 |
 | FR-02 | A logged-in user can log out, after which the session no longer works. | 1 |
 | FR-03 | A logged-in user can retrieve their own identity and role. | 1 |
-| FR-04 | A specialist can create a slot with a start and end time on a schedule assigned to them. | 1 |
+| FR-04 | A specialist can create a future slot of 30 to 120 minutes on a schedule assigned to them. Existing shorter slots remain unchanged and bookable. | 1 |
 | FR-05 | A customer can list future, unbooked slots with the specialist name and time. | 1 |
 | FR-06 | A customer can book an available slot, giving a short discussion topic. | 1 |
 | FR-07 | A customer can list their own bookings and open the detail of one booking. | 1 |
@@ -77,7 +77,7 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 |---|---|---|
 | BR-01 | A slot can have at most one active booking, including when requests compete. | 1 |
 | BR-02 | A slot can be booked only while its start time is in the future. | 1 |
-| BR-03 | A slot must start in the future, end after it starts, and last 15 to 120 minutes. | 1 |
+| BR-03 | A newly created slot must start in the future, end after it starts, and last 30 to 120 minutes. Slots created before this rule takes effect are not revalidated and remain bookable under the existing booking rules. | 1 |
 | BR-04 | Slots on the same schedule must not overlap. Adjacent slots are allowed. | 1 |
 | BR-05 | Only the specialist assigned to a schedule can create slots on it or read its bookings. | 1 |
 | BR-06 | A customer can read only their own booking details. The available-slot list never reveals who booked what. | 1 |

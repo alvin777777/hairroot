@@ -1,6 +1,6 @@
 # Sprint 1 — Software Test Specification
 
-Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour.
+Version 0.3 — Lab 7 BR-03 change proposal, 2026-11-27. Version 0.2 was drafted 2026-11-07 before implementation (commit 141f3a6). Proposed tests are pending TA approval and teammate contract review; implementation has not started.
 
 API tests use Supertest against the real Express app and a real PostgreSQL test database. Mocks do not
 replace persistence in these tests.
@@ -17,8 +17,9 @@ replace persistence in these tests.
 | T-07b | AC-07 | API | Seeded user | Inspect login and `/me` bodies and the stored row | No hash in the responses; stored value starts with `scrypt$` |
 | T-08 | AC-08 | API | Login; a session row with a past expiry | Inspect the cookie; call `/me` with the expired session | httpOnly, Max-Age at most 8 hours; 401 |
 | T-10 | AC-10 | API | Assigned specialist | Create a valid slot and retrieve it through the schedule list | 201; the slot appears with the same times |
-| T-11a | AC-11 | Unit | Times at the boundaries | Call the slot validation rule | 15 and 120 minutes pass; 14, 121, zero, and negative fail |
-| T-11b | AC-11 | API | Assigned specialist | Post a past start, 14, 15, 120, and 121 minutes | Past start: 422; 14 and 121: 400; no row stored for these. 15 and 120: 201 |
+| T-11a | AC-11 | Unit | Times at the proposed boundaries | Call the slot validation rule | 30 and 120 minutes pass; 29, 121, zero, and negative fail |
+| T-11b | AC-11 | API | Assigned specialist | Post a past start, 29, 30, 120, and 121 minutes | Past start: 422; 29 and 121: 400 with no row stored; 30 and 120: 201 |
+| T-11c | AC-11 | API | A pre-existing slot shorter than 30 minutes with no active booking | Customer requests the available-slot list and books the existing slot | Slot remains listed and booking succeeds; no slot data is modified |
 | T-12a | AC-12 | API | A slot from 10:00 to 11:00 | Post 10:30 to 11:30 | 409 `SLOT_OVERLAP`; no new row |
 | T-12b | AC-12 | API | The same slot | Post 11:00 to 11:30, and 10:00 to 11:00 on another schedule | Both 201 |
 | T-12c | AC-12 | Integration | 8 identical requests | Send them concurrently | One 201, seven 409; one row stored |
