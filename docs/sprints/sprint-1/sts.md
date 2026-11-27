@@ -39,6 +39,7 @@ replace persistence in these tests.
 | T-30 | AC-01, AC-03 | End-to-end | Seeded database | Log in through the browser, log out, then open a protected page | Home page; login page; redirect to login |
 | T-31 | AC-10, AC-14, AC-15, AC-20, AC-22 | End-to-end | Seeded database | Specialist creates a slot; customer books and reopens it; specialist sees the booking | Each step shows the expected data |
 | T-32 | AC-16 | End-to-end | A slot booked after the customer opened the list | The customer submits a booking for it | A "slot was taken" message; the list refreshes |
+| T-39 | AC-21 | End-to-end | Customer A's booking exists | Customer B signs in and opens A's booking URL | "Booking not found."; A's topic is not shown |
 | M-01 | AC-24 | Manual | A created booking | Stop and restart the API, then read the booking | The booking is returned unchanged |
 | M-02 | AC-25 | Manual | The release commit | Search the repository for secrets and confirm `.env` is ignored | No real secrets; only `.env.example` files tracked |
 
