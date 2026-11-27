@@ -141,11 +141,13 @@ test("T-32 shows a conflict and refreshes the times when another customer books 
     await page.getByRole("button", { name: "Confirm booking" }).click();
     await expect(page.getByRole("alert")).toContainText("Another customer has just taken this time");
     // The refreshed flow no longer offers the taken time on that day.
+    // The day may disappear during refresh when its last time was taken.
     const takenDay = page.getByRole("group", { name: "Choose a day" }).getByRole("button", { name: dayLabel(startAt), exact: true });
-    if (await takenDay.count()) {
-      await takenDay.click();
-      await expect(page.getByRole("group", { name: "Choose a time" }).getByRole("button", { name: startAt.slice(-5), exact: true })).toHaveCount(0);
-    }
+    const takenTime = page.getByRole("group", { name: "Choose a time" }).getByRole("button", { name: startAt.slice(-5), exact: true });
+    await expect.poll(async () => {
+      if (await takenDay.count() === 0) return true;
+      return (await takenDay.getAttribute("aria-pressed")) === "true" && (await takenTime.count()) === 0;
+    }).toBe(true);
   } finally {
     await otherContext.close();
   }

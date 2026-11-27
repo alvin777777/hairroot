@@ -54,6 +54,8 @@ const css = `
   pre code { background: none; padding: 0; }
   img { max-width: 100%; border: 1px solid #bbb; display: block; margin: 6px 0 2px; break-inside: avoid; }
   p:has(> img) { break-after: avoid; margin-bottom: 0; }
+  p:has(> img + em) { break-inside: avoid; margin-bottom: 10px; }
+  p:has(> img + em) img { max-height: 10cm; width: auto; }
   em { color: #444; }
   .pending { background: #fde047; font-weight: 600; }
   table.toc td:last-child, table.toc th:last-child { width: 50px; text-align: right; }
