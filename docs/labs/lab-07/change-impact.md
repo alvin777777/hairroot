@@ -2,7 +2,7 @@
 
 Issue: [#60](https://github.com/alvin777777/hairroot/issues/60)
 
-Status: proposed contract; implementation has not started.
+Status: reviewed contract; implementation is in PR #63 and has not yet merged or been deployed.
 
 Accepted Sprint 1 baseline: tag `v0.1.0-sprint1`, commit `d1e8d81`.
 
@@ -36,10 +36,10 @@ Change BR-03 for newly created slots from 15–120 minutes to 30–120 minutes i
 
 ## Contract sequence and approvals
 
-1. TA approval: not required for this change, per the team's direction on 27 Nov 2026. No TA approval is claimed.
+1. TA approval: not obtained. The team decided on 27 Nov 2026 not to request it; record this as a limitation in the Lab 7 report.
 2. Teammate contract review: approved by Iivo (ไอโว) on 27 Nov 2026 in PR #61, before implementation.
-3. New tests and RED against the actual pre-change code: complete. Test-only commit `1b92ff9dedfd067019aff1534c17756e5956a8da` was applied to the exact pre-change `main` commit `cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d`. RED output is in `evidence/RED-server-2026-11-27.txt` and `evidence/RED-client-2026-11-27.txt`.
+3. New tests and RED against the actual pre-change code: complete. The original captured run used local test-only commit `1b92ff9dedfd067019aff1534c17756e5956a8da` on pre-change `main` `cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d`; its output is preserved in `evidence/RED-server-2026-11-27.txt` and `evidence/RED-client-2026-11-27.txt`. For GitHub-verifiable reproduction, Iivo independently reran RED on pushed commit `9b3816d790aa08c6cad1f1fe00e7a7958982ded0`; `server/src` and `client/src` are unchanged from `cbaf1ba`. The server result was 2 failed/18 passed and the client result was 1 failed/3 passed (PR #63 review).
 4. Implementation and GREEN/regression: implemented locally in commit `923c98e255822ee590093b1326e9c7f0819b5910`. Server tests passed 48/48, client tests passed 9/9, and E2E T-31 passed 1/1. Both builds passed. Full commands and output are in `evidence/`.
-5. Teammate code review, CI, staging integration, release, deployment and post-deployment checks: pending. No implementation has been deployed.
+5. Teammate code review: approved in PR #63; CI passed. Merge, staging integration, release, deployment and post-deployment checks remain pending. No implementation has been deployed.
 
-This document records the reviewed contract, impact, and current RED/GREEN evidence. Code review, CI for the implementation PR, staging integration, release, deployment, and post-deployment checks remain pending.
+This document records the reviewed contract, impact, and current RED/GREEN evidence. Staging integration, release, deployment, and post-deployment checks remain pending.
