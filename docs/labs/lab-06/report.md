@@ -82,15 +82,15 @@ Each release into `main` passes through `sprint-1-staging` as a merge commit, so
 | DQ-UAT-02 Join, call, complete, refresh | ทิฐินันท์ | 21:19:45 | `17c8b90` | Customer joins with party size 4; H1 calls and completes | The same ticket #12 went WAITING, CALLED, COMPLETED, and the customer saw each state after refresh | PASS | E-B2, E-B3 |
 | DQ-UAT-03 Duplicate join while WAITING or CALLED | ทิฐินันท์ | 21:19:47 | `17c8b90` | Second join by the same customer | `409 DUPLICATE_ACTIVE` in both states; only the original ticket #13 existed and was completed | PASS | E-B4 |
 | DQ-UAT-04A Invalid party sizes | ทิฐินันท์ | 21:19:39 | `17c8b90` | 0, 9, 1.5 in the UI; also 0, 9, 1.5, "four" by API | All rejected; no ticket created | PASS | E-B5 |
-| DQ-UAT-04B Valid party sizes 1 and 8 | ทิฐินันท์ | 21:19:42 | `17c8b90` | 1, then 8 | Both accepted (#10, #11) and later completed | PASS | Raw log |
-| DQ-UAT-04C Join a CLOSED queue | ทิฐินันท์ | 21:19:55; context captured 21:24 | `17c8b90` | — | Not run: the queue was OPEN, and only DineQ can close and reopen it | BLOCKED | Raw log |
+| DQ-UAT-04B Valid party sizes 1 and 8 | ทิฐินันท์ | 21:19:42 | `17c8b90` | 1, then 8 | Both accepted (#10, #11) and later completed | PASS | Case summary only |
+| DQ-UAT-04C Join a CLOSED queue | ทิฐินันท์ | 21:19:55; context captured 21:24 | `17c8b90` | — | Not run: the queue was OPEN, and only DineQ can close and reopen it | BLOCKED | Blocked-case summary |
 | DQ-UAT-05 Customer and unassigned Host forbidden | ทิฐินันท์ | 21:19:50 | `17c8b90` | Customer and H2 call Host actions | 401/403 for every attempt; C2's ticket stayed WAITING | PASS | E-B6 |
-| DQ-UAT-06 Ticket ownership | ทิฐินันท์ | 21:19:51 | `17c8b90` | C1 requests C2's ticket by API | Denied; C2's ticket unchanged | PASS | Raw log |
-| DQ-UAT-07 FIFO and invalid transitions | ทิฐินันท์ | 21:19:55 | `17c8b90` | Two waiting tickets; invalid transitions; empty queue | Called in arrival order; invalid transitions rejected; empty queue returned 404 | PASS | Raw log |
-| DQ-UAT-08A Reload and new session | ทิฐินันท์ | 21:19:59 | `17c8b90` | Reload and a fresh session for C1 and C2 | T02 still COMPLETED and T08 still WAITING | PASS | Raw log |
-| DQ-UAT-08B Persistence after restart | ทิฐินันท์ | 21:19:59; baseline captured 21:24 | `17c8b90` | — | Not run: DineQ has not performed and announced a restart; T08 is kept as the baseline | BLOCKED | Raw log |
+| DQ-UAT-06 Ticket ownership | ทิฐินันท์ | 21:19:51 | `17c8b90` | C1 requests C2's ticket by API | Denied; C2's ticket unchanged | PASS | Case summary only |
+| DQ-UAT-07 FIFO and invalid transitions | ทิฐินันท์ | 21:19:55 | `17c8b90` | Two waiting tickets; invalid transitions; empty queue | Called in arrival order; invalid transitions rejected; empty queue returned 404 | PASS | Case summary only |
+| DQ-UAT-08A Reload and new session | ทิฐินันท์ | 21:19:59 | `17c8b90` | Reload and a fresh session for C1 and C2 | T02 still COMPLETED and T08 still WAITING | PASS | Case summary only |
+| DQ-UAT-08B Persistence after restart | ทิฐินันท์ | 21:19:59; baseline captured 21:24 | `17c8b90` | — | Not run: DineQ has not performed and announced a restart; T08 is kept as the baseline | BLOCKED | Blocked-case summary |
 
-Raw log: `results/2026-11-25T14-19-21-222Z-run-report.json` and the blocked-case record `2026-11-25T14-24-44-991Z-blocked-evidence-report.json`, kept with the screenshots outside the repository. Each screenshot has a banner with its evidence name, UTC time, and URL. All accounts are DineQ's synthetic accounts.
+The [case-summary report](evidence/DQ-run-summary-2026-11-25.json) and [blocked-case summary](evidence/DQ-blocked-summary-2026-11-25.json) are preserved here. They do not retain the individual API request/response payloads for DQ-UAT-04A, 04B, 06, 07, or 08A, so those API assertions cannot be independently verified from the evidence in this repository. The screenshot E-B6 supports DQ-UAT-05 only; it does not prove DQ-UAT-06 ticket ownership. Each screenshot has a banner with its evidence name, UTC time, and URL. All accounts are DineQ's synthetic accounts.
 
 ![E-B1](evidence/DQ-01-invalid-login.png)
 *E-B1. DQ-UAT-01, 21:19:23. Action: sign in with the unknown email `uat-nobody@dineq.test`. Expected: rejected without signing in. Actual: `401 INVALID_CREDENTIALS: Email or password is incorrect`, still on the sign-in page. **PASS***
@@ -107,8 +107,8 @@ Raw log: `results/2026-11-25T14-19-21-222Z-run-report.json` and the blocked-case
 ![E-B5](evidence/DQ-04A-invalid-boundaries.png)
 *E-B5. DQ-UAT-04A, 21:19:39. Action: enter party size 1.5 (after 0 and 9) and join. Expected: rejected; queue unchanged. Actual: the browser's number check blocked submission (field outlined), and the run log records 0, 9, 1.5, and "four" also rejected by the API with no ticket created. **PASS***
 
-![E-B6](evidence/DQ-06-cross-customer-403.png)
-*E-B6. Access check (logged under DQ-UAT-06), 21:19:50. Action: a customer opens the host page of the queue. Expected: denied with nothing of the queue shown. Actual: `403 FORBIDDEN: This page is not available for your role`. The ticket-ownership check itself was by API and is in the raw log. **PASS***
+![E-B6](evidence/DQ-05-customer-host-403.png)
+*E-B6. DQ-UAT-05 access check, 21:19:50. Action: a customer opens the host page of the queue. Expected: denied with nothing of the queue shown. Actual: `403 FORBIDDEN: This page is not available for your role`. The DQ-UAT-06 ticket-ownership check was recorded only in the local case-summary report; its request and response were not retained here. **PASS for this DQ-UAT-05 step***
 
 ## Part C: Defect reporting and triage
 
@@ -193,7 +193,7 @@ Every received finding is classified against the Sprint 1 contract. A failing re
 
 After the fix the server suite passed 47/47, and the client suite 8/8. The existing ASCII 2, 3, 200, and 201 boundary test still passes. ไอโว reviewed and approved PR #58, and CI `test-and-docker` (tests, E2E, Docker build) was green. It was merged into `sprint-1-staging` as `76a4506`.
 
-[PENDING: RED and GREEN terminal output excerpts from ทิฐินันท์]
+The [RED/GREEN terminal output](evidence/HR-F01-RED-GREEN.txt) records the exact commit, input, expected and actual validation status, and exit code for each of the three pairs. The evidence script exercised `parseBookingInput` without a database; the deployed behavior is supported separately by DineQ's R02 retest.
 
 **Release and deployment.** Before the release, the live service returned `ac0a57b` from `/api/version` (recorded 27 Nov 02:11 Bangkok, `evidence/pre-deploy-version.txt`). ทิฐินันท์ announced the deployment to DineQ in advance. ไอโว approved release PR #59 (`sprint-1-staging` into `main`) but held the merge until DineQ had recorded the pre-deploy state. It merged as `cbaf1ba` on 27 Nov 16:37 Bangkok. Deploy run 45975306714 passed both `test-and-docker` and `deploy`, producing revision `hairroot-sha-cbaf1baa38a5-45975306714-2`.
 
@@ -207,7 +207,7 @@ After the fix the server suite passed 47/47, and the client suite 8/8. The exist
 | UAT-07-R02, positive control `  123 # *  ` | PASS | Booking 14 confirmed with the trimmed topic `123 # *`; still there after reload; S1 saw it Booked |
 | UAT-05 step 4, after the announced redeployment | PASS | Booking 4 from R01 (10 Dec 16:07, *UAT hairline review*) was unchanged for C1, not offered to C3, and still Booked for S1 |
 
-DineQ's full record is `HairRoot-R02-results.md`, with a SHA-256 manifest of its evidence. R01 is kept unchanged as the result for `ac0a57b`.
+DineQ's [complete R02 record](partner-r02/HairRoot-R02-results.md), [run summary](partner-r02/evidence/run-summary.json), and [SHA-256 manifest](partner-r02/bundle-sha256-manifest.json) are preserved in `partner-r02/` with all 22 original screenshot/JSON pairs. The manifest verified all 56 listed files in the supplied ZIP. R01 is kept unchanged as the result for `ac0a57b`. This targeted retest does not constitute DineQ's final team acceptance.
 
 ![HR-E07-NEG-01-R02](evidence/HR-E07-NEG-01-R02.png)
 *HR-E07-NEG-01-R02. UAT-07-R02, 27 Nov 2026 17:09:40 Bangkok, Version cbaf1ba, C3. Action: topic `🙂🙂`, Confirm booking. Expected: *Topics cannot contain emoji.*, no booking. Actual: as expected; still on the booking form.* **PASS**
