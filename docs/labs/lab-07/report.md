@@ -25,7 +25,7 @@
 | Contract revision (PR #61) | `9b9fcaf` (merge) | `sprint-1-staging` | — | SRS 0.3, F-03 0.4, STS 0.3, traceability 0.3; docs only |
 | Changed-behaviour tests (RED) | `9b3816d` | `feature/lab7-min-slot-duration` | — | Tests only. Application code is identical to `cbaf1ba`; only `e2e/tests/sprint-1.spec.ts` differs, from Lab 6 PR #56 |
 | Implementation (GREEN) | `923c98e`; evidence `a8f8d13` | `feature/lab7-min-slot-duration` (PR #63) | — | Two production lines changed |
-| Staging integration | [PENDING: merge commit of PR #63] | `sprint-1-staging` | — | |
+| Staging integration | `758996e` (merge of PR #63, 28 Nov 04:01) | `sprint-1-staging` | — | Release PR #65 into `main` opened |
 | Accepted main release | [PENDING: release PR and commit] | `main` | [PENDING] | |
 
 Releases reach `main` as merge commits from `sprint-1-staging`, so a release commit differs from the staging commit it merges. **Unrelated later work:** `sprint-2-staging` contains F-16 (public booking pulse, PR #20) and a Sprint 2 sync (PR #26). Neither is part of this change or of the release above.
@@ -285,7 +285,7 @@ Successful runs (44): 44789528243, 44888863927, 44893441499, 44909679832, 449382
 | Student | AI tool | Tasks assisted |
 |---|---|---|
 | ไอโว | Claude Code (Claude Opus 5.5) | Reviewing PR #61 and PR #63; re-running the tests; collecting metrics; drafting this report |
-| ทิฐินันท์ | OpenAI Codex (GPT-6) | [PENDING: confirm] |
+| ทิฐินันท์ | OpenAI Codex (GPT-6) | Revising the impact and evidence documents; writing the boundary, legacy-slot, and UI tests; the minimum-duration change in the server and UI; running and recording RED/GREEN, regression tests, builds, and E2E T-31; organising the evidence index. Codex did not deploy to production. |
 
 No password or secret was given to an AI tool.
 
