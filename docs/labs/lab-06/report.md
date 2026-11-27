@@ -166,7 +166,7 @@ Every received finding is classified against the Sprint 1 contract. A failing re
 
 | Issue | Reporter | Case and requirement | Version | Classification | Reason, from the contract and evidence | Severity | Owner | Status |
 |---|---|---|---|---|---|---|---|---|
-| HR-F01, Issue #57 | Siwarak Chatvichai (DineQ) | UAT-07 steps 2, 3, and 5; BR-08, AC-15b | `ac0a57b` | Accepted defect | AC-15b requires topics shorter than 3 characters to be rejected. `🙂🙂` is 2 characters but was stored. The cause is in `server/src/services/bookings.ts`: `topic.length` counts UTF-16 code units, so `"🙂🙂".length` is 4 | Minor: no access or data loss, but an invalid booking is saved and uses up a time | ทิฐินันท์ | Fixed in PR #58, released in #59 (`cbaf1ba`), re-test R02 PASS on 27 Nov. [PENDING: close #57] |
+| HR-F01, Issue #57 | Siwarak Chatvichai (DineQ) | UAT-07 steps 2, 3, and 5; BR-08, AC-15b | `ac0a57b` | Accepted defect | AC-15b requires topics shorter than 3 characters to be rejected. `🙂🙂` is 2 characters but was stored. The cause is in `server/src/services/bookings.ts`: `topic.length` counts UTF-16 code units, so `"🙂🙂".length` is 4 | Minor: no access or data loss, but an invalid booking is saved and uses up a time | ทิฐินันท์ | Fixed in PR #58, released in #59 (`cbaf1ba`), re-test R02 PASS on 27 Nov; issue closed as completed |
 
 ### C.4 Accepted minor limitations
 
