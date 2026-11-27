@@ -25,4 +25,4 @@ Full terminal output: `RED-server-2026-11-27.txt` and `RED-client-2026-11-27.txt
 
 Full terminal output: `GREEN-server-2026-11-27.txt`, `GREEN-client-2026-11-27.txt`, and `GREEN-e2e-T31-2026-11-27.txt`.
 
-The API tests ran against a temporary local PostgreSQL `hairroot_test` database. No production data or live deployment was changed. The implementation code was approved by the teammate in PR #63 and its CI passed. It has not merged to staging or been deployed; release and post-deployment checks remain pending.
+The API tests ran against a temporary local PostgreSQL `hairroot_test` database. No production data or live deployment was changed. The implementation code was approved by the teammate in PR #63 and CI passed for the code/test revision; the workflow is pending again after this documentation-only correction. It has not merged to staging or been deployed; release and post-deployment checks remain pending.
