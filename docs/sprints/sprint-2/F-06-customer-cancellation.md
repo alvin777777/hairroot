@@ -1,6 +1,6 @@
 # Contract: F-06 Customer Cancellation
 
-Version 0.1 — 2026-11-28. Written before F-06 implementation; teammate review is pending.
+Version 0.1 — 2026-11-28. Contract commit 9723526 preceded the RED test and implementation commits. The teammate reviewed the contract, code and tests in PR #67 on 28 Nov 2026, after implementation.
 
 **Linked requirements:** FR-09, BR-09, BR-01, BR-06, NFR-02, NFR-06.
 **Depends on:** F-01, F-02, F-04, F-05. **Sprint:** 2.
@@ -18,7 +18,7 @@ Version 0.1 — 2026-11-28. Written before F-06 implementation; teammate review 
 
 | Layer | Contract |
 |---|---|
-| UI | Booking detail shows the current status. Show a **Cancel booking** action only for an active booking more than 24 hours from its start; ask for confirmation. After success, show `Cancelled`, keep the detail visible and remove the action. Show API errors without reporting success. |
+| UI | Booking detail shows the current status. Show a **Cancel booking** action only for an active booking at least 24 hours from its start; ask for confirmation. After success, show `Cancelled`, keep the detail visible and remove the action. Show API errors without reporting success. |
 | API | `POST /api/bookings/:id/cancel`, customer session required. On success, 200 `{ "booking": BookingView }` with `status: "CANCELLED"`. Keep `GET /api/bookings/mine` and `GET /api/bookings/:id` response shapes; both include cancelled records. |
 | Errors | 401 without a session; 403 for a non-customer; 404 for an invalid, missing or other customer's ID; 409 `BOOKING_NOT_ACTIVE` on repeat cancellation; 422 `CANCELLATION_CLOSED` inside the 24-hour window. Errors do not change the booking or slot. |
 | Data | Add `CANCELLED` to `BookingStatus` through an additive Prisma migration. Keep the existing partial unique index on `(slotId)` where status is `ACTIVE`; no historical booking is rewritten. |
