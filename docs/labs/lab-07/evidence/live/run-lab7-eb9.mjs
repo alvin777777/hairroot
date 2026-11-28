@@ -7,7 +7,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 const here = path.dirname(fileURLToPath(import.meta.url));
-const require = createRequire(path.join(here, "..", "hairroot", "e2e", "package.json"));
+const require = createRequire(path.resolve(here, "../../../../../e2e/package.json"));
 const { chromium } = require("playwright");
 
 const BASE = "https://hairroot-368003298307.asia-southeast1.run.app";
