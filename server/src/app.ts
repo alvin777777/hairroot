@@ -8,6 +8,7 @@ import { csrfOriginCheck, allowedOrigins } from "./middleware/csrf.js";
 import { authRouter } from "./routes/auth.js";
 import { schedulesRouter } from "./routes/schedules.js";
 import { bookingsRouter, slotsRouter } from "./routes/bookings.js";
+import { popularityRouter } from "./routes/popularity.js";
 import { HttpError } from "./services/httpError.js";
 
 // Exported separately from listen() so Supertest can use the app without opening a port.
@@ -26,6 +27,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/schedules", schedulesRouter);
 app.use("/api/slots", slotsRouter);
 app.use("/api/bookings", bookingsRouter);
+app.use("/api/public", popularityRouter);
 
 // Liveness: the process is up. Readiness: the database answers. The smoke test and Cloud Run use these.
 app.get("/api/health", (_req, res) => {
