@@ -8,8 +8,8 @@
 | **Repository** | https://github.com/alvin777777/hairroot (public) |
 | **Accepted Sprint 1 baseline** | Tag `v0.1.0-sprint1`, commit `d1e8d81` (old rule 15 to 120 minutes) |
 | **Pre-change implementation** | `main` at `cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d`, Cloud Run revision `hairroot-sha-cbaf1baa38a5-45975306714-2` (the release DineQ accepted in Lab 6) |
-| **Submitted main release** | [PENDING: release commit on `main` after PR #63] |
-| **Deployed URL and version** | https://hairroot-368003298307.asia-southeast1.run.app, [PENDING: footer version and revision after deployment] |
+| **Submitted main release** | `main` at `b29aef9b9b83356e55ab61de570ea117085ae966` (merge of release PR #65, 28 Nov 2026 15:30 Bangkok) |
+| **Deployed URL and version** | https://hairroot-368003298307.asia-southeast1.run.app, footer **Version b29aef9**, Cloud Run revision `hairroot-sha-b29aef9b9b83-46126115471-1` |
 | **Change** | BR-03: a newly created slot must last 30 to 120 minutes (was 15 to 120). Existing shorter slots stay bookable. Issue #60 |
 
 <!-- TOC -->
@@ -26,7 +26,7 @@
 | Changed-behaviour tests (RED) | `9b3816d` | `feature/lab7-min-slot-duration` | — | Tests only. Application code is identical to `cbaf1ba`; only `e2e/tests/sprint-1.spec.ts` differs, from Lab 6 PR #56 |
 | Implementation (GREEN) | `923c98e`; evidence `a8f8d13` | `feature/lab7-min-slot-duration` (PR #63) | — | Two production lines changed |
 | Staging integration | `758996e` (merge of PR #63, 28 Nov 04:01) | `sprint-1-staging` | — | Release PR #65 into `main` opened |
-| Accepted main release | [PENDING: release PR and commit] | `main` | [PENDING] | |
+| Accepted main release | `b29aef9` (merge of release PR #65) | `main` | `hairroot-sha-b29aef9b9b83-46126115471-1` | Deploy run 46126115471; serving 100% from 28 Nov 15:33 Bangkok |
 
 Releases reach `main` as merge commits from `sprint-1-staging`, so a release commit differs from the staging commit it merges. **Unrelated later work:** `sprint-2-staging` contains F-16 (public booking pulse, PR #20) and a Sprint 2 sync (PR #26). Neither is part of this change or of the release above.
 
@@ -204,7 +204,19 @@ No existing test was removed, skipped, or weakened. T-11a and T-11b changed thei
 
 **E-B7. CI.** Run 46036169210, `test-and-docker` on `a8f8d13`: success (server and client tests, E2E, and Docker build).
 
-[PENDING: E-B8, staging merge of PR #63; the release PR into `main` with its review; the deploy run, revision, and footer version]
+**E-B8. Integration, release, and deployment.**
+
+| Step | Who | Time (Bangkok) | Result |
+|---|---|---|---|
+| CI on the final PR #63 head `c5488a3` (docs corrections) | GitHub Actions | 28 Nov | `test-and-docker` success |
+| Merge PR #63 into `sprint-1-staging` | ไอโว | 28 Nov 04:01 | Merge commit `758996e` |
+| Pre-deploy check of the live service | ไอโว | 28 Nov | `/api/version` = `cbaf1ba…`; `/api/ready` 200 |
+| Release PR #65 `sprint-1-staging` → `main` | opened by ไอโว | 28 Nov | CI run 46067546645 success |
+| Review and merge of #65 | ทิฐินันท์ (with Codex) | approved 15:30:02, merged 15:30:14 | `main` = `b29aef9b9b83356e55ab61de570ea117085ae966` |
+| Deploy run 46126115471 (`deploy.yml`, triggered by the push to `main`) | GitHub Actions | 15:30 to 15:33 | `test-and-docker` and `deploy` success, including *Smoke test the live service* |
+| Cloud Run | | 15:33:26 | Revision `hairroot-sha-b29aef9b9b83-46126115471-1` serving 100% of traffic; footer *Version b29aef9* |
+
+No schema or migration change was part of this release.
 
 [PENDING: E-B9, post-deployment checks on the live service: (1) as S1, a new slot with the 30-minute minimum is accepted and the Duration list starts at 30; (2) preserved behaviour: the legacy 15-minute slot from Lab 6 (12 Dec 19:00 to 19:15) still shows on S1's schedule and in C1's bookings; (3) `/api/version` and `/api/ready`]
 
@@ -247,7 +259,7 @@ Successful runs (44): 44789528243, 44888863927, 44893441499, 44909679832, 449382
 
 | Item | Status |
 |---|---|
-| Submitted and deployed version | [PENDING: release commit and revision after PR #63] |
+| Submitted and deployed version | `main` `b29aef9`, revision `hairroot-sha-b29aef9b9b83-46126115471-1`, footer Version b29aef9 |
 | Defects by severity and status | Critical 0, Major 0, Minor 0 open. HR-F01 (Minor) resolved and re-tested (M-4) |
 | Automated tests | Server 48/0/0, client 9/0/0 on `a8f8d13`; E2E T-31 1/0/0; CI run 46036169210 green. No skipped tests |
 | Selected user tests | Lab 6 independent UAT by DineQ: accepted on `cbaf1ba`. UAT-03 steps 5 and 7 test the old 15-minute rule, so they are no longer valid for this release and are replaced by T-11a/b and the post-deploy check |
@@ -279,15 +291,15 @@ Successful runs (44): 44789528243, 44888863927, 44893441499, 44909679832, 449382
 |---|---|---|
 | Change request and impact (Issue #60, PR #61) | Reviewed the contract twice against the code and the handout; approved | Wrote the Issue, impact analysis, and contract revisions |
 | Tests and implementation (PR #63) | Code review; independent RED/GREEN re-run on pushed commits | Wrote the tests and the change; RED, GREEN, and E2E evidence |
-| Release and deployment | [PENDING] | [PENDING] |
-| Metrics and this report | Collected the metrics; wrote the report and PDF | Checked accuracy [PENDING: confirm] |
+| Release and deployment | Merged #63 into staging; opened release PR #65; pre- and post-deploy checks on the live service (E-B9) | Approved and merged #65 (with Codex), which triggered deploy run 46126115471; confirmed the footer and `/api/ready` |
+| Metrics and this report | Collected the metrics; wrote the report and PDF | Reviewed the draft in PR #64 and requested the factual corrections made here |
 
 | Student | AI tool | Tasks assisted |
 |---|---|---|
 | ไอโว | Claude Code (Claude Opus 5.5) | Reviewing PR #61 and PR #63; re-running the tests; collecting metrics; drafting this report |
-| ทิฐินันท์ | OpenAI Codex (GPT-6) | Revising the impact and evidence documents; writing the boundary, legacy-slot, and UI tests; the minimum-duration change in the server and UI; running and recording RED/GREEN, regression tests, builds, and E2E T-31; organising the evidence index. Codex did not deploy to production. |
+| ทิฐินันท์ | OpenAI Codex (GPT-6) | Revising the impact and evidence documents; writing the boundary, legacy-slot, and UI tests; the minimum-duration change in the server and UI; running and recording RED/GREEN, regression tests, builds, and E2E T-31; organising the evidence index; carrying out the approval and merge of release PR #65, which triggered the automated production deploy (run 46126115471). |
 
-No password or secret was given to an AI tool.
+Credentials were shared with AI assistants during earlier HairRoot/DineQ work (Lab 6); none is reproduced in this report. In the Lab 7 post-deployment checks (E-B9), ไอโว typed every password by hand into the browser; the AI-written script never received it.
 
 **Limitations.**
 - **No instructor or TA approval was obtained** for the change, although Section 3.1 requires it. The team decided on 27 Nov 2026 not to request it. The change request, the teammate's contract review, and the order of commits are recorded above.
