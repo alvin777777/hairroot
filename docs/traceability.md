@@ -36,7 +36,7 @@ are written with their feature contracts before implementation.
 | BR-08 | F-04 | 1 | AC-15b | T-15b |
 | BR-09 | F-06, F-07 | 2 | AC-36 (F-06); AC-41 (F-07) | T-41 (F-06); T-47 (F-07) |
 | BR-10 | F-07 | 2 | AC-43, AC-44 | T-49, T-50 |
-| BR-11 | F-08 | 2 | Sprint 2 contract | Sprint 2 contract |
+| BR-11 | F-08 | 2 | AC-46 to AC-51 | T-54 to T-61 |
 | BR-12 | F-09 | 2 | Sprint 2 contract | Sprint 2 contract |
 | BR-13 | F-11 | 2 | Sprint 2 contract | Sprint 2 contract |
 | BR-14 | F-13 | 3 | Sprint 3 contract | Sprint 3 contract |
