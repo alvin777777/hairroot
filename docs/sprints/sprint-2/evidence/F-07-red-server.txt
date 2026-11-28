@@ -1,0 +1,146 @@
+
+> hairroot-server@0.1.0 test
+> vitest run rescheduling.api.test.ts
+
+
+ RUN  v2.1.9 C:/Users/Titinan/.codex/worktrees/lab5-deploy-workflow/hairroot/server
+
+ ❯ tests/rescheduling.api.test.ts (6 tests | 6 failed) 3091ms
+   × F-07 rescheduling > T-46 moves the same row, preserves topic, and updates both availability and schedule 619ms
+     → expected 404 to be 200 // Object.is equality
+   × F-07 rescheduling > T-47 allows exactly 24 hours but rejects one millisecond less 583ms
+     → expected 404 to be 200 // Object.is equality
+   × F-07 rescheduling > T-48 denies anonymous, staff, another owner, and invalid booking IDs 584ms
+     → expected 404 to be 401 // Object.is equality
+   × F-07 rescheduling > T-49 rejects taken, past, missing, same and invalid targets, and cancelled bookings 430ms
+     → expected [ 404, 'NOT_FOUND' ] to deeply equal [ 409, 'SLOT_TAKEN' ]
+   × F-07 rescheduling > T-50 races moving with booking, two moves, and cancellation 416ms
+     → expected [] to have a length of 1 but got +0
+   × F-07 rescheduling > T-51 permits moving to a legacy 15-minute slot 457ms
+     → expected 404 to be 200 // Object.is equality
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/rescheduling.api.test.ts > F-07 rescheduling > T-46 moves the same row, preserves topic, and updates both availability and schedule
+AssertionError: expected 404 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 404
+
+ ❯ tests/rescheduling.api.test.ts:43:27
+     41|     const originalCreatedAt = created.body.booking.createdAt;
+     42|     const result = await move(id, b.id);
+     43|     expect(result.status).toBe(200);
+       |                           ^
+     44|     expect(result.body.booking).toMatchObject({ id, topic: "Hairline r…
+     45|     expect(await getPrisma().booking.count({ where: { id } })).toBe(1);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  tests/rescheduling.api.test.ts > F-07 rescheduling > T-47 allows exactly 24 hours but rejects one millisecond less
+AssertionError: expected 404 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 404
+
+ ❯ tests/rescheduling.api.test.ts:70:68
+     68|     vi.useFakeTimers({ toFake: ["Date"] });
+     69|     vi.setSystemTime(anchor);
+     70|     expect((await move(first.body.booking.id, target1.id)).status).toB…
+       |                                                                    ^
+     71|     const late = await move(second.body.booking.id, target2.id);
+     72|     expect([late.status, late.body.code]).toEqual([422, "RESCHEDULE_CL…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  tests/rescheduling.api.test.ts > F-07 rescheduling > T-48 denies anonymous, staff, another owner, and invalid booking IDs
+AssertionError: expected 404 to be 401 // Object.is equality
+
+- Expected
++ Received
+
+- 401
++ 404
+
+ ❯ tests/rescheduling.api.test.ts:80:96
+     78|     const b = await slot(new Date(Date.now() + 72 * HOUR));
+     79|     const id = (await book(a.id)).body.booking.id as number;
+     80|     expect((await api().post(`/api/bookings/${id}/reschedule`).send({ …
+       |                                                                                                ^
+     81|     expect((await move(id, b.id, staff)).status).toBe(403);
+     82|     expect((await move(id, b.id, bob)).status).toBe(404);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  tests/rescheduling.api.test.ts > F-07 rescheduling > T-49 rejects taken, past, missing, same and invalid targets, and cancelled bookings
+AssertionError: expected [ 404, 'NOT_FOUND' ] to deeply equal [ 409, 'SLOT_TAKEN' ]
+
+- Expected
++ Received
+
+  Array [
+-   409,
+-   "SLOT_TAKEN",
++   404,
++   "NOT_FOUND",
+  ]
+
+ ❯ tests/rescheduling.api.test.ts:100:49
+     98|     ] as const) {
+     99|       const result = await move(id, target);
+    100|       expect([result.status, result.body.code]).toEqual([status, code]…
+       |                                                 ^
+    101|       expect((await getPrisma().booking.findUniqueOrThrow({ where: { i…
+    102|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+ FAIL  tests/rescheduling.api.test.ts > F-07 rescheduling > T-50 races moving with booking, two moves, and cancellation
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ tests/rescheduling.api.test.ts:115:55
+    113|     const firstRace = await Promise.all([move(id, b.id), book(b.id, bo…
+    114|     expect(firstRace.filter((r) => r.status >= 200 && r.status < 300))…
+    115|     expect(firstRace.filter((r) => r.status === 409)).toHaveLength(1);
+       |                                                       ^
+    116|     expect(await getPrisma().booking.count({ where: { slotId: b.id, st…
+    117|     const current = (await getPrisma().booking.findUniqueOrThrow({ whe…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/6]⎯
+
+ FAIL  tests/rescheduling.api.test.ts > F-07 rescheduling > T-51 permits moving to a legacy 15-minute slot
+AssertionError: expected 404 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 404
+
+ ❯ tests/rescheduling.api.test.ts:137:48
+    135|     const legacy = await slot(new Date(Date.now() + 72 * HOUR), 15);
+    136|     const id = (await book(a.id)).body.booking.id as number;
+    137|     expect((await move(id, legacy.id)).status).toBe(200);
+       |                                                ^
+    138|     expect((await getPrisma().slot.findUniqueOrThrow({ where: { id: le…
+    139|   });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/6]⎯
+
+ Test Files  1 failed (1)
+      Tests  6 failed (6)
+   Start at  21:15:39
+   Duration  9.30s (transform 188ms, setup 0ms, collect 786ms, tests 3.09s, environment 0ms, prepare 143ms)
+

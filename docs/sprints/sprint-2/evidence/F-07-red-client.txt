@@ -1,0 +1,1148 @@
+
+> hairroot-client@0.1.0 test
+> vitest run rescheduling.test.tsx
+
+
+ RUN  v2.1.9 C:/Users/Titinan/.codex/worktrees/lab5-deploy-workflow/hairroot/client
+
+stderr | tests/rescheduling.test.tsx > T-52 rescheduling UI > shows the action for eligible bookings and hides it for cancelled bookings
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ❯ tests/rescheduling.test.tsx (3 tests | 3 failed) 3071ms
+   × T-52 rescheduling UI > shows the action for eligible bookings and hides it for cancelled bookings 1044ms
+     → Unable to find role="button" and name "Change time"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33mclass[39m=[32m"card"[39m
+      [33mdata-testid[39m=[32m"booking-detail"[39m
+      [33mstyle[39m=[32m"max-width: 560px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"card-body"[39m
+      [36m>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"h5"[39m
+        [36m>[39m
+          [0mYour appointment[0m
+        [36m</h1>[39m
+        [36m<dl[39m
+          [33mclass[39m=[32m"row mb-3"[39m
+        [36m>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mWhen[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mSun 1 Dec, 09:00 to 09:30[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mSpecialist[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mDr. One[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mService[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mConsultation[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mTopic[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mHairline review[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mStatus[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"badge text-bg-success"[39m
+            [36m>[39m
+              [0mConfirmed[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</dl>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-outline-danger mb-3"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mCancel booking[0m
+        [36m</button>[39m
+        [36m<a[39m
+          [33mhref[39m=[32m"/bookings"[39m
+        [36m>[39m
+          [0mBack to my bookings[0m
+        [36m</a>[39m
+      [36m</div>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33mclass[39m=[32m"card"[39m
+      [33mdata-testid[39m=[32m"booking-detail"[39m
+      [33mstyle[39m=[32m"max-width: 560px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"card-body"[39m
+      [36m>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"h5"[39m
+        [36m>[39m
+          [0mYour appointment[0m
+        [36m</h1>[39m
+        [36m<dl[39m
+          [33mclass[39m=[32m"row mb-3"[39m
+        [36m>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mWhen[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mSun 1 Dec, 09:00 to 09:30[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mSpecialist[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mDr. One[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mService[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mConsultation[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mTopic[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mHairline review[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mStatus[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"badge text-bg-success"[39m
+            [36m>[39m
+              [0mConfirmed[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</dl>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-outline-danger mb-3"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mCancel booking[0m
+        [36m</button>[39m
+        [36m<a[39m
+          [33mhref[39m=[32m"/bookings"[39m
+        [36m>[39m
+          [0mBack to my bookings[0m
+        [36m</a>[39m
+      [36m</div>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+   × T-52 rescheduling UI > loads alternative slots, confirms before moving, and shows the saved time 1010ms
+     → Unable to find role="button" and name "Change time"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33mclass[39m=[32m"card"[39m
+      [33mdata-testid[39m=[32m"booking-detail"[39m
+      [33mstyle[39m=[32m"max-width: 560px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"card-body"[39m
+      [36m>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"h5"[39m
+        [36m>[39m
+          [0mYour appointment[0m
+        [36m</h1>[39m
+        [36m<dl[39m
+          [33mclass[39m=[32m"row mb-3"[39m
+        [36m>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mWhen[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mSun 1 Dec, 09:00 to 09:30[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mSpecialist[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mDr. One[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mService[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mConsultation[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mTopic[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mHairline review[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mStatus[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"badge text-bg-success"[39m
+            [36m>[39m
+              [0mConfirmed[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</dl>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-outline-danger mb-3"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mCancel booking[0m
+        [36m</button>[39m
+        [36m<a[39m
+          [33mhref[39m=[32m"/bookings"[39m
+        [36m>[39m
+          [0mBack to my bookings[0m
+        [36m</a>[39m
+      [36m</div>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33mclass[39m=[32m"card"[39m
+      [33mdata-testid[39m=[32m"booking-detail"[39m
+      [33mstyle[39m=[32m"max-width: 560px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"card-body"[39m
+      [36m>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"h5"[39m
+        [36m>[39m
+          [0mYour appointment[0m
+        [36m</h1>[39m
+        [36m<dl[39m
+          [33mclass[39m=[32m"row mb-3"[39m
+        [36m>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mWhen[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mSun 1 Dec, 09:00 to 09:30[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mSpecialist[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mDr. One[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mService[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mConsultation[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mTopic[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mHairline review[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mStatus[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"badge text-bg-success"[39m
+            [36m>[39m
+              [0mConfirmed[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</dl>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-outline-danger mb-3"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mCancel booking[0m
+        [36m</button>[39m
+        [36m<a[39m
+          [33mhref[39m=[32m"/bookings"[39m
+        [36m>[39m
+          [0mBack to my bookings[0m
+        [36m</a>[39m
+      [36m</div>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+   × T-52 rescheduling UI > keeps the old time and reloads alternatives when the move fails 1015ms
+     → Unable to find role="button" and name "Change time"
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33mclass[39m=[32m"card"[39m
+      [33mdata-testid[39m=[32m"booking-detail"[39m
+      [33mstyle[39m=[32m"max-width: 560px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"card-body"[39m
+      [36m>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"h5"[39m
+        [36m>[39m
+          [0mYour appointment[0m
+        [36m</h1>[39m
+        [36m<dl[39m
+          [33mclass[39m=[32m"row mb-3"[39m
+        [36m>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mWhen[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mSun 1 Dec, 09:00 to 09:30[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mSpecialist[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mDr. One[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mService[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mConsultation[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mTopic[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mHairline review[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mStatus[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"badge text-bg-success"[39m
+            [36m>[39m
+              [0mConfirmed[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</dl>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-outline-danger mb-3"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mCancel booking[0m
+        [36m</button>[39m
+        [36m<a[39m
+          [33mhref[39m=[32m"/bookings"[39m
+        [36m>[39m
+          [0mBack to my bookings[0m
+        [36m</a>[39m
+      [36m</div>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+Ignored nodes: comments, script, style
+[36m<body>[39m
+  [36m<div>[39m
+    [36m<section[39m
+      [33mclass[39m=[32m"card"[39m
+      [33mdata-testid[39m=[32m"booking-detail"[39m
+      [33mstyle[39m=[32m"max-width: 560px;"[39m
+    [36m>[39m
+      [36m<div[39m
+        [33mclass[39m=[32m"card-body"[39m
+      [36m>[39m
+        [36m<h1[39m
+          [33mclass[39m=[32m"h5"[39m
+        [36m>[39m
+          [0mYour appointment[0m
+        [36m</h1>[39m
+        [36m<dl[39m
+          [33mclass[39m=[32m"row mb-3"[39m
+        [36m>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mWhen[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mSun 1 Dec, 09:00 to 09:30[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mSpecialist[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mDr. One[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mService[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mConsultation[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mTopic[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [0mHairline review[0m
+          [36m</dd>[39m
+          [36m<dt[39m
+            [33mclass[39m=[32m"col-sm-3"[39m
+          [36m>[39m
+            [0mStatus[0m
+          [36m</dt>[39m
+          [36m<dd[39m
+            [33mclass[39m=[32m"col-sm-9"[39m
+          [36m>[39m
+            [36m<span[39m
+              [33mclass[39m=[32m"badge text-bg-success"[39m
+            [36m>[39m
+              [0mConfirmed[0m
+            [36m</span>[39m
+          [36m</dd>[39m
+        [36m</dl>[39m
+        [36m<button[39m
+          [33mclass[39m=[32m"btn btn-outline-danger mb-3"[39m
+          [33mtype[39m=[32m"button"[39m
+        [36m>[39m
+          [0mCancel booking[0m
+        [36m</button>[39m
+        [36m<a[39m
+          [33mhref[39m=[32m"/bookings"[39m
+        [36m>[39m
+          [0mBack to my bookings[0m
+        [36m</a>[39m
+      [36m</div>[39m
+    [36m</section>[39m
+  [36m</div>[39m
+[36m</body>[39m
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/rescheduling.test.tsx > T-52 rescheduling UI > shows the action for eligible bookings and hides it for cancelled bookings
+TestingLibraryElementError: Unable to find role="button" and name "Change time"
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      class="card"
+      data-testid="booking-detail"
+      style="max-width: 560px;"
+    >
+      <div
+        class="card-body"
+      >
+        <h1
+          class="h5"
+        >
+          Your appointment
+        </h1>
+        <dl
+          class="row mb-3"
+        >
+          <dt
+            class="col-sm-3"
+          >
+            When
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Sun 1 Dec, 09:00 to 09:30
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Specialist
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Dr. One
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Service
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Consultation
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Topic
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Hairline review
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Status
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            <span
+              class="badge text-bg-success"
+            >
+              Confirmed
+            </span>
+          </dd>
+        </dl>
+        <button
+          class="btn btn-outline-danger mb-3"
+          type="button"
+        >
+          Cancel booking
+        </button>
+        <a
+          href="/bookings"
+        >
+          Back to my bookings
+        </a>
+      </div>
+    </section>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      class="card"
+      data-testid="booking-detail"
+      style="max-width: 560px;"
+    >
+      <div
+        class="card-body"
+      >
+        <h1
+          class="h5"
+        >
+          Your appointment
+        </h1>
+        <dl
+          class="row mb-3"
+        >
+          <dt
+            class="col-sm-3"
+          >
+            When
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Sun 1 Dec, 09:00 to 09:30
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Specialist
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Dr. One
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Service
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Consultation
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Topic
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Hairline review
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Status
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            <span
+              class="badge text-bg-success"
+            >
+              Confirmed
+            </span>
+          </dd>
+        </dl>
+        <button
+          class="btn btn-outline-danger mb-3"
+          type="button"
+        >
+          Cancel booking
+        </button>
+        <a
+          href="/bookings"
+        >
+          Back to my bookings
+        </a>
+      </div>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/rescheduling.test.tsx:26:25
+     24|     vi.spyOn(api, "getBooking").mockResolvedValue({ booking: active });
+     25|     renderDetail();
+     26|     expect(await screen.findByRole("button", { name: "Change time" }))…
+       |                         ^
+     27|   });
+     28| 
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  tests/rescheduling.test.tsx > T-52 rescheduling UI > loads alternative slots, confirms before moving, and shows the saved time
+TestingLibraryElementError: Unable to find role="button" and name "Change time"
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      class="card"
+      data-testid="booking-detail"
+      style="max-width: 560px;"
+    >
+      <div
+        class="card-body"
+      >
+        <h1
+          class="h5"
+        >
+          Your appointment
+        </h1>
+        <dl
+          class="row mb-3"
+        >
+          <dt
+            class="col-sm-3"
+          >
+            When
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Sun 1 Dec, 09:00 to 09:30
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Specialist
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Dr. One
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Service
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Consultation
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Topic
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Hairline review
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Status
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            <span
+              class="badge text-bg-success"
+            >
+              Confirmed
+            </span>
+          </dd>
+        </dl>
+        <button
+          class="btn btn-outline-danger mb-3"
+          type="button"
+        >
+          Cancel booking
+        </button>
+        <a
+          href="/bookings"
+        >
+          Back to my bookings
+        </a>
+      </div>
+    </section>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      class="card"
+      data-testid="booking-detail"
+      style="max-width: 560px;"
+    >
+      <div
+        class="card-body"
+      >
+        <h1
+          class="h5"
+        >
+          Your appointment
+        </h1>
+        <dl
+          class="row mb-3"
+        >
+          <dt
+            class="col-sm-3"
+          >
+            When
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Sun 1 Dec, 09:00 to 09:30
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Specialist
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Dr. One
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Service
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Consultation
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Topic
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Hairline review
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Status
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            <span
+              class="badge text-bg-success"
+            >
+              Confirmed
+            </span>
+          </dd>
+        </dl>
+        <button
+          class="btn btn-outline-danger mb-3"
+          type="button"
+        >
+          Cancel booking
+        </button>
+        <a
+          href="/bookings"
+        >
+          Back to my bookings
+        </a>
+      </div>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/rescheduling.test.tsx:36:35
+     34|     renderDetail();
+     35|     const user = userEvent.setup();
+     36|     await user.click(await screen.findByRole("button", { name: "Change…
+       |                                   ^
+     37|     const picker = await screen.findByRole("combobox", { name: "Availa…
+     38|     expect(screen.queryByRole("option", { name: /Consultation/ })).not…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  tests/rescheduling.test.tsx > T-52 rescheduling UI > keeps the old time and reloads alternatives when the move fails
+TestingLibraryElementError: Unable to find role="button" and name "Change time"
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      class="card"
+      data-testid="booking-detail"
+      style="max-width: 560px;"
+    >
+      <div
+        class="card-body"
+      >
+        <h1
+          class="h5"
+        >
+          Your appointment
+        </h1>
+        <dl
+          class="row mb-3"
+        >
+          <dt
+            class="col-sm-3"
+          >
+            When
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Sun 1 Dec, 09:00 to 09:30
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Specialist
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Dr. One
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Service
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Consultation
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Topic
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Hairline review
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Status
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            <span
+              class="badge text-bg-success"
+            >
+              Confirmed
+            </span>
+          </dd>
+        </dl>
+        <button
+          class="btn btn-outline-danger mb-3"
+          type="button"
+        >
+          Cancel booking
+        </button>
+        <a
+          href="/bookings"
+        >
+          Back to my bookings
+        </a>
+      </div>
+    </section>
+  </div>
+</body>
+
+Ignored nodes: comments, script, style
+<body>
+  <div>
+    <section
+      class="card"
+      data-testid="booking-detail"
+      style="max-width: 560px;"
+    >
+      <div
+        class="card-body"
+      >
+        <h1
+          class="h5"
+        >
+          Your appointment
+        </h1>
+        <dl
+          class="row mb-3"
+        >
+          <dt
+            class="col-sm-3"
+          >
+            When
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Sun 1 Dec, 09:00 to 09:30
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Specialist
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Dr. One
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Service
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Consultation
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Topic
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            Hairline review
+          </dd>
+          <dt
+            class="col-sm-3"
+          >
+            Status
+          </dt>
+          <dd
+            class="col-sm-9"
+          >
+            <span
+              class="badge text-bg-success"
+            >
+              Confirmed
+            </span>
+          </dd>
+        </dl>
+        <button
+          class="btn btn-outline-danger mb-3"
+          type="button"
+        >
+          Cancel booking
+        </button>
+        <a
+          href="/bookings"
+        >
+          Back to my bookings
+        </a>
+      </div>
+    </section>
+  </div>
+</body>
+ ❯ waitForWrapper node_modules/@testing-library/dom/dist/wait-for.js:163:27
+ ❯ node_modules/@testing-library/dom/dist/query-helpers.js:86:33
+ ❯ tests/rescheduling.test.tsx:55:35
+     53|     renderDetail();
+     54|     const user = userEvent.setup();
+     55|     await user.click(await screen.findByRole("button", { name: "Change…
+       |                                   ^
+     56|     await user.selectOptions(await screen.findByRole("combobox", { nam…
+     57|     await user.click(screen.getByRole("button", { name: "Confirm chang…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  21:15:39
+   Duration  8.36s (transform 533ms, setup 2.73s, collect 626ms, tests 3.07s, environment 1.29s, prepare 289ms)
+

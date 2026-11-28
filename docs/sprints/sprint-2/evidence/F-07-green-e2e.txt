@@ -1,0 +1,39 @@
+
+> hairroot-e2e@0.1.0 test
+> playwright test
+
+[WebServer] (node:38548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:26256) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:23360) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:48364) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "hairroot_test", schema "public" at "localhost:5435"
+
+7 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+
+> hairroot-server@0.1.0 db:seed
+> tsx prisma/seed.ts
+
+Seeded demo data after a reset. Demo password not shown.
+
+Running 8 tests using 1 worker
+
+(node:36808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\sprint-1.spec.ts:90:1 › T-30 logs in, logs out, and redirects a protected route to login (1.3s)
+  ok 2 tests\sprint-1.spec.ts:104:1 › T-31 specialist creates a slot, customer books and reopens it, specialist sees the booking (2.0s)
+  ok 3 tests\sprint-1.spec.ts:126:1 › T-32 shows a conflict and refreshes the times when another customer books first (2.5s)
+  ok 4 tests\sprint-1.spec.ts:156:1 › T-39 prevents a customer from opening another customer's booking (AC-21) (2.2s)
+  ok 5 tests\sprint-2-cancellation.spec.ts:14:1 › T-45 cancelled booking survives reload and frees its slot (AC-35, AC-39) (1.9s)
+  ok 6 tests\sprint-2-rescheduling.spec.ts:14:1 › T-53 a moved booking survives reload and updates the specialist schedule (2.5s)
+  ok 7 tests\sprint-2.spec.ts:15:1 › T-37 public Home routes anonymous, customer, and specialist users appropriately (AC-28, AC-34) (1.5s)
+  ok 8 tests\sprint-2.spec.ts:39:1 › T-38 public Home has no horizontal overflow at 375 px (AC-34) (389ms)
+
+  8 passed (24.2s)

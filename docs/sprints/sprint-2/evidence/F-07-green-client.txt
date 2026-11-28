@@ -1,0 +1,43 @@
+
+> hairroot-client@0.1.0 test
+> vitest run
+
+
+ RUN  v2.1.9 C:/Users/Titinan/.codex/worktrees/lab5-deploy-workflow/hairroot/client
+
+ ✓ tests/version-footer.test.tsx (3 tests) 87ms
+stderr | tests/home.test.tsx > F-16 public Home > T-35 renders +0 strands while showing the exact total +0 (AC-31)
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | tests/screen-states.test.tsx > T-26 data screen states (AC-26) > slot list shows loading, empty, and error states
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | tests/booking-flow.test.tsx > T-27 guided booking flow (AC-27) > offers only matching days and times, then books the chosen slot
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | tests/cancellation.test.tsx > T-44 customer cancellation UI (AC-39) > asks for confirmation and keeps the booking when the customer declines
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | tests/rescheduling.test.tsx > T-52 rescheduling UI > shows the action for an eligible booking
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ tests/home.test.tsx (5 tests) 678ms
+ ✓ tests/screen-states.test.tsx (4 tests) 504ms
+ ✓ tests/cancellation.test.tsx (3 tests) 577ms
+   ✓ T-44 customer cancellation UI (AC-39) > asks for confirmation and keeps the booking when the customer declines 383ms
+ ✓ tests/rescheduling.test.tsx (6 tests) 955ms
+   ✓ T-52 rescheduling UI > loads alternative slots, confirms before moving, and shows the saved time 336ms
+ ✓ tests/booking-flow.test.tsx (2 tests) 1182ms
+   ✓ T-27 guided booking flow (AC-27) > offers only matching days and times, then books the chosen slot 851ms
+   ✓ T-27 guided booking flow (AC-27) > HR-F01 shows the server's emoji rejection on the booking form 329ms
+
+ Test Files  6 passed (6)
+      Tests  23 passed (23)
+   Start at  21:16:16
+   Duration  5.65s (transform 712ms, setup 1.73s, collect 4.15s, tests 3.98s, environment 16.64s, prepare 1.36s)
+
