@@ -80,7 +80,7 @@ describe("F-07 rescheduling", () => {
     expect((await api().post(`/api/bookings/${id}/reschedule`).send({ slotId: b.id })).status).toBe(401);
     expect((await move(id, b.id, staff)).status).toBe(403);
     expect((await move(id, b.id, bob)).status).toBe(404);
-    for (const invalid of ["abc", "0", "999999"]) expect((await move(invalid, b.id)).status).toBe(404);
+    for (const invalid of ["abc", "0", "999999", "2147483648"]) expect((await move(invalid, b.id)).status).toBe(404);
     expect((await getPrisma().booking.findUniqueOrThrow({ where: { id } })).slotId).toBe(a.id);
   });
 
@@ -95,6 +95,7 @@ describe("F-07 rescheduling", () => {
       [taken.id, 409, "SLOT_TAKEN"], [past.id, 422, "SLOT_NOT_BOOKABLE"],
       [999999, 404, "NOT_FOUND"], [a.id, 422, "SAME_SLOT"],
       [undefined, 400, "VALIDATION_ERROR"], ["x", 400, "VALIDATION_ERROR"],
+      [2_147_483_648, 400, "VALIDATION_ERROR"],
     ] as const) {
       const result = await move(id, target);
       expect([result.status, result.body.code]).toEqual([status, code]);
@@ -122,7 +123,8 @@ describe("F-07 rescheduling", () => {
     const beforeCancelRace = (await getPrisma().booking.findUniqueOrThrow({ where: { id } })).slotId;
     const nextTarget = [a.id, b.id, c.id].find((slotId) => slotId !== beforeCancelRace && slotId !== (firstRace[1].status === 201 ? b.id : -1))!;
     const thirdRace = await Promise.all([
-      move(id, nextTarget), api().post(`/api/bookings/${id}/cancel`).set("Cookie", alice).send({}),
+      move(id, nextTarget),
+      api().post(`/api/bookings/${id}/cancel`).set("Cookie", alice).send({}),
     ]);
     expect(thirdRace.map((r) => r.status).sort()).toEqual([200, 409]);
     expect(thirdRace.find((r) => r.status === 409)?.body.code).toBe("BOOKING_NOT_ACTIVE");

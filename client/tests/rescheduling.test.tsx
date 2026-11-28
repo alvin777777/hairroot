@@ -20,10 +20,28 @@ function renderDetail() {
 afterEach(() => vi.restoreAllMocks());
 
 describe("T-52 rescheduling UI", () => {
-  it("shows the action for eligible bookings and hides it for cancelled bookings", async () => {
+  it("shows the action for an eligible booking", async () => {
     vi.spyOn(api, "getBooking").mockResolvedValue({ booking: active });
     renderDetail();
     expect(await screen.findByRole("button", { name: "Change time" })).toBeVisible();
+  });
+
+  it.each([
+    ["cancelled", { ...active, status: "CANCELLED" }],
+    ["inside the cutoff", { ...active, slot: { ...active.slot, startAt: new Date(Date.now() + 23 * 60 * 60 * 1000).toISOString() } }],
+  ])("hides the action for a %s booking", async (_case, booking) => {
+    vi.spyOn(api, "getBooking").mockResolvedValue({ booking });
+    renderDetail();
+    await screen.findByText(booking.status === "CANCELLED" ? "Cancelled" : "Confirmed");
+    expect(screen.queryByRole("button", { name: "Change time" })).not.toBeInTheDocument();
+  });
+
+  it("shows a distinct empty state when no alternative slot is available", async () => {
+    vi.spyOn(api, "getBooking").mockResolvedValue({ booking: active });
+    vi.spyOn(api, "getAvailableSlots").mockResolvedValue({ slots: [active.slot] });
+    renderDetail();
+    await userEvent.setup().click(await screen.findByRole("button", { name: "Change time" }));
+    expect(await screen.findByText("No other times are available.")).toBeVisible();
   });
 
   it("loads alternative slots, confirms before moving, and shows the saved time", async () => {
