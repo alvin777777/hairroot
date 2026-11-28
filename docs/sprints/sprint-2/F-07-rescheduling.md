@@ -17,7 +17,7 @@ Version 0.1 — 2026-11-28. Written by ไอโว before any F-07 test or impl
    - the target slot exists, starts after the current time (BR-02), and is not the booking's current slot;
    - no other active booking holds the target slot (BR-01).
 5. A successful move changes the **same booking row**: `slotId` points to the new slot. The booking ID, owner, topic, status and `createdAt` do not change. The old slot becomes available immediately; the new slot is booked.
-6. The move is atomic (BR-10). It is one conditional `UPDATE` guarded by the partial unique index `booking_one_active_per_slot`. If any check fails or the insert would violate the index, the booking still points to its original slot and nothing else changes.
+6. The move is atomic (BR-10). It is one conditional `UPDATE` guarded by the partial unique index `booking_one_active_per_slot`. If any check fails or the update would violate the index, the booking still points to its original slot and nothing else changes.
 7. The target slot's duration is not revalidated: a legacy short slot (Lab 7 BR-03) that is available can be chosen, like in booking.
 
 The cutoff applies to the booking's current slot only. The target slot only has to be in the future, the same as booking a new slot.
@@ -70,7 +70,7 @@ WHERE id = :id AND "customerId" = :me AND status = 'ACTIVE' AND "slotId" = :curr
 - 0 rows updated: another request changed or cancelled the booking first; return 409 `BOOKING_NOT_ACTIVE`.
 - Unique-index violation (P2002): the target was taken; return 409 `SLOT_TAKEN`. The row keeps `:current`.
 
-Matching on `"slotId" = :current` means two concurrent moves of one booking cannot both succeed, and a cancellation racing a move leaves exactly one of them applied.
+Matching on `"slotId" = :current` means two concurrent moves of one booking cannot both succeed. To make cancellation and rescheduling mutually exclusive, F-06 cancellation must also match the booking's previously read `slotId` in its conditional `UPDATE`, in addition to `id`, `customerId`, and `status = ACTIVE`. If the move wins, cancellation returns 409 `BOOKING_NOT_ACTIVE`; if cancellation wins, rescheduling returns 409 `BOOKING_NOT_ACTIVE`. In either order, only one operation succeeds, and the cutoff for cancellation is never applied to a different slot from the one read.
 
 Status history (where the booking used to be) is not stored. F-14 (Sprint 3) owns history and will add it.
 
@@ -82,7 +82,7 @@ Status history (where the booking used to be) is not stored. F-14 (Sprint 3) own
 | AC-41 | Moving at exactly 24 hours before the current slot succeeds; closer than 24 hours, including after start, returns 422 `RESCHEDULE_CLOSED` and the booking is unchanged. |
 | AC-42 | Anonymous, staff, and another customer cannot move the booking (401, 403, 404); the booking is unchanged. |
 | AC-43 | A taken, past, missing, same, or invalid target is rejected with its error, and the booking still points to its original slot (BR-10). A cancelled booking cannot be moved (409). |
-| AC-44 | Under competition, at most one request wins: a move and another customer's booking of the same target, or two moves of one booking, never leave a slot with two active bookings or a booking on two slots. The loser gets 409 and its own state is unchanged. |
+| AC-44 | Under competition, at most one request wins: a move and another customer's booking of the same target, two moves of one booking, or a move and cancellation of that booking. A slot never has two active bookings and a booking never occupies two slots. The loser gets 409 and its own state is unchanged. |
 | AC-45 | The UI offers *Change time* only when allowed, confirms, shows the new time on success, and on failure keeps the original time and shows the error. After reload, My bookings and the specialist's schedule show the move. |
 
 ## Software test specification
@@ -93,7 +93,7 @@ Status history (where the booking used to be) is not stored. F-14 (Sprint 3) own
 | T-47 | API + PostgreSQL | Freeze time. Bookings whose current slots start exactly 24 h and 24 h − 1 ms from now. | First move 200. Second 422 `RESCHEDULE_CLOSED`; booking still on its original slot. |
 | T-48 | API + PostgreSQL | Move C1's booking as anonymous, as staff, as C2; and with booking IDs `abc`, `0`, and a missing ID. | 401, 403, 404, 404, 404, 404. Database row unchanged. |
 | T-49 | API + PostgreSQL | Targets: slot held by C2; slot that already started; missing slot ID; C1's current slot; body without `slotId`; `slotId: "x"`. Also a cancelled booking moved to a free slot. | 409 `SLOT_TAKEN`; 422 `SLOT_NOT_BOOKABLE`; 404; 422 `SAME_SLOT`; 400; 400; 409 `BOOKING_NOT_ACTIVE`. After each, the booking's `slotId` is unchanged and target slots are unchanged. |
-| T-50 | API + PostgreSQL | (a) C1 moves to B while C2 books B, in parallel. (b) Two parallel moves of C1's booking to B and to C. | (a) Exactly one 2xx; B has one active booking; if C1 lost, C1 is still on A. (b) Exactly one 200, one 409; the booking is on B or C, and the other target is still available. |
+| T-50 | API + PostgreSQL | (a) C1 moves to B while C2 books B, in parallel. (b) Two parallel moves of C1's booking to B and to C. (c) C1 moves from A to B while cancelling the same booking, in parallel; both A and B are beyond the 24-hour cutoff. | (a) Exactly one 2xx; B has one active booking; if C1 lost, C1 is still on A. (b) Exactly one 200, one 409; the booking is on B or C, and the other target is still available. (c) Exactly one 200 and one 409 `BOOKING_NOT_ACTIVE`; either the booking is CANCELLED on A or ACTIVE on B. |
 | T-51 | API + PostgreSQL | A legacy 15-minute available slot inserted with Prisma. C1 moves to it. | 200; the slot's times are unchanged (no duration revalidation). |
 | T-52 | Component | Detail with an eligible booking; booking less than 24 h away; cancelled booking. Picker with slots; dismiss confirm; mocked success; mocked 409 `SLOT_TAKEN`. | Action shown only for the eligible booking. Dismiss sends no request. Success shows the new time and message. Failure keeps the old time, shows the error, and reloads the list. |
 | T-53 | End-to-end | Seeded C1 booking more than 24 h away and another available slot. | C1 moves through the UI; after reload the detail and My bookings show the new time; the specialist sees the old time Available and the new one Booked. |
