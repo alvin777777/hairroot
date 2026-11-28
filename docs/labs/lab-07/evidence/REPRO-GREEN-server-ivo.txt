@@ -1,0 +1,61 @@
+Commit: a8f8d135ae21a6bd3cd2149bcf389d9bb889c65f
+Command: npx vitest run --reporter=verbose
+Run at: 2026-11-27T16:49:10Z
+
+ RUN  v2.1.9 <repo>/server
+
+ ✓ tests/bookings.api.test.ts > booking > T-14 lists only future unbooked slots with no customer information (AC-14)
+ ✓ tests/bookings.api.test.ts > booking > T-11c keeps a legacy 15-minute slot visible and bookable without changing its times (AC-11, AC-14, AC-15)
+ ✓ tests/bookings.api.test.ts > booking > T-15 books an available slot for the session's customer (AC-15)
+ ✓ tests/bookings.api.test.ts > booking > T-15b enforces the topic length after trimming (AC-15b)
+ ✓ tests/bookings.api.test.ts > booking > HR-F01 rejects emoji anywhere in a topic without consuming a slot (AC-15b)
+ ✓ tests/bookings.api.test.ts > booking > rejects a booking with a missing or unknown slot
+ ✓ tests/bookings.api.test.ts > booking > T-16 rejects booking an occupied slot and keeps the original booking (AC-16)
+ ✓ tests/bookings.api.test.ts > booking > T-17 lets exactly one of 20 competing customers book the slot (AC-17)
+ ✓ tests/bookings.api.test.ts > booking > T-18 rejects booking a slot whose start has passed (AC-18)
+ ✓ tests/bookings.api.test.ts > booking > T-19 ignores a client-supplied customerId (AC-19)
+ ✓ tests/booking-views.api.test.ts > booking views and access control > T-20 lists only the customer's own bookings and opens one (AC-20)
+ ✓ tests/booking-views.api.test.ts > booking views and access control > T-21 hides another customer's booking behind a 404 (AC-21)
+ ✓ tests/booking-views.api.test.ts > booking views and access control > T-22 shows an assigned specialist the schedule's slots and bookings (AC-22)
+ ✓ tests/booking-views.api.test.ts > booking views and access control > T-23 denies an unassigned specialist a schedule's bookings (AC-23)
+ ✓ tests/booking-views.api.test.ts > booking views and access control > T-05 rejects every protected endpoint without a session (AC-05)
+ ✓ tests/booking-views.api.test.ts > booking views and access control > T-06 enforces roles on the backend and changes nothing (AC-06)
+ ✓ tests/auth.api.test.ts > authentication > T-01 logs in with valid credentials and sets a session cookie (AC-01)
+ ✓ tests/auth.api.test.ts > authentication > T-02 answers a wrong password and an unknown email identically (AC-02)
+ ✓ tests/auth.api.test.ts > authentication > rejects a login missing required fields with 400
+ ✓ tests/auth.api.test.ts > authentication > T-03 invalidates the session on logout (AC-03)
+ ✓ tests/auth.api.test.ts > authentication > T-04 returns the identity and role of each session's user (AC-04)
+ ✓ tests/auth.api.test.ts > authentication > T-07b never returns a password hash and stores only scrypt hashes (AC-07)
+ ✓ tests/auth.api.test.ts > authentication > T-08 issues an httpOnly cookie for at most 8 hours and rejects expired sessions (AC-08)
+ ✓ tests/auth.api.test.ts > authentication > rejects a state-changing request from a foreign origin
+ ✓ tests/slots.api.test.ts > slot creation > lists only the specialist's own schedules
+ ✓ tests/slots.api.test.ts > slot creation > T-10 creates a valid slot on an assigned schedule (AC-10)
+ ✓ tests/slots.api.test.ts > slot creation > T-11b rejects times outside the limits and stores nothing (AC-11)
+ ✓ tests/slots.api.test.ts > slot creation > T-11b accepts exactly 30 and exactly 120 minutes (AC-11)
+ ✓ tests/slots.api.test.ts > slot creation > T-12a rejects an overlapping slot on the same schedule (AC-12)
+ ✓ tests/slots.api.test.ts > slot creation > T-12b accepts an adjacent slot and the same time on another schedule (AC-12)
+ ✓ tests/slots.api.test.ts > slot creation > T-12c lets only one of several competing overlapping requests succeed (AC-12)
+ ✓ tests/slots.api.test.ts > slot creation > T-13 rejects a specialist creating a slot on another specialist's schedule (AC-13)
+ ✓ tests/seed.test.ts > seed options > requires the demo password from the environment
+ ✓ tests/seed.test.ts > seed options > allows a reset only outside production
+ ✓ tests/seed.test.ts > seedDemo > is safe to rerun: it keeps bookings and creates no duplicates
+ ✓ tests/seed.test.ts > seedDemo > stores the demo password only as a hash taken from the options
+ ✓ tests/seed.test.ts > seedDemo > wipes existing data when a reset is requested
+ ✓ tests/origins.api.test.ts > allowed origins > accepts every origin in a comma-separated CLIENT_ORIGIN
+ ✓ tests/origins.api.test.ts > allowed origins > still rejects an origin that is not listed
+ ✓ tests/version.api.test.ts > GET /api/version > returns the deployed commit when DEPLOYED_COMMIT_SHA is set
+ ✓ tests/version.api.test.ts > GET /api/version > returns null outside a deployment
+ ✓ tests/version.api.test.ts > GET /api/version > does not echo a value that is not a commit SHA
+ ✓ tests/slots.unit.test.ts > slot rule (BR-03) > T-11a accepts 30 and 120 minutes and rejects values outside the limits (AC-11)
+ ✓ tests/slots.unit.test.ts > slot rule (BR-03) > T-11a rejects a start at or before the current time (AC-11)
+ ✓ tests/ready.api.test.ts > health and readiness (Lab 5 #2) > reports the process is up at /api/health
+ ✓ tests/ready.api.test.ts > health and readiness (Lab 5 #2) > reports ready at /api/ready when the database answers
+ ✓ tests/ready.api.test.ts > health and readiness (Lab 5 #2) > answers 503 at /api/ready when the database cannot be reached, without internal details
+ ✓ tests/password.unit.test.ts > password hashing > T-07a salts each hash and verifies only the correct password (AC-07)
+
+ Test Files  10 passed (10)
+      Tests  48 passed (48)
+   Start at  23:49:10
+   Duration  5.98s (transform 62ms, setup 0ms, collect 468ms, tests 3.77s, environment 1ms, prepare 236ms)
+
+exit=0
