@@ -8,8 +8,13 @@ import { NextFunction, Request, Response } from "express";
 // handler. Non-browser clients (tests, curl) must set the header explicitly.
 const UNSAFE = new Set(["POST", "PUT", "PATCH", "DELETE"]);
 
-export function allowedOrigin(): string {
-  return process.env.CLIENT_ORIGIN ?? "http://localhost:5173";
+// CLIENT_ORIGIN may list several origins separated by commas, because Cloud Run serves one service
+// at two URLs. Read on every request so configuration changes need no code change.
+export function allowedOrigins(): string[] {
+  return (process.env.CLIENT_ORIGIN ?? "http://localhost:5173")
+    .split(",")
+    .map((origin) => origin.trim())
+    .filter(Boolean);
 }
 
 function originOf(value: string | undefined): string | null {
@@ -24,7 +29,7 @@ function originOf(value: string | undefined): string | null {
 export function csrfOriginCheck(req: Request, res: Response, next: NextFunction) {
   if (!UNSAFE.has(req.method)) return next();
   const presented = originOf(req.header("origin")) ?? originOf(req.header("referer"));
-  if (presented !== allowedOrigin()) {
+  if (!presented || !allowedOrigins().includes(presented)) {
     return res.status(403).json({ error: "Request origin not allowed", code: "CSRF_REJECTED" });
   }
   next();

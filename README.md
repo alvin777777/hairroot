@@ -61,6 +61,18 @@ npm install
 The values in the `.env.example` files are for local development only. Never commit a `.env` file or a
 real secret.
 
+## Run with Docker
+
+This runs the production image (UI and API in one container) with its own PostgreSQL:
+
+```bash
+cp .env.example .env      # then choose your own local values
+docker compose up --build
+```
+
+The app is at http://localhost:3000. The `migrate` service applies migrations and the rerunnable
+seed, then exits. `docker compose down -v` removes the containers and the database volume.
+
 ## Run
 
 Use two terminals:
@@ -72,7 +84,7 @@ cd client && npm run dev   # UI on http://localhost:5173
 
 ## Demo accounts
 
-These synthetic accounts come from the seed script. The password for all of them is `Password123!`.
+These synthetic accounts come from the seed script. Their password is the `SEED_DEMO_PASSWORD` you set in `server/.env`; it is never stored in the code. In GCP it comes from Secret Manager, and the team shares it with testers privately.
 
 | Role | Email |
 |---|---|
@@ -82,7 +94,7 @@ These synthetic accounts come from the seed script. The password for all of them
 | Customer | `customer.mali@hairroot.test` |
 | Customer | `customer.krit@hairroot.test` |
 
-`npm run db:seed` resets the database to this known state, including seven days of future times.
+`npm run db:seed` is safe to rerun: it updates the demo accounts and adds any missing times for the next seven days without deleting data. To start from a clean local database, run `SEED_RESET=true npm run db:seed`, which is refused when `NODE_ENV=production`.
 
 ## Demo sequence
 

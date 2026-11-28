@@ -7,3 +7,10 @@ dist/
 coverage/
 e2e/test-results/
 e2e/playwright-report/
+
+# Python bytecode
+__pycache__/
+*.pyc
+# Lab PDF screenshots that show personal emails stay local (folder or link)
+docs/labs/*/private-assets
+docs/labs/*/*.pdf

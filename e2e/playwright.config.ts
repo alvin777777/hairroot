@@ -18,10 +18,10 @@ export default defineConfig({
   },
   webServer: [
     {
-      command: "npm run dev",
+      command: "npx tsx watch src/index.ts",
       cwd: "../server",
       url: "http://localhost:3001/healthz",
-      env: { DATABASE_URL: e2eDatabaseUrl },
+      env: { DATABASE_URL: e2eDatabaseUrl, CLIENT_ORIGIN: "http://localhost:5173" },
       reuseExistingServer: false,
       timeout: 120_000,
     },
@@ -29,6 +29,7 @@ export default defineConfig({
       command: "npm run dev",
       cwd: "../client",
       url: "http://localhost:5173",
+      env: { VITE_API_URL: "http://localhost:3001" },
       reuseExistingServer: false,
       timeout: 120_000,
     },
