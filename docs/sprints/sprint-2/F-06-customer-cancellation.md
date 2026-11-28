@@ -4,6 +4,7 @@ Version 0.1 — 2026-11-28. Written before F-06 implementation; teammate review 
 
 **Linked requirements:** FR-09, BR-09, BR-01, BR-06, NFR-02, NFR-06.
 **Depends on:** F-01, F-02, F-04, F-05. **Sprint:** 2.
+**Issue:** #66.
 
 ## Behaviour and workflow
 

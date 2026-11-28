@@ -51,7 +51,8 @@ describe("F-06 customer cancellation", () => {
   });
 
   it("T-41 permits exactly 24 hours and rejects one millisecond later (AC-36)", async () => {
-    const anchor = new Date("2026-12-01T03:00:00.000Z");
+    // Keep the clock inside the session lifetime while exercising the cutoff.
+    const anchor = new Date();
     const atLimit = await makeBooking(new Date(anchor.getTime() + 24 * HOUR));
     const currentSchedule = await getPrisma().schedule.findUniqueOrThrow({ where: { id: scheduleId } });
     const otherSchedule = await getPrisma().schedule.create({

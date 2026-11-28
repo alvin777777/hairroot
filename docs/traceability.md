@@ -15,7 +15,7 @@ are written with their feature contracts before implementation.
 | FR-06 | F-04 | 1 | AC-15 | T-15, T-31 |
 | FR-07 | F-05 | 1 | AC-20 | T-20, T-31 |
 | FR-08 | F-05 | 1 | AC-22 | T-22, T-31 |
-| FR-09 | F-06 | 2 | Sprint 2 contract | Sprint 2 contract |
+| FR-09 | F-06 | 2 | AC-35, AC-36, AC-39 | T-40, T-41, T-44, T-45 |
 | FR-10 | F-07 | 2 | Sprint 2 contract | Sprint 2 contract |
 | FR-11 | F-09 | 2 | Sprint 2 contract | Sprint 2 contract |
 | FR-12 | F-10 | 2 | Sprint 2 contract | Sprint 2 contract |
@@ -34,7 +34,7 @@ are written with their feature contracts before implementation.
 | BR-06 | F-02, F-04, F-05 | 1 | AC-14, AC-21 | T-14, T-21, T-39 |
 | BR-07 | F-02, F-04 | 1 | AC-19 | T-19 |
 | BR-08 | F-04 | 1 | AC-15b | T-15b |
-| BR-09 | F-06, F-07 | 2 | Sprint 2 contract | Sprint 2 contract |
+| BR-09 | F-06, F-07 | 2 | AC-36 for F-06; F-07 contract pending | T-41 for F-06; F-07 tests pending |
 | BR-10 | F-07 | 2 | Sprint 2 contract | Sprint 2 contract |
 | BR-11 | F-08 | 2 | Sprint 2 contract | Sprint 2 contract |
 | BR-12 | F-09 | 2 | Sprint 2 contract | Sprint 2 contract |
