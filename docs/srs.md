@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| **Version** | 0.3 — draft, 2026-11-08, pending teammate review |
+| **Version** | 0.4 — C-03/F-16 contract reviewed in PR #24; Lab 7 BR-03 change reviewed in PR #61, implemented in PR #63 and deployed by PR #65. TA approval of the BR-03 change was not obtained. |
 | **Course theme** | Theme 1: Appointment and Scheduling System |
 | **Chosen context** | Consultation appointments at a hair transplant clinic |
 
@@ -56,7 +56,7 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 | FR-01 | A seeded user can log in with an email and password and receives a session. | 1 |
 | FR-02 | A logged-in user can log out, after which the session no longer works. | 1 |
 | FR-03 | A logged-in user can retrieve their own identity and role. | 1 |
-| FR-04 | A specialist can create a slot with a start and end time on a schedule assigned to them. | 1 |
+| FR-04 | A specialist can create a future slot of 30 to 120 minutes on a schedule assigned to them. Existing shorter slots remain unchanged and bookable. | 1 |
 | FR-05 | A customer can list future, unbooked slots with the specialist name and time. | 1 |
 | FR-06 | A customer can book an available slot, giving a short discussion topic. | 1 |
 | FR-07 | A customer can list their own bookings and open the detail of one booking. | 1 |
@@ -79,7 +79,7 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 |---|---|---|
 | BR-01 | A slot can have at most one active booking, including when requests compete. | 1 |
 | BR-02 | A slot can be booked only while its start time is in the future. | 1 |
-| BR-03 | A slot must start in the future, end after it starts, and last 15 to 120 minutes. | 1 |
+| BR-03 | A newly created slot must start in the future, end after it starts, and last 30 to 120 minutes. Slots created before this rule takes effect are not revalidated and remain bookable under the existing booking rules. | 1 |
 | BR-04 | Slots on the same schedule must not overlap. Adjacent slots are allowed. | 1 |
 | BR-05 | Only the specialist assigned to a schedule can create slots on it or read its bookings. | 1 |
 | BR-06 | A customer can read only their own booking details. The available-slot list never reveals who booked what. | 1 |
@@ -93,6 +93,8 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 | BR-14 | An outcome can be recorded only on an active booking whose slot has started. | 3 |
 | BR-15 | Summary figures include only schedules assigned to the requesting specialist. | 3 |
 | BR-16 | Public booking activity includes only active bookings with future slot start times in the seven-day window, and exposes aggregate counts only. | 2 |
+
+**Post-UAT amendment to BR-08:** The corrected release also rejects topics containing emoji or emoji-capable symbols. This does not change the original Sprint 1 test record; see [HR-F01 topic policy and retest](labs/lab-06/HR-F01-topic-policy.md).
 
 ## 6. Non-functional requirements
 
@@ -126,7 +128,7 @@ The course brief names the roles Customer and Staff. The code uses those names, 
 | ID | Question | Decision | Reason |
 |---|---|---|---|
 | D-01 | Which context? | Hair transplant clinic consultations (changed from academic advising in version 0.1, at the team's choice) | Consultation is an accepted context in the brief, and the slot rules carry over unchanged. |
-| D-02 | How long is a slot? | 15 to 120 minutes, chosen per slot | Consultations and follow-ups differ in length; the limits reject obvious mistakes. |
+| D-02 | How long is a newly created slot? | 30 to 120 minutes, chosen per slot; existing shorter slots remain bookable | The proposed Lab 7 change adds preparation and wrap-up time for new consultations while preserving already scheduled appointments. |
 | D-03 | Who changes availability? | Only the specialist assigned to the schedule | Matches the theme's authorisation requirement. |
 | D-04 | What is the cancellation limit? | 24 hours before the start | Gives another customer time to take the slot. |
 | D-05 | How is double booking prevented? | A partial unique index on active bookings per slot | Holds under concurrency, unlike a check made only in application code. |

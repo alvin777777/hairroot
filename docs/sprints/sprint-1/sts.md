@@ -1,6 +1,6 @@
 # Sprint 1 — Software Test Specification
 
-Version 0.2 — draft, 2026-11-07. Version 0.1 was written before implementation (commit 141f3a6). Version 0.2 renames the product context only and changes no behaviour.
+Version 0.3 — Lab 7 BR-03 revision, reviewed in PR #61 and implemented and tested in PR #63. Version 0.2 was drafted 2026-11-07 before implementation (commit 141f3a6). Release b29aef9 is deployed; TA approval was not obtained.
 
 API tests use Supertest against the real Express app and a real PostgreSQL test database. Mocks do not
 replace persistence in these tests.
@@ -17,8 +17,9 @@ replace persistence in these tests.
 | T-07b | AC-07 | API | Seeded user | Inspect login and `/me` bodies and the stored row | No hash in the responses; stored value starts with `scrypt$` |
 | T-08 | AC-08 | API | Login; a session row with a past expiry | Inspect the cookie; call `/me` with the expired session | httpOnly, Max-Age at most 8 hours; 401 |
 | T-10 | AC-10 | API | Assigned specialist | Create a valid slot and retrieve it through the schedule list | 201; the slot appears with the same times |
-| T-11a | AC-11 | Unit | Times at the boundaries | Call the slot validation rule | 15 and 120 minutes pass; 14, 121, zero, and negative fail |
-| T-11b | AC-11 | API | Assigned specialist | Post a past start, 14, 15, 120, and 121 minutes | Past start: 422; 14 and 121: 400; no row stored for these. 15 and 120: 201 |
+| T-11a | AC-11 | Unit | Times at the proposed boundaries | Call the slot validation rule | 30 and 120 minutes pass; 29, 121, zero, and negative fail |
+| T-11b | AC-11 | API | Assigned specialist | Post a past start, 29, 30, 120, and 121 minutes | Past start: 422; 29 and 121: 400 with no row stored; 30 and 120: 201 |
+| T-11c | AC-11 | API + database fixture | Insert a legacy slot shorter than 30 minutes directly with Prisma in test setup, bypassing the new slot-creation API; no active booking | Customer requests the available-slot list and books the existing slot through the normal API | Slot remains listed and booking succeeds; stored start/end timestamps are unchanged. Do not create this fixture through `POST /api/schedules/:id/slots`, which should reject it after the change. |
 | T-12a | AC-12 | API | A slot from 10:00 to 11:00 | Post 10:30 to 11:30 | 409 `SLOT_OVERLAP`; no new row |
 | T-12b | AC-12 | API | The same slot | Post 11:00 to 11:30, and 10:00 to 11:00 on another schedule | Both 201 |
 | T-12c | AC-12 | Integration | 8 identical requests | Send them concurrently | One 201, seven 409; one row stored |
@@ -35,9 +36,11 @@ replace persistence in these tests.
 | T-22 | AC-22 | API | A booked slot and a free slot | Assigned specialist lists the schedule | Both slots; customer name and topic on the booked one |
 | T-23 | AC-23 | API | A booked slot on A's schedule | Specialist B requests that schedule | 403; the body has no booking data |
 | T-26 | AC-26 | Component | Mocked API states | Render the three screens while loading, empty, and failing | The correct state message each time |
+| T-27 | AC-27 | Component | Mocked slots for two services across two days | Choose a service, day, and time, enter a topic, and confirm | Only matching options appear; the booking is submitted for the chosen slot |
 | T-30 | AC-01, AC-03 | End-to-end | Seeded database | Log in through the browser, log out, then open a protected page | Home page; login page; redirect to login |
 | T-31 | AC-10, AC-14, AC-15, AC-20, AC-22 | End-to-end | Seeded database | Specialist creates a slot; customer books and reopens it; specialist sees the booking | Each step shows the expected data |
 | T-32 | AC-16 | End-to-end | A slot booked after the customer opened the list | The customer submits a booking for it | A "slot was taken" message; the list refreshes |
+| T-39 | AC-21 | End-to-end | Customer A's booking exists | Customer B signs in and opens A's booking URL | "Booking not found."; A's topic is not shown |
 | M-01 | AC-24 | Manual | A created booking | Stop and restart the API, then read the booking | The booking is returned unchanged |
 | M-02 | AC-25 | Manual | The release commit | Search the repository for secrets and confirm `.env` is ignored | No real secrets; only `.env.example` files tracked |
 

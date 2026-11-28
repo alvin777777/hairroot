@@ -21,7 +21,7 @@ export default function AppShell({ children }: { children: ReactNode }) {
           <div className="nav me-auto">
             {user?.role === "CUSTOMER" && (
               <>
-                <NavLink to="/slots" className={link}>Available times</NavLink>
+                <NavLink to="/slots" className={link}>Book</NavLink>
                 <NavLink to="/bookings" className={link}>My bookings</NavLink>
               </>
             )}

@@ -1,0 +1,44 @@
+# Local run of the production image with its database: docker compose up --build
+# Values come from the root .env file (copy .env.example). Nothing here is a real secret.
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: hairroot
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: hairroot
+    volumes:
+      - hairroot_compose_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hairroot -d hairroot"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # Same image as the app. Runs migrations and the rerunnable seed, then exits.
+  migrate:
+    build: .
+    restart: "no"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://hairroot:${POSTGRES_PASSWORD}@db:5432/hairroot?schema=public
+      SEED_DEMO_PASSWORD: ${SEED_DEMO_PASSWORD:?set SEED_DEMO_PASSWORD in .env}
+    command: ["sh", "-c", "npx prisma migrate deploy && npm run db:seed"]
+
+  app:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    environment:
+      DATABASE_URL: postgresql://hairroot:${POSTGRES_PASSWORD}@db:5432/hairroot?schema=public
+      CLIENT_ORIGIN: http://localhost:${APP_PORT:-3000}
+    ports:
+      - "${APP_PORT:-3000}:3000"
+
+volumes:
+  hairroot_compose_data:

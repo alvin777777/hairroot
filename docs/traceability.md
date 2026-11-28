@@ -1,6 +1,6 @@
 # HairRoot — Requirements Traceability
 
-Version 0.3 — draft, 2026-11-08, pending teammate review.
+Version 0.4 — C-03/F-16 contract reviewed in PR #24; Lab 7 BR-03 change reviewed in PR #61, implemented in PR #63 and deployed by PR #65. TA approval was not obtained.
 
 Sprint 2 and 3 items have a feature and sprint allocation now. Their acceptance criteria and tests
 are written with their feature contracts before implementation.
@@ -11,7 +11,7 @@ are written with their feature contracts before implementation.
 | FR-02 | F-01 | 1 | AC-03 | T-03, T-30 |
 | FR-03 | F-01 | 1 | AC-04 | T-04 |
 | FR-04 | F-03 | 1 | AC-10 | T-10, T-31 |
-| FR-05 | F-04 | 1 | AC-14 | T-14, T-31 |
+| FR-05 | F-04 | 1 | AC-14, AC-27 | T-14, T-27, T-31 |
 | FR-06 | F-04 | 1 | AC-15 | T-15, T-31 |
 | FR-07 | F-05 | 1 | AC-20 | T-20, T-31 |
 | FR-08 | F-05 | 1 | AC-22 | T-22, T-31 |
@@ -28,10 +28,10 @@ are written with their feature contracts before implementation.
 | FR-19 | F-16 | 2 | AC-28, AC-29, AC-31, AC-32 | T-33, T-35, T-37 |
 | BR-01 | F-04 | 1 | AC-16, AC-17 | T-16, T-17, T-32 |
 | BR-02 | F-04 | 1 | AC-18 | T-18 |
-| BR-03 | F-03 | 1 | AC-11 | T-11a, T-11b |
+| BR-03 | F-03 | 1 | AC-11 | T-11a, T-11b, T-11c |
 | BR-04 | F-03 | 1 | AC-12 | T-12a, T-12b, T-12c |
 | BR-05 | F-02, F-03, F-05 | 1 | AC-13, AC-23 | T-13, T-23 |
-| BR-06 | F-02, F-04, F-05 | 1 | AC-14, AC-21 | T-14, T-21 |
+| BR-06 | F-02, F-04, F-05 | 1 | AC-14, AC-21 | T-14, T-21, T-39 |
 | BR-07 | F-02, F-04 | 1 | AC-19 | T-19 |
 | BR-08 | F-04 | 1 | AC-15b | T-15b |
 | BR-09 | F-06, F-07 | 2 | Sprint 2 contract | Sprint 2 contract |
@@ -43,7 +43,7 @@ are written with their feature contracts before implementation.
 | BR-15 | F-15 | 3 | Sprint 3 contract | Sprint 3 contract |
 | BR-16 | F-16 | 2 | AC-29, AC-30 | T-33, T-34 |
 | NFR-01 | F-01, F-02 | 1 | AC-05 | T-05 |
-| NFR-02 | F-02 | 1 | AC-06, AC-13, AC-21, AC-23 | T-06, T-13, T-21, T-23 |
+| NFR-02 | F-02 | 1 | AC-06, AC-13, AC-21, AC-23 | T-06, T-13, T-21, T-23, T-39 |
 | NFR-03 | F-01 | 1 | AC-07 | T-07a, T-07b |
 | NFR-04 | F-04 | 1 | AC-17 | T-17 |
 | NFR-05 | F-01 | 1 | AC-03, AC-08 | T-03, T-08 |
@@ -62,5 +62,5 @@ are written with their feature contracts before implementation.
 |---|---|
 | Baseline requirements without a feature or responsibility | None |
 | Requirements without a sprint | None |
-| Approved changes since the baseline | C-01: the team changed the context from academic advising to a hair transplant clinic, and the product name from AdvisorBook to HairRoot. All FR, BR, NFR, AC, and test IDs and all behaviour are unchanged. Instructor or TA confirmation of the context is open (SRS Q-01). |
-| Proposed changes pending review | C-03: add the public booking pulse as F-16 in Sprint 2. This change adds FR-19, BR-16, NFR-13, and the F-16 contract; it is not approved until teammate review. |
+| Approved changes since the baseline | C-01: the team changed the context from academic advising to a hair transplant clinic, and the product name from AdvisorBook to HairRoot. All FR, BR, NFR, AC, and test IDs and all behaviour are unchanged. Instructor or TA confirmation of the context is open (SRS Q-01). C-02: after trying the app, the teammate asked for a workflow like a real booking app. The customer and specialist screens changed, and AC-27 and T-27 were added. The API and rules are unchanged. C-03: the public booking pulse was added as F-16 in Sprint 2 with FR-19, BR-16, NFR-13, and an approved contract in PR #24; implementation remains in PR #20. |
+| Proposed changes pending review | None |
