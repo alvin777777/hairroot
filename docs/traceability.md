@@ -1,6 +1,6 @@
 # HairRoot — Requirements Traceability
 
-Version 0.2 — draft, 2026-11-07, pending teammate review.
+Version 0.3 — Lab 7 BR-03 change proposal, 2026-11-27; pending teammate contract review before implementation.
 
 Sprint 2 and 3 items have a feature and sprint allocation now. Their acceptance criteria and tests
 are written with their feature contracts before implementation.
@@ -27,7 +27,7 @@ are written with their feature contracts before implementation.
 | FR-18 | F-14 | 3 | Sprint 3 contract | Sprint 3 contract |
 | BR-01 | F-04 | 1 | AC-16, AC-17 | T-16, T-17, T-32 |
 | BR-02 | F-04 | 1 | AC-18 | T-18 |
-| BR-03 | F-03 | 1 | AC-11 | T-11a, T-11b |
+| BR-03 | F-03 | 1 | AC-11 | T-11a, T-11b, T-11c |
 | BR-04 | F-03 | 1 | AC-12 | T-12a, T-12b, T-12c |
 | BR-05 | F-02, F-03, F-05 | 1 | AC-13, AC-23 | T-13, T-23 |
 | BR-06 | F-02, F-04, F-05 | 1 | AC-14, AC-21 | T-14, T-21, T-39 |

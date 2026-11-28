@@ -5,11 +5,12 @@ const NOW = new Date("2026-12-01T03:00:00Z");
 const at = (minutes: number) => new Date(NOW.getTime() + minutes * 60_000);
 
 describe("slot rule (BR-03)", () => {
-  it("T-11a accepts 15 and 120 minutes and rejects values outside the limits (AC-11)", () => {
-    expect(validateSlotRule(at(60), at(75), NOW)).toBeNull();
+  it("T-11a accepts 30 and 120 minutes and rejects values outside the limits (AC-11)", () => {
+    expect(validateSlotRule(at(60), at(90), NOW)).toBeNull();
     expect(validateSlotRule(at(60), at(180), NOW)).toBeNull();
-    expect(validateSlotRule(at(60), at(74), NOW)).toBe("DURATION");
+    expect(validateSlotRule(at(60), at(89), NOW)).toBe("DURATION");
     expect(validateSlotRule(at(60), at(181), NOW)).toBe("DURATION");
+    expect(validateSlotRule(at(60), at(75), NOW)).toBe("DURATION");
     expect(validateSlotRule(at(60), at(60), NOW)).toBe("DURATION");
     expect(validateSlotRule(at(60), at(30), NOW)).toBe("DURATION");
   });

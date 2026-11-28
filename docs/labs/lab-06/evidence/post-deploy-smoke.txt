@@ -1,0 +1,9 @@
+HairRoot post-deployment smoke check after release PR #59 (recorded by the Product Team)
+Time (UTC):  2026-11-27T13:14:16Z
+Deploy run:  https://github.com/alvin777777/hairroot/actions/runs/45975306714 (test-and-docker=success, deploy=success, head cbaf1ba)
+Revision:    hairroot-sha-cbaf1baa38a5-45975306714-2
+GET https://hairroot-368003298307.asia-southeast1.run.app/api/version
+{"commit":"cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d"}
+GET https://hairroot-368003298307.asia-southeast1.run.app/api/ready
+{"status":"ready","db":"connected"}
+GET https://hairroot-368003298307.asia-southeast1.run.app/login -> 200

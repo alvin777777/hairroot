@@ -45,6 +45,24 @@ describe("booking", () => {
     expect(body).not.toContain("customerId");
   });
 
+  it("T-11c keeps a legacy 15-minute slot visible and bookable without changing its times (AC-11, AC-14, AC-15)", async () => {
+    const startAt = new Date(Date.now() + 24 * HOUR);
+    const endAt = new Date(startAt.getTime() + 15 * 60_000);
+    const legacy = await getPrisma().slot.create({ data: { scheduleId, startAt, endAt } });
+
+    const available = await api().get("/api/slots/available").set("Cookie", alice);
+    expect(available.status).toBe(200);
+    expect(available.body.slots.map((s: { id: number }) => s.id)).toContain(legacy.id);
+
+    const res = await book(alice, legacy.id, "Legacy short slot");
+    expect(res.status).toBe(201);
+    expect(res.body.booking.slot).toMatchObject({ id: legacy.id, startAt: startAt.toISOString(), endAt: endAt.toISOString() });
+
+    const stored = await getPrisma().slot.findUniqueOrThrow({ where: { id: legacy.id } });
+    expect(stored.startAt.toISOString()).toBe(startAt.toISOString());
+    expect(stored.endAt.toISOString()).toBe(endAt.toISOString());
+  });
+
   it("T-15 books an available slot for the session's customer (AC-15)", async () => {
     const free = await slot(24);
     const res = await book(alice, free.id);
