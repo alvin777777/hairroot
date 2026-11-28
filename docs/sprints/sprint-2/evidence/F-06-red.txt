@@ -1,0 +1,104 @@
+
+> hairroot-server@0.1.0 test
+> vitest run tests/cancellation.api.test.ts
+
+
+ RUN  v2.1.9 C:/Users/Titinan/.codex/worktrees/lab5-deploy-workflow/hairroot/server
+
+ ❯ tests/cancellation.api.test.ts (4 tests | 4 failed) 2023ms
+   × F-06 customer cancellation > T-40 cancels and retains the row, reopens the slot, and lets another customer book it (AC-35) 642ms
+     → expected 404 to be 200 // Object.is equality
+   × F-06 customer cancellation > T-41 permits exactly 24 hours and rejects one millisecond later (AC-36) 494ms
+     → expected 404 to be 200 // Object.is equality
+   × F-06 customer cancellation > T-42 denies anonymous, staff and another customer without changing the row (AC-37) 473ms
+     → expected 404 to be 401 // Object.is equality
+   × F-06 customer cancellation > T-43 reports only one success under concurrent cancellation and rejects a repeat (AC-38) 413ms
+     → expected [ 404, 404 ] to deeply equal [ 200, 409 ]
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/cancellation.api.test.ts > F-06 customer cancellation > T-40 cancels and retains the row, reopens the slot, and lets another customer book it (AC-35)
+AssertionError: expected 404 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 404
+
+ ❯ tests/cancellation.api.test.ts:41:27
+     39|     const { id, slotId } = await makeBooking(new Date(Date.now() + 48 …
+     40|     const result = await cancel(id, alice);
+     41|     expect(result.status).toBe(200);
+       |                           ^
+     42|     expect(result.body.booking).toMatchObject({ id, status: "CANCELLED…
+     43|     expect(await getPrisma().booking.findUniqueOrThrow({ where: { id }…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  tests/cancellation.api.test.ts > F-06 customer cancellation > T-41 permits exactly 24 hours and rejects one millisecond later (AC-36)
+AssertionError: expected 404 to be 200 // Object.is equality
+
+- Expected
++ Received
+
+- 200
++ 404
+
+ ❯ tests/cancellation.api.test.ts:63:54
+     61|     vi.useFakeTimers({ toFake: ["Date"] });
+     62|     vi.setSystemTime(anchor);
+     63|     expect((await cancel(atLimit.id, alice)).status).toBe(200);
+       |                                                      ^
+     64|     const rejected = await cancel(tooLate.id, alice);
+     65|     expect(rejected.status).toBe(422);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  tests/cancellation.api.test.ts > F-06 customer cancellation > T-42 denies anonymous, staff and another customer without changing the row (AC-37)
+AssertionError: expected 404 to be 401 // Object.is equality
+
+- Expected
++ Received
+
+- 401
++ 404
+
+ ❯ tests/cancellation.api.test.ts:72:78
+     70|   it("T-42 denies anonymous, staff and another customer without changi…
+     71|     const { id } = await makeBooking(new Date(Date.now() + 48 * HOUR));
+     72|     expect((await api().post(`/api/bookings/${id}/cancel`).send({})).s…
+       |                                                                              ^
+     73|     expect((await cancel(id, staff)).status).toBe(403);
+     74|     expect((await cancel(id, bob)).status).toBe(404);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  tests/cancellation.api.test.ts > F-06 customer cancellation > T-43 reports only one success under concurrent cancellation and rejects a repeat (AC-38)
+AssertionError: expected [ 404, 404 ] to deeply equal [ 200, 409 ]
+
+- Expected
++ Received
+
+  Array [
+-   200,
+-   409,
++   404,
++   404,
+  ]
+
+ ❯ tests/cancellation.api.test.ts:81:51
+     79|     const { id } = await makeBooking(new Date(Date.now() + 48 * HOUR));
+     80|     const responses = await Promise.all([cancel(id, alice), cancel(id,…
+     81|     expect(responses.map((r) => r.status).sort()).toEqual([200, 409]);
+       |                                                   ^
+     82|     expect((await cancel(id, alice)).body.code).toBe("BOOKING_NOT_ACTI…
+     83|     expect((await getPrisma().booking.findUniqueOrThrow({ where: { id …
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+ Test Files  1 failed (1)
+      Tests  4 failed (4)
+   Start at  19:17:15
+   Duration  4.78s (transform 130ms, setup 0ms, collect 485ms, tests 2.02s, environment 0ms, prepare 139ms)
+
