@@ -218,7 +218,33 @@ No existing test was removed, skipped, or weakened. T-11a and T-11b changed thei
 
 No schema or migration change was part of this release.
 
-[PENDING: E-B9, post-deployment checks on the live service: (1) as S1, a new slot with the 30-minute minimum is accepted and the Duration list starts at 30; (2) preserved behaviour: the legacy 15-minute slot from Lab 6 (12 Dec 19:00 to 19:15) still shows on S1's schedule and in C1's bookings; (3) `/api/version` and `/api/ready`]
+**E-B9. Post-deployment checks on the live service (ไอโว, 28 Nov 2026 16:37 to 16:40 Bangkok, Version b29aef9).** A headed Playwright script (`evidence/live/run-lab7-eb9.mjs`) drove the browser; ไอโว typed each password by hand, and the script never read it. Raw results: `evidence/live/E-B9-results.json`.
+
+| # | Check | Expected | Actual | Result |
+|---|---|---|---|---|
+| 1 | `/api/version`, `/api/ready`, footer | `b29aef9…`; ready, database connected; *Version b29aef9* | `b29aef9b9b83356e55ab61de570ea117085ae966`; `{"status":"ready","db":"connected"}`; *Version b29aef9* | PASS |
+| 2 | S1 Duration list | Starts at 30; no 15 | 30, 45, 60, 90, 120 minutes | PASS |
+| 3 | S1 asks for a 29-minute slot (20 Dec 10:00 to 10:29) through the API | 400, *A slot must last 30 to 120 minutes.* | 400 `VALIDATION_ERROR`, `endAt`: *A slot must last 30 to 120 minutes.* | PASS |
+| 4 | S1 adds a 30-minute slot (20 Dec 10:00) in the form | Created and listed as Available | 201, slot 115; *Time added.*; 10:00 to 10:30 Available | PASS |
+| 5 | Legacy 15-minute slot on S1's schedule | 12 Dec 19:00 to 19:15 still listed | Slot 60, 15 minutes, Booked by Anan Suksan (booking 6) | PASS |
+| 6 | The same booking for C1 | Still in *My bookings* | Booking 6, ACTIVE, *Sat 12 Dec, 19:00 to 19:15* | PASS |
+
+![E-B9-02](evidence/live/E-B9-02-duration-options.png)
+*E-B9-02. S1, 16:39. The Duration list starts at 30 minutes; 15 is gone.* **PASS**
+
+![E-B9-03](evidence/live/E-B9-03-29min-rejected.png)
+*E-B9-03. S1, 16:39:59. A 29-minute request is rejected with 400 and the new message.* **PASS**
+
+![E-B9-04](evidence/live/E-B9-04-30min-accepted.png)
+*E-B9-04. S1, 16:40:00. A 30-minute slot on 20 Dec at 10:00 is added (*Time added.*).* **PASS**
+
+![E-B9-05](evidence/live/E-B9-05-legacy-slot-S1.png)
+*E-B9-05. S1, 16:40:00. The legacy 15-minute slot from Lab 6 UAT-03 (12 Dec 19:00 to 19:15, red outline) is still listed and booked; the new 20 Dec 10:00 to 10:30 slot also appears.* **PASS**
+
+![E-B9-06](evidence/live/E-B9-06-legacy-booking-C1.png)
+*E-B9-06. C1, 16:40:49. Booking 6 for the 15-minute slot is still in C1's bookings; footer Version b29aef9.* **PASS**
+
+Data changed on the live service: one new 30-minute slot (slot 115, 20 Dec 10:00, Available). Nothing else was created, changed, or deleted.
 
 ## Part C: Objective engineering metrics
 
@@ -266,8 +292,8 @@ Successful runs (44): 44789528243, 44888863927, 44893441499, 44909679832, 449382
 | Technical debt | See D.2 |
 | Configuration and secrets | Secrets in Secret Manager; deploy by Workload Identity Federation; no secret in Git or this PDF. No new configuration in this change |
 | Documentation and run instructions | SRS 0.3, F-03 0.4, STS 0.3, traceability 0.3 updated; README unchanged (it states no duration) |
-| Deployment and smoke check | [PENDING: deploy run, revision, and E-B9 result] |
-| **Decision** | [PENDING: READY or NOT READY after deployment and E-B9] |
+| Deployment and smoke check | Deploy run 46126115471 success, including the pipeline smoke test; revision `hairroot-sha-b29aef9b9b83-46126115471-1`; E-B9 six checks PASS on the live service |
+| **Decision** | **READY** for the maintained Sprint 1 scope on `b29aef9`. No open defect; every test and post-deployment check passed. Accepted limitations: no TA approval of the change (Section 3.1), and the SRS, F-03, STS, and traceability headers still call the change a pending proposal (D.2). Neither affects the running software; the header fix is a docs follow-up before Deliverable 2 |
 
 ### D.2 Technical debt
 
@@ -305,4 +331,6 @@ Credentials were shared with AI assistants during earlier HairRoot/DineQ work (L
 - **No instructor or TA approval was obtained** for the change, although Section 3.1 requires it. The team decided on 27 Nov 2026 not to request it. The change request, the teammate's contract review, and the order of commits are recorded above.
 - ทิฐินันท์'s original RED run used a local test-only commit (`1b92ff9`) that is not on GitHub. The verifiable RED evidence is ไอโว's re-run on the pushed commit `9b3816d`, whose application code equals `cbaf1ba`.
 - E2E T-31 was run locally for one test; the full E2E suite was run only in CI.
-- [PENDING: anything still incomplete after deployment]
+- The contract headers (SRS 0.3, F-03 0.4, STS 0.3, traceability 0.3) still describe the change as a pending proposal; they were not updated with the release (D.2).
+- E-B9 created one test slot (slot 115) on the live service; it was left in place as evidence.
+- DineQ did not re-run their UAT on `b29aef9`; the post-deployment check was done by our own team.

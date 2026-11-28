@@ -1,0 +1,48 @@
+{
+  "tester": "ไอโว ปีเตอร์ อัลวิน รันเน่ (passwords typed by the tester; browser steps scripted)",
+  "base": "https://hairroot-368003298307.asia-southeast1.run.app",
+  "results": [
+    {
+      "id": "version/ready",
+      "expected": "commit b29aef9…, ready + db connected, footer Version b29aef9",
+      "actual": "b29aef9b9b83356e55ab61de570ea117085ae966; {\"status\":\"ready\",\"db\":\"connected\"}; footer \"Version b29aef9\"",
+      "result": "PASS",
+      "at": "2026-11-28T09:37:49.364Z"
+    },
+    {
+      "id": "duration list",
+      "expected": "starts at 30 minutes; no 15",
+      "actual": "30 minutes, 45 minutes, 60 minutes, 90 minutes, 120 minutes",
+      "result": "PASS",
+      "at": "2026-11-28T09:39:59.177Z"
+    },
+    {
+      "id": "29-minute slot (API)",
+      "expected": "400 VALIDATION; 'A slot must last 30 to 120 minutes.'",
+      "actual": "400 {\"error\":\"Please correct the highlighted fields.\",\"code\":\"VALIDATION_ERROR\",\"fields\":{\"endAt\":\"A slot must last 30 to 120 minutes.\"}}",
+      "result": "PASS",
+      "at": "2026-11-28T09:39:59.466Z"
+    },
+    {
+      "id": "30-minute slot (UI)",
+      "expected": "201; slot listed as Available",
+      "actual": "201 slot 115 2026-12-20 10:00",
+      "result": "PASS",
+      "at": "2026-11-28T09:40:00.351Z"
+    },
+    {
+      "id": "legacy 15-minute slot (S1)",
+      "expected": "12 Dec 19:00–19:15 still listed",
+      "actual": "slot 60, 15 min, booked by Anan Suksan, booking 6",
+      "result": "PASS",
+      "at": "2026-11-28T09:40:00.719Z"
+    },
+    {
+      "id": "legacy booking (C1)",
+      "expected": "booking 6 still listed",
+      "actual": "found booking 6",
+      "result": "PASS",
+      "at": "2026-11-28T09:40:49.234Z"
+    }
+  ]
+}
