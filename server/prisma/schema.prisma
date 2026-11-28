@@ -9,6 +9,7 @@ datasource db {
 
 enum BookingStatus {
   ACTIVE
+  CANCELLED
 }
 
 enum UserRole {

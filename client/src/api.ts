@@ -84,6 +84,8 @@ export const createBooking = (slotId: number, topic: string) =>
 
 export const getMyBookings = () => apiFetch<{ bookings: Booking[] }>("/api/bookings/mine");
 export const getBooking = (id: string) => apiFetch<{ booking: Booking }>(`/api/bookings/${encodeURIComponent(id)}`);
+export const cancelBooking = (id: number) =>
+  apiFetch<{ booking: Booking }>(`/api/bookings/${id}/cancel`, { method: "POST" });
 
 export interface ScheduleSlot {
   id: number;

@@ -72,3 +72,27 @@ export async function listBookings(customerId: number) {
 export async function getOwnedBooking(id: number, customerId: number) {
   return getPrisma().booking.findFirst({ where: { id, customerId }, include: { slot: slotView } });
 }
+
+const CANCELLATION_NOTICE_MS = 24 * 60 * 60 * 1000;
+
+export async function cancelOwnedBooking(id: number, customerId: number, now = new Date()) {
+  const prisma = getPrisma();
+  const booking = await getOwnedBooking(id, customerId);
+  if (!booking) throw notFound("Booking");
+  if (booking.status !== "ACTIVE") {
+    throw new HttpError(409, "BOOKING_NOT_ACTIVE", "This booking is no longer active.");
+  }
+  if (booking.slot.startAt.getTime() - now.getTime() < CANCELLATION_NOTICE_MS) {
+    throw new HttpError(422, "CANCELLATION_CLOSED", "Bookings can be cancelled until 24 hours before the appointment.");
+  }
+
+  // A conditional write ensures only one competing request can make this transition.
+  const changed = await prisma.booking.updateMany({
+    where: { id, customerId, status: "ACTIVE" },
+    data: { status: "CANCELLED" },
+  });
+  if (changed.count !== 1) {
+    throw new HttpError(409, "BOOKING_NOT_ACTIVE", "This booking is no longer active.");
+  }
+  return prisma.booking.findUniqueOrThrow({ where: { id }, include: { slot: slotView } });
+}
