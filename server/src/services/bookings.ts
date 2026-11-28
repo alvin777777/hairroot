@@ -42,6 +42,14 @@ export function parseBookingInput(body: { slotId?: unknown; topic?: unknown } | 
   return { slotId: slotId as number, topic };
 }
 
+export function parseRescheduleInput(body: { slotId?: unknown } | undefined) {
+  const slotId = body?.slotId;
+  if (typeof slotId !== "number" || !Number.isSafeInteger(slotId) || slotId <= 0 || slotId > 2_147_483_647) {
+    throw validation({ slotId: "Choose a slot." });
+  }
+  return slotId;
+}
+
 export async function createBooking(customerId: number, slotId: number, topic: string, now = new Date()) {
   const prisma = getPrisma();
   const slot = await prisma.slot.findUnique({ where: { id: slotId }, select: { startAt: true } });
@@ -75,6 +83,42 @@ export async function getOwnedBooking(id: number, customerId: number) {
 
 const CANCELLATION_NOTICE_MS = 24 * 60 * 60 * 1000;
 
+export async function rescheduleOwnedBooking(id: number, customerId: number, targetSlotId: number, now = new Date()) {
+  const prisma = getPrisma();
+  const booking = await getOwnedBooking(id, customerId);
+  if (!booking) throw notFound("Booking");
+  if (booking.status !== "ACTIVE") {
+    throw new HttpError(409, "BOOKING_NOT_ACTIVE", "This booking is no longer active.");
+  }
+  if (booking.slot.startAt.getTime() - now.getTime() < CANCELLATION_NOTICE_MS) {
+    throw new HttpError(422, "RESCHEDULE_CLOSED", "Bookings can be moved until 24 hours before the appointment.");
+  }
+  if (targetSlotId === booking.slotId) {
+    throw new HttpError(422, "SAME_SLOT", "Choose a different time for this booking.");
+  }
+  const target = await prisma.slot.findUnique({ where: { id: targetSlotId }, select: { startAt: true } });
+  if (!target) throw notFound("Slot");
+  if (target.startAt.getTime() <= now.getTime()) {
+    throw new HttpError(422, "SLOT_NOT_BOOKABLE", "This time has already started and can no longer be booked.");
+  }
+
+  try {
+    const changed = await prisma.booking.updateMany({
+      where: { id, customerId, status: "ACTIVE", slotId: booking.slotId },
+      data: { slotId: targetSlotId },
+    });
+    if (changed.count !== 1) {
+      throw new HttpError(409, "BOOKING_NOT_ACTIVE", "This booking is no longer active.");
+    }
+  } catch (err) {
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === "P2002") {
+      throw new HttpError(409, "SLOT_TAKEN", "Another customer has just taken this time.");
+    }
+    throw err;
+  }
+  return prisma.booking.findUniqueOrThrow({ where: { id }, include: { slot: slotView } });
+}
+
 export async function cancelOwnedBooking(id: number, customerId: number, now = new Date()) {
   const prisma = getPrisma();
   const booking = await getOwnedBooking(id, customerId);
@@ -86,9 +130,9 @@ export async function cancelOwnedBooking(id: number, customerId: number, now = n
     throw new HttpError(422, "CANCELLATION_CLOSED", "Bookings can be cancelled until 24 hours before the appointment.");
   }
 
-  // A conditional write ensures only one competing request can make this transition.
+  // Match the slot read for the cutoff too, so a concurrent move cannot be cancelled using stale slot data.
   const changed = await prisma.booking.updateMany({
-    where: { id, customerId, status: "ACTIVE" },
+    where: { id, customerId, status: "ACTIVE", slotId: booking.slotId },
     data: { status: "CANCELLED" },
   });
   if (changed.count !== 1) {

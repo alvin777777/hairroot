@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { asCustomer, currentUser } from "../middleware/auth.js";
-import { cancelOwnedBooking, createBooking, getOwnedBooking, listAvailableSlots, listBookings, parseBookingInput } from "../services/bookings.js";
+import { cancelOwnedBooking, createBooking, getOwnedBooking, listAvailableSlots, listBookings, parseBookingInput, parseRescheduleInput, rescheduleOwnedBooking } from "../services/bookings.js";
 import { notFound } from "../services/httpError.js";
 
 export const slotsRouter = Router();
@@ -62,6 +62,18 @@ bookingsRouter.post("/:id/cancel", ...asCustomer, async (req, res, next) => {
     const id = Number(req.params.id);
     if (!Number.isInteger(id) || id <= 0) throw notFound("Booking");
     const booking = await cancelOwnedBooking(id, currentUser(req).id);
+    res.json({ booking: serializeBooking(booking) });
+  } catch (err) {
+    next(err);
+  }
+});
+
+bookingsRouter.post("/:id/reschedule", ...asCustomer, async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isSafeInteger(id) || id <= 0 || id > 2_147_483_647) throw notFound("Booking");
+    const slotId = parseRescheduleInput(req.body);
+    const booking = await rescheduleOwnedBooking(id, currentUser(req).id, slotId);
     res.json({ booking: serializeBooking(booking) });
   } catch (err) {
     next(err);

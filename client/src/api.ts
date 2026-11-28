@@ -86,6 +86,8 @@ export const getMyBookings = () => apiFetch<{ bookings: Booking[] }>("/api/booki
 export const getBooking = (id: string) => apiFetch<{ booking: Booking }>(`/api/bookings/${encodeURIComponent(id)}`);
 export const cancelBooking = (id: number) =>
   apiFetch<{ booking: Booking }>(`/api/bookings/${id}/cancel`, { method: "POST" });
+export const rescheduleBooking = (id: number, slotId: number) =>
+  apiFetch<{ booking: Booking }>(`/api/bookings/${id}/reschedule`, { method: "POST", body: JSON.stringify({ slotId }) });
 
 export interface ScheduleSlot {
   id: number;
