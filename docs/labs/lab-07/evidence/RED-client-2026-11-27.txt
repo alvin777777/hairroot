@@ -1,0 +1,54 @@
+Base source commit: cbaf1baa38a5b20c98b006f6f6effbe0f2e3f39d
+Test-only commit: 1b92ff9
+Command: npm test -- --reporter=verbose tests/screen-states.test.tsx
+
+> hairroot-client@0.1.0 test
+> vitest run --reporter=verbose tests/screen-states.test.tsx
+
+
+ RUN  v2.1.9 C:/Users/Titinan/.codex/worktrees/lab7-red-baseline/hairroot/client
+
+stderr | tests/screen-states.test.tsx > T-26 data screen states (AC-26) > slot list shows loading, empty, and error states
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ tests/screen-states.test.tsx > T-26 data screen states (AC-26) > slot list shows loading, empty, and error states
+ ✓ tests/screen-states.test.tsx > T-26 data screen states (AC-26) > booking list shows loading, empty, and error states
+ ✓ tests/screen-states.test.tsx > T-26 data screen states (AC-26) > schedule screen shows loading, empty, and error states
+ × tests/screen-states.test.tsx > Lab 7 BR-03 duration options > offers only new-slot durations from 30 through 120 minutes
+   → expect(element).not.toBeInTheDocument()
+
+expected document not to contain element, found <option
+  value="15"
+>
+  15
+   minutes
+</option> instead
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/screen-states.test.tsx > Lab 7 BR-03 duration options > offers only new-slot durations from 30 through 120 minutes
+Error: expect(element).not.toBeInTheDocument()
+
+expected document not to contain element, found <option
+  value="15"
+>
+  15
+   minutes
+</option> instead
+ ❯ tests/screen-states.test.tsx:74:70
+     72|     const duration = await screen.findByLabelText("Duration");
+     73|     expect(duration).toHaveValue("30");
+     74|     expect(screen.queryByRole("option", { name: "15 minutes" })).not.t…
+       |                                                                      ^
+     75|     expect(screen.getByRole("option", { name: "30 minutes" })).toBeInT…
+     76|     expect(screen.getByRole("option", { name: "120 minutes" })).toBeIn…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  23:39:02
+   Duration  3.03s (transform 157ms, setup 271ms, collect 479ms, tests 235ms, environment 1.36s, prepare 325ms)
+
+Exit code: 1

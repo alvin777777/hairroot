@@ -1,0 +1,71 @@
+name: UAT finding
+description: Report a result from user acceptance testing of HairRoot (Lab 6). Never include a password.
+title: "UAT: <case ID> <short summary>"
+labels: ["uat", "lab6"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for testing HairRoot. Use account labels (S1, S2, C1 to C3), never passwords.
+        Cases and expected results: `docs/labs/lab-06/uat-cases.md`.
+  - type: input
+    id: case
+    attributes:
+      label: UAT case and requirement
+      placeholder: "UAT-03 step 5 (AC-15b)"
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Tested version
+      description: The footer shows "Version abc1234". Copy it here.
+      placeholder: "Version ac0a57b"
+    validations:
+      required: true
+  - type: input
+    id: reporter
+    attributes:
+      label: Reporter (name and team) and date and time
+    validations:
+      required: true
+  - type: textarea
+    id: preconditions
+    attributes:
+      label: Preconditions and data
+      placeholder: "Signed in as C1. A time on D3 at 18:00 exists."
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: "1. ...\n2. ..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected result
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual result
+    validations:
+      required: true
+  - type: dropdown
+    id: severity
+    attributes:
+      label: Suggested severity
+      options:
+        - "Critical: blocks a core journey or exposes private data"
+        - "Major: a Sprint 1 requirement fails, with a workaround"
+        - "Minor: cosmetic or wording, with no requirement failing"
+        - "Enhancement: outside the Sprint 1 scope"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Attach a screenshot. Hide any secret before uploading.

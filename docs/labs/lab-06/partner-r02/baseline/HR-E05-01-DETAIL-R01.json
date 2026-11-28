@@ -1,0 +1,23 @@
+{
+  "id": "HR-E05-01-DETAIL-R01",
+  "time": "2026-11-26T11:26:54.534Z",
+  "case": "UAT-05",
+  "step": "1 detail in fresh session",
+  "alsoSupports": "UAT-04 owner-state read-back after denied C2 access",
+  "actor": "C1",
+  "bookingId": 4,
+  "expected": "Same booking fields as before C2's rejected access and before logout; unchanged in fresh authentication session",
+  "url": "https://hairroot-368003298307.asia-southeast1.run.app/bookings/4",
+  "title": "HairRoot",
+  "text": "HairRoot\nBook\nMy bookings\nAnan Suksan (Customer)\nLog out\nYour appointment\nWhen\nThu 10 Dec, 16:07 to 16:37\nSpecialist\nDr. Somchai Prasert\nService\nHair transplant consultation\nTopic\nUAT hairline review\nStatus\nConfirmed\nBack to my bookings\nVersion ac0a57b",
+  "inputs": [
+    {
+      "tag": "BUTTON",
+      "type": "submit",
+      "name": "",
+      "id": "",
+      "label": null,
+      "text": "Log out"
+    }
+  ]
+}

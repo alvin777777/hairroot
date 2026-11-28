@@ -45,6 +45,24 @@ describe("booking", () => {
     expect(body).not.toContain("customerId");
   });
 
+  it("T-11c keeps a legacy 15-minute slot visible and bookable without changing its times (AC-11, AC-14, AC-15)", async () => {
+    const startAt = new Date(Date.now() + 24 * HOUR);
+    const endAt = new Date(startAt.getTime() + 15 * 60_000);
+    const legacy = await getPrisma().slot.create({ data: { scheduleId, startAt, endAt } });
+
+    const available = await api().get("/api/slots/available").set("Cookie", alice);
+    expect(available.status).toBe(200);
+    expect(available.body.slots.map((s: { id: number }) => s.id)).toContain(legacy.id);
+
+    const res = await book(alice, legacy.id, "Legacy short slot");
+    expect(res.status).toBe(201);
+    expect(res.body.booking.slot).toMatchObject({ id: legacy.id, startAt: startAt.toISOString(), endAt: endAt.toISOString() });
+
+    const stored = await getPrisma().slot.findUniqueOrThrow({ where: { id: legacy.id } });
+    expect(stored.startAt.toISOString()).toBe(startAt.toISOString());
+    expect(stored.endAt.toISOString()).toBe(endAt.toISOString());
+  });
+
   it("T-15 books an available slot for the session's customer (AC-15)", async () => {
     const free = await slot(24);
     const res = await book(alice, free.id);
@@ -68,6 +86,29 @@ describe("booking", () => {
     expect(three.status).toBe(201);
     expect(three.body.booking.topic).toBe("abc");
     expect((await book(alice, (await slot(48)).id, "y".repeat(200))).status).toBe(201);
+  });
+
+  it("HR-F01 rejects emoji anywhere in a topic without consuming a slot (AC-15b)", async () => {
+    const free = await slot(24);
+    const emojiTopics = [
+      "ก❤ข", "ก☀ข", "ก©ข", "🙂", "🙂🙂🙂", "🙂🙂", "ก🙂ข", "👨‍👩‍👧", "🇹🇭", "1️⃣",
+      "👍🏽", "❤️", "☀️", "👩🏽‍💻", `เริ่ม${"ก".repeat(195)}🙂จบ`,
+    ];
+    for (const topic of emojiTopics) {
+      const res = await book(alice, free.id, topic);
+      expect(res.status).toBe(400);
+      expect(res.body.fields.topic).toBe("Topics cannot contain emoji.");
+    }
+    expect(await activeRows(free.id)).toBe(0);
+    const available = await api().get("/api/slots/available").set("Cookie", alice);
+    expect(available.body.slots.map((s: { id: number }) => s.id)).toContain(free.id);
+
+    const nonEmoji = await book(alice, free.id, "  𠮷กข  ");
+    expect(nonEmoji.status).toBe(201);
+    expect(nonEmoji.body.booking.topic).toBe("𠮷กข");
+
+    const digits = await book(alice, (await slot(48)).id, "123 # *");
+    expect(digits.status).toBe(201);
   });
 
   it("rejects a booking with a missing or unknown slot", async () => {

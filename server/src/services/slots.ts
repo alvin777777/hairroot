@@ -1,7 +1,7 @@
 import { getPrisma } from "../prisma.js";
 import { HttpError, validation } from "./httpError.js";
 
-export const MIN_SLOT_MINUTES = 15;
+export const MIN_SLOT_MINUTES = 30;
 export const MAX_SLOT_MINUTES = 120;
 
 // BR-03. A pure function so its boundaries can be unit tested.

@@ -1,6 +1,7 @@
 import { expect, test, type Page } from "@playwright/test";
+import { E2E_DEMO_PASSWORD } from "../demo-password.js";
 
-const PASSWORD = "Password123!";
+const PASSWORD = E2E_DEMO_PASSWORD;
 const SPECIALIST = "specialist.somchai@hairroot.test";
 const CUSTOMER = "customer.anan@hairroot.test";
 const OTHER_CUSTOMER = "customer.mali@hairroot.test";
@@ -140,12 +141,36 @@ test("T-32 shows a conflict and refreshes the times when another customer books 
     await page.getByRole("button", { name: "Confirm booking" }).click();
     await expect(page.getByRole("alert")).toContainText("Another customer has just taken this time");
     // The refreshed flow no longer offers the taken time on that day.
+    // The day may disappear during refresh when its last time was taken.
     const takenDay = page.getByRole("group", { name: "Choose a day" }).getByRole("button", { name: dayLabel(startAt), exact: true });
-    if (await takenDay.count()) {
-      await takenDay.click();
-      await expect(page.getByRole("group", { name: "Choose a time" }).getByRole("button", { name: startAt.slice(-5), exact: true })).toHaveCount(0);
-    }
+    const takenTime = page.getByRole("group", { name: "Choose a time" }).getByRole("button", { name: startAt.slice(-5), exact: true });
+    await expect.poll(async () => {
+      if (await takenDay.count() === 0) return true;
+      return (await takenDay.getAttribute("aria-pressed")) === "true" && (await takenTime.count()) === 0;
+    }).toBe(true);
   } finally {
     await otherContext.close();
   }
+});
+
+test("T-39 prevents a customer from opening another customer's booking (AC-21)", async ({ page }) => {
+  const startAt = await createFutureSlot(page, 12, 2);
+  const privateTopic = `UAT ownership ${Date.now()}`;
+
+  await signIn(page, CUSTOMER);
+  await chooseSlot(page, startAt, privateTopic);
+  await page.getByRole("button", { name: "Confirm booking" }).click();
+  await expect(page).toHaveURL(/\/bookings\/\d+$/);
+  const bookingUrl = page.url();
+  await expect(page.getByTestId("booking-detail")).toContainText(privateTopic);
+
+  await page.getByRole("button", { name: "Log out" }).click();
+  await expect(page).toHaveURL(/\/login$/);
+  await signIn(page, OTHER_CUSTOMER);
+  await expect(page).toHaveURL(/\/slots$/);
+  await expect(page.getByTestId("current-user")).toHaveText("Mali Rattana (Customer)");
+  await page.goto(bookingUrl);
+
+  await expect(page.getByRole("alert")).toHaveText("Booking not found.");
+  await expect(page.getByText(privateTopic, { exact: false })).toHaveCount(0);
 });

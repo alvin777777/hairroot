@@ -1,0 +1,1 @@
+HairRoot targeted R02 retest: 27 Nov 2026, cbaf1ba. Both requested checks PASS. Open HairRoot-R02-results.md and evidence/run-summary.json. Evidence IDs match PNG/JSON pairs. Original booking 4 before image/JSON is in baseline/. Manifest verifies original bytes. This is not final team acceptance. Original R01 results are preserved.

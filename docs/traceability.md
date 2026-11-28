@@ -1,6 +1,6 @@
 # HairRoot — Requirements Traceability
 
-Version 0.3 — reviewed and approved in PR #24, 2026-11-14.
+Version 0.4 — C-03/F-16 contract reviewed in PR #24; Lab 7 BR-03 change reviewed in PR #61, implemented in PR #63 and deployed by PR #65. TA approval was not obtained.
 
 Sprint 2 and 3 items have a feature and sprint allocation now. Their acceptance criteria and tests
 are written with their feature contracts before implementation.
@@ -28,10 +28,10 @@ are written with their feature contracts before implementation.
 | FR-19 | F-16 | 2 | AC-28, AC-29, AC-31, AC-32 | T-33, T-35, T-37 |
 | BR-01 | F-04 | 1 | AC-16, AC-17 | T-16, T-17, T-32 |
 | BR-02 | F-04 | 1 | AC-18 | T-18 |
-| BR-03 | F-03 | 1 | AC-11 | T-11a, T-11b |
+| BR-03 | F-03 | 1 | AC-11 | T-11a, T-11b, T-11c |
 | BR-04 | F-03 | 1 | AC-12 | T-12a, T-12b, T-12c |
 | BR-05 | F-02, F-03, F-05 | 1 | AC-13, AC-23 | T-13, T-23 |
-| BR-06 | F-02, F-04, F-05 | 1 | AC-14, AC-21 | T-14, T-21 |
+| BR-06 | F-02, F-04, F-05 | 1 | AC-14, AC-21 | T-14, T-21, T-39 |
 | BR-07 | F-02, F-04 | 1 | AC-19 | T-19 |
 | BR-08 | F-04 | 1 | AC-15b | T-15b |
 | BR-09 | F-06, F-07 | 2 | Sprint 2 contract | Sprint 2 contract |
@@ -43,7 +43,7 @@ are written with their feature contracts before implementation.
 | BR-15 | F-15 | 3 | Sprint 3 contract | Sprint 3 contract |
 | BR-16 | F-16 | 2 | AC-29, AC-30 | T-33, T-34 |
 | NFR-01 | F-01, F-02 | 1 | AC-05 | T-05 |
-| NFR-02 | F-02 | 1 | AC-06, AC-13, AC-21, AC-23 | T-06, T-13, T-21, T-23 |
+| NFR-02 | F-02 | 1 | AC-06, AC-13, AC-21, AC-23 | T-06, T-13, T-21, T-23, T-39 |
 | NFR-03 | F-01 | 1 | AC-07 | T-07a, T-07b |
 | NFR-04 | F-04 | 1 | AC-17 | T-17 |
 | NFR-05 | F-01 | 1 | AC-03, AC-08 | T-03, T-08 |

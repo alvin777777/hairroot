@@ -1,4 +1,5 @@
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3001";
+// Empty means same origin, as in the production container. Local development sets it in client/.env.
+const API_URL = import.meta.env.VITE_API_URL ?? "";
 
 export type Role = "CUSTOMER" | "STAFF";
 
@@ -38,6 +39,8 @@ export async function apiFetch<T>(path: string, init: RequestInit = {}): Promise
   }
   return body as T;
 }
+
+export const getVersion = () => apiFetch<{ commit: string | null }>("/api/version");
 
 export const login = (email: string, password: string) =>
   apiFetch<{ user: User }>("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });

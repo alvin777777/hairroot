@@ -62,3 +62,17 @@ describe("T-26 data screen states (AC-26)", () => {
     expect(await screen.findByRole("alert")).toHaveTextContent("Server unavailable");
   });
 });
+
+describe("Lab 7 BR-03 duration options", () => {
+  it("offers only new-slot durations from 30 through 120 minutes", async () => {
+    vi.spyOn(api, "getMySchedules").mockResolvedValue({ schedules: [{ id: 1, name: "Consultation" }] });
+    vi.spyOn(api, "getScheduleSlots").mockResolvedValue({ slots: [] });
+
+    show(<SchedulePage />);
+    const duration = await screen.findByLabelText("Duration");
+    expect(duration).toHaveValue("30");
+    expect(screen.queryByRole("option", { name: "15 minutes" })).not.toBeInTheDocument();
+    expect(screen.getByRole("option", { name: "30 minutes" })).toBeInTheDocument();
+    expect(screen.getByRole("option", { name: "120 minutes" })).toBeInTheDocument();
+  });
+});

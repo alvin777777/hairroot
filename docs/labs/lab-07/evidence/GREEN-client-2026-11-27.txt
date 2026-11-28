@@ -1,0 +1,34 @@
+Code source: feature/lab7-min-slot-duration
+Change: SchedulePage durations begin at 30 minutes
+Command: npm test -- --reporter=verbose
+
+> hairroot-client@0.1.0 test
+> vitest run --reporter=verbose
+
+
+ RUN  v2.1.9 C:/Users/Titinan/.codex/worktrees/lab7-implementation/hairroot/client
+
+ ✓ tests/version-footer.test.tsx > VersionFooter (Lab 5 #33) > shows the short deployed commit
+ ✓ tests/version-footer.test.tsx > VersionFooter (Lab 5 #33) > shows development when no commit is deployed
+ ✓ tests/version-footer.test.tsx > VersionFooter (Lab 5 #33) > shows nothing if the version cannot be loaded
+stderr | tests/screen-states.test.tsx > T-26 data screen states (AC-26) > slot list shows loading, empty, and error states
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | tests/booking-flow.test.tsx > T-27 guided booking flow (AC-27) > offers only matching days and times, then books the chosen slot
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ tests/screen-states.test.tsx > T-26 data screen states (AC-26) > slot list shows loading, empty, and error states
+ ✓ tests/screen-states.test.tsx > T-26 data screen states (AC-26) > booking list shows loading, empty, and error states
+ ✓ tests/screen-states.test.tsx > T-26 data screen states (AC-26) > schedule screen shows loading, empty, and error states
+ ✓ tests/screen-states.test.tsx > Lab 7 BR-03 duration options > offers only new-slot durations from 30 through 120 minutes
+ ✓ tests/booking-flow.test.tsx > T-27 guided booking flow (AC-27) > offers only matching days and times, then books the chosen slot 647ms
+ ✓ tests/booking-flow.test.tsx > T-27 guided booking flow (AC-27) > HR-F01 shows the server's emoji rejection on the booking form 326ms
+
+ Test Files  3 passed (3)
+      Tests  9 passed (9)
+   Start at  23:40:17
+   Duration  3.35s (transform 200ms, setup 460ms, collect 1.41s, tests 1.35s, environment 3.04s, prepare 680ms)
+
+Exit code: 0
