@@ -1,0 +1,60 @@
+
+> hairroot-server@0.1.0 test
+> vitest run
+
+
+ RUN  v2.1.9 C:/Users/Titinan/.codex/worktrees/lab5-deploy-workflow/hairroot/server
+
+ ✓ tests/bookings.api.test.ts (10 tests) 4707ms
+   ✓ booking > T-14 lists only future unbooked slots with no customer information (AC-14) 571ms
+   ✓ booking > T-11c keeps a legacy 15-minute slot visible and bookable without changing its times (AC-11, AC-14, AC-15) 376ms
+   ✓ booking > T-15 books an available slot for the session's customer (AC-15) 364ms
+   ✓ booking > T-15b enforces the topic length after trimming (AC-15b) 458ms
+   ✓ booking > HR-F01 rejects emoji anywhere in a topic without consuming a slot (AC-15b) 571ms
+   ✓ booking > rejects a booking with a missing or unknown slot 360ms
+   ✓ booking > T-16 rejects booking an occupied slot and keeps the original booking (AC-16) 400ms
+   ✓ booking > T-17 lets exactly one of 20 competing customers book the slot (AC-17) 875ms
+   ✓ booking > T-18 rejects booking a slot whose start has passed (AC-18) 368ms
+   ✓ booking > T-19 ignores a client-supplied customerId (AC-19) 362ms
+ ✓ tests/booking-views.api.test.ts (6 tests) 3318ms
+   ✓ booking views and access control > T-20 lists only the customer's own bookings and opens one (AC-20) 612ms
+   ✓ booking views and access control > T-21 hides another customer's booking behind a 404 (AC-21) 550ms
+   ✓ booking views and access control > T-22 shows an assigned specialist the schedule's slots and bookings (AC-22) 467ms
+   ✓ booking views and access control > T-23 denies an unassigned specialist a schedule's bookings (AC-23) 557ms
+   ✓ booking views and access control > T-05 rejects every protected endpoint without a session (AC-05) 560ms
+   ✓ booking views and access control > T-06 enforces roles on the backend and changes nothing (AC-06) 570ms
+ ✓ tests/cancellation.api.test.ts (4 tests) 2020ms
+   ✓ F-06 customer cancellation > T-40 cancels and retains the row, reopens the slot, and lets another customer book it (AC-35) 665ms
+   ✓ F-06 customer cancellation > T-41 permits exactly 24 hours and rejects one millisecond later (AC-36) 478ms
+   ✓ F-06 customer cancellation > T-42 denies anonymous, staff and another customer without changing the row (AC-37) 408ms
+   ✓ F-06 customer cancellation > T-43 reports only one success under concurrent cancellation and rejects a repeat (AC-38) 468ms
+ ✓ tests/auth.api.test.ts (8 tests) 2813ms
+   ✓ authentication > T-01 logs in with valid credentials and sets a session cookie (AC-01) 452ms
+   ✓ authentication > T-02 answers a wrong password and an unknown email identically (AC-02) 391ms
+   ✓ authentication > T-03 invalidates the session on logout (AC-03) 338ms
+   ✓ authentication > T-04 returns the identity and role of each session's user (AC-04) 416ms
+   ✓ authentication > T-07b never returns a password hash and stores only scrypt hashes (AC-07) 322ms
+   ✓ authentication > T-08 issues an httpOnly cookie for at most 8 hours and rejects expired sessions (AC-08) 337ms
+ ✓ tests/slots.api.test.ts (8 tests) 3901ms
+   ✓ slot creation > lists only the specialist's own schedules 677ms
+   ✓ slot creation > T-10 creates a valid slot on an assigned schedule (AC-10) 537ms
+   ✓ slot creation > T-11b rejects times outside the limits and stores nothing (AC-11) 490ms
+   ✓ slot creation > T-11b accepts exactly 30 and exactly 120 minutes (AC-11) 386ms
+   ✓ slot creation > T-12a rejects an overlapping slot on the same schedule (AC-12) 487ms
+   ✓ slot creation > T-12b accepts an adjacent slot and the same time on another schedule (AC-12) 485ms
+   ✓ slot creation > T-12c lets only one of several competing overlapping requests succeed (AC-12) 474ms
+   ✓ slot creation > T-13 rejects a specialist creating a slot on another specialist's schedule (AC-13) 364ms
+ ✓ tests/seed.test.ts (5 tests) 3180ms
+   ✓ seedDemo > is safe to rerun: it keeps bookings and creates no duplicates 1043ms
+   ✓ seedDemo > stores the demo password only as a hash taken from the options 829ms
+   ✓ seedDemo > wipes existing data when a reset is requested 1304ms
+ ✓ tests/origins.api.test.ts (2 tests) 161ms
+ ✓ tests/version.api.test.ts (3 tests) 50ms
+ ✓ tests/ready.api.test.ts (3 tests) 89ms
+ ✓ tests/slots.unit.test.ts (2 tests) 3ms
+ ✓ tests/password.unit.test.ts (1 test) 163ms
+
+ Test Files  11 passed (11)
+      Tests  52 passed (52)
+   Start at  19:22:49
+   Duration  31.04s (transform 275ms, setup 0ms, collect 3.74s, tests 20.40s, environment 2ms, prepare 1.41s)

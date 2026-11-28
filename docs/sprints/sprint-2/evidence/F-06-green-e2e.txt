@@ -1,0 +1,36 @@
+
+> hairroot-e2e@0.1.0 test
+> playwright test
+
+[WebServer] (node:37100) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:32144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:23460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:7004) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+Prisma schema loaded from prisma\schema.prisma
+Datasource "db": PostgreSQL database "hairroot_test", schema "public" at "localhost:5435"
+
+7 migrations found in prisma/migrations
+
+
+No pending migrations to apply.
+
+> hairroot-server@0.1.0 db:seed
+> tsx prisma/seed.ts
+
+Seeded demo data after a reset. Demo password not shown.
+
+Running 5 tests using 1 worker
+
+(node:16936) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 tests\sprint-1.spec.ts:90:1 › T-30 logs in, logs out, and redirects a protected route to login (1.2s)
+  ok 2 tests\sprint-1.spec.ts:104:1 › T-31 specialist creates a slot, customer books and reopens it, specialist sees the booking (2.1s)
+  ok 3 tests\sprint-1.spec.ts:126:1 › T-32 shows a conflict and refreshes the times when another customer books first (2.5s)
+  ok 4 tests\sprint-1.spec.ts:156:1 › T-39 prevents a customer from opening another customer's booking (AC-21) (2.0s)
+  ok 5 tests\sprint-2-cancellation.spec.ts:14:1 › T-45 cancelled booking survives reload and frees its slot (AC-35, AC-39) (1.8s)
+
+  5 passed (18.5s)

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { asCustomer, currentUser } from "../middleware/auth.js";
-import { createBooking, getOwnedBooking, listAvailableSlots, listBookings, parseBookingInput } from "../services/bookings.js";
+import { cancelOwnedBooking, createBooking, getOwnedBooking, listAvailableSlots, listBookings, parseBookingInput } from "../services/bookings.js";
 import { notFound } from "../services/httpError.js";
 
 export const slotsRouter = Router();
@@ -52,6 +52,17 @@ bookingsRouter.post("/", ...asCustomer, async (req, res, next) => {
 bookingsRouter.get("/mine", ...asCustomer, async (req, res, next) => {
   try {
     res.json({ bookings: (await listBookings(currentUser(req).id)).map(serializeBooking) });
+  } catch (err) {
+    next(err);
+  }
+});
+
+bookingsRouter.post("/:id/cancel", ...asCustomer, async (req, res, next) => {
+  try {
+    const id = Number(req.params.id);
+    if (!Number.isInteger(id) || id <= 0) throw notFound("Booking");
+    const booking = await cancelOwnedBooking(id, currentUser(req).id);
+    res.json({ booking: serializeBooking(booking) });
   } catch (err) {
     next(err);
   }

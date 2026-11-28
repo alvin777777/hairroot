@@ -21,7 +21,10 @@ export default function MyBookings() {
       <div className="list-group">
         {bookings?.map((b) => (
           <Link key={b.id} to={`/bookings/${b.id}`} className="list-group-item list-group-item-action" data-testid="booking">
-            <div className="fw-semibold">{formatRange(b.slot.startAt, b.slot.endAt)}</div>
+            <div className="fw-semibold d-flex justify-content-between gap-2">
+              <span>{formatRange(b.slot.startAt, b.slot.endAt)}</span>
+              <span className={`badge ${b.status === "ACTIVE" ? "text-bg-success" : "text-bg-secondary"}`}>{b.status === "ACTIVE" ? "Confirmed" : b.status === "CANCELLED" ? "Cancelled" : b.status}</span>
+            </div>
             <div className="small text-body-secondary">{b.slot.specialistName} · {b.topic}</div>
           </Link>
         ))}

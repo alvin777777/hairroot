@@ -1,0 +1,30 @@
+
+> hairroot-client@0.1.0 test
+> vitest run
+
+
+ RUN  v2.1.9 C:/Users/Titinan/.codex/worktrees/lab5-deploy-workflow/hairroot/client
+
+ ✓ tests/version-footer.test.tsx (3 tests) 91ms
+stderr | tests/screen-states.test.tsx > T-26 data screen states (AC-26) > slot list shows loading, empty, and error states
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | tests/booking-flow.test.tsx > T-27 guided booking flow (AC-27) > offers only matching days and times, then books the chosen slot
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+stderr | tests/cancellation.test.tsx > T-44 customer cancellation UI (AC-39) > asks for confirmation and keeps the booking when the customer declines
+⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition.
+⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath.
+
+ ✓ tests/screen-states.test.tsx (4 tests) 357ms
+ ✓ tests/cancellation.test.tsx (3 tests) 434ms
+ ✓ tests/booking-flow.test.tsx (2 tests) 1086ms
+   ✓ T-27 guided booking flow (AC-27) > offers only matching days and times, then books the chosen slot 740ms
+   ✓ T-27 guided booking flow (AC-27) > HR-F01 shows the server's emoji rejection on the booking form 344ms
+
+ Test Files  4 passed (4)
+      Tests  12 passed (12)
+   Start at  19:22:49
+   Duration  4.00s (transform 297ms, setup 796ms, collect 1.80s, tests 1.97s, environment 5.75s, prepare 988ms)
